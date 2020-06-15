@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="../commons/upanddown.css" rel="stylesheet" type="text/css">
+		<link href="../commons/mid.css" rel="stylesheet" type="text/css">
+		<link href="../commons/list.css" rel="stylesheet" type="text/css">
+		<link href="../commons/per-color.css" rel="stylesheet" type="text/css">
+		<meta charset="utf-8">
+		<title>左侧导航</title>
+        <style>
+        #download {
+            visibility:hidden;
+			position:absolute;
+			top:190px;
+			left:-1px;
+        }
+		#cnppa{
+			visibility:hidden;
+			position:absolute;
+			top:190px;
+			left:-1px;
+
+		}
+        </style>
+	</head>		
+    <body style="background-image:none;margin-left:5px;">		
+                <div id="left">
+					<ul>
+						<li style="background-color: #e95420;color: #fff;">拓展</li>
+                        <li><a href="linux-cn.html" target="_new">国产linux</a></li>
+						<li><a href="http://apiclo.vicp.io/local-app" target="new"
+						onmouseover="document.getElementById('cnppa').style.visibility='visible'"
+                        onmouseout="document.getElementById('cnppa').style.visibility='hidden'"
+						>Linux国产源</a></li>
+
+						
+						<li><a href="https://mirrors.tuna.tsinghua.edu.cn/" target="new" 
+                        onmouseover="document.getElementById('download').style.visibility='visible'"
+                        onmouseout="document.getElementById('download').style.visibility='hidden'"
+                        >
+                        Linux下载</a></li>
+                        
+					</ul>
+					<div id="download" class="mark">跳转后点击右侧“获取下载链接”</div>
+                    <div id="cnppa" class="mark">这是我之前写的一篇文章，主要讲了如何在Linux中添加国产源并安装国产软件</div>
+                    
+					
+				</div>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>5.26下拉菜单</title>
+<link href="default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+function DropDown() { //v9.0
+ var i,p,v,obj,args=DropDown.arguments;
+ for (i=0; i<(args.length-2); i+=3)
+ with (document) if (getElementById && ((obj=getElementById(args[i]))!=null)) { v=args[i+2];
+ if (obj.style) { obj=obj.style; v=(v=='show')?'visible':(v=='hide')?'hidden':v; }
+ obj.visibility=v; }
+}
+</script>
+</head>
+<body>
+<div id="apDiv1">
+ <table width="600px" border="0" cellspacing="3" cellpadding="1">
+ <tr>
+ <td width="20%" align="center" valign="middle" class="main-nav"
+onmouseover="DropDown('apDiv2','','show')"
+onmouseout="DropDown('apDiv2','','hide')">机构设置</td>
+
+ <td width="20%" align="center" valign="middle" class="main-nav"
+onmouseover="DropDown('apDiv3','','show')"
+onmouseout="DropDown('apDiv3','','hide')">院系设置</td>
+
+ <td width="20%" align="center" valign="middle" class="main-nav">党建工作</td>
+
+ <td width="20%" align="center" valign="middle" class="main-nav">教学管理</td>
+
+ <td width="20%" align="center" valign="middle" class="main-nav" >网络服务</td>
+
+ </tr>
+ </table>
+ <div id="apDiv2">
+ <table width="100%" border="0" cellspacing="3" cellpadding="1"
+    onmouseover="DropDown('apDiv2','','show')"
+    onmouseout="DropDown('apDiv2','','hide')">
+ <tr>
+ <td align="center" valign="middle" class="dropdown-items"><a class="tab-a" href="#">党政办</a></td>
+ </tr>
+ <tr>
+ <td align="center" valign="middle" class="dropdown-items"><a class="tab-a" href="#">校办</a></td>
+ </tr>
+ <tr>
+ <td align="center" valign="middle" class="dropdown-items"><a class="tab-a" href="#">人事处</a></td>
+ </tr>
+ <tr>
+ <td align="center" valign="middle" class="dropdown-items"><a class="tab-a" href="#">组织部</a></td>
+ </tr>
+ <tr>
+ <td align="center" valign="middle" class="dropdown-items"><a class="tab-a" href="#">财务处</a></td>
+ </tr>
+ </table>
+ </div>
+ <div id="apDiv3">
+ <table width="100%" border="0" cellspacing="3" cellpadding="1"
+    onmouseover="DropDown('apDiv3','','show')" 
+	onmouseout="DropDown('apDiv3','','hide')">
+ <tr>
+ <td align="center" valign="middle" class="dropdown-items"><a class="tab-a" href="#">文学院</a></td>
+ </tr>
+ <tr>
+ <td align="center" valign="middle" class="dropdown-items"><a class="tab-a" href="#">外语学院</a></td>
+ </tr>
+ <tr>
+ <td align="center" valign="middle" class="dropdown-items"><a class="tab-a" href="#">计算机学院</a></td>
+ </tr>
+ <tr>
+ <td align="center" valign="middle" class="dropdown-items"><a class="tab-a" href="#">财税系</a></td>
+ </tr>
+ <tr>
+ <td align="center" valign="middle" class="dropdown-items"><a class="tab-a" href="#">会计系</a></td>
+ </tr>
+ </table>
+ </div>
+ </table>
+</div>
+</body>
+</html>

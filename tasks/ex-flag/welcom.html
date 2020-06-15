@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+
+        
+._container {
+	height: 70px;
+	overflow: hidden;
+	border-bottom: 0px solid #000;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+		
+}		
+
+._container li {
+	height: 70px;
+	color:black;
+	font-family:ubt;
+	line-height: 60px;
+	font-size: 60px;
+		
+}	
+			
+		
+._container li:first-child {
+    margin-top: 0;
+	transition: margin-top .8s;		
+			
+}			
+</style>
+</head>
+
+
+
+
+	<body>
+	    <h id="ubt">
+		    <ul class="_container " id="demo">
+			<li>你好</li>
+			<li>Hola</li>
+			<li>Hello</li>
+			<li>Bonjour</li>
+			<li>Hallo</li>
+			<li>こんにちは</li>
+			<li>Pronto</li>
+			<li>Haloo</li>
+			<li>Alô</li>
+			<li>Zdravo</li>
+			<li>Hallå</li>
+			<li>안녕하세요</li>
+			<li>Γεια</li>
+			<li>Helló</li>
+			<li>Tere</li>
+			<li>Bună</li>
+			<li>Здравейте</li>
+		    </ul>
+		</h>
+		
+
+	</body>
+
+	<script type="text/javascript">
+		function Scroll() {}
+		Scroll.prototype.upScroll = function(dom, _h, interval) {
+			var dom = document.getElementById(dom);
+			var timer = setTimeout(function() {
+				var _field = dom.firstElementChild;
+				_field.style.marginTop = _h;
+				clearTimeout(timer);
+			}, 1000)
+			setInterval(function() {
+				var _field = dom.firstElementChild;
+				_field.style.marginTop = "0px";
+				dom.appendChild(_field);
+				var _field = dom.firstElementChild
+				_field.style.marginTop = _h;
+			}, interval)
+		}
+		var myScroll = new Scroll();
+
+		/*这是启动方式*/
+		/*
+		 * demo 父容器(ul)的id
+		 * -36px 子元素li的高度
+		 * 3000  滚动间隔时间
+		 * 每次滚动持续时间可到css文件中修改
+		 */
+		myScroll.upScroll("demo", "-70px", 3000);
+	</script>
+</html>

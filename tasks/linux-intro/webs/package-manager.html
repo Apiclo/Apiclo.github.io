@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="../commons/upanddown.css" rel="stylesheet" type="text/css">
+		<link href="../commons/mid.css" rel="stylesheet" type="text/css">
+		<link href="../commons/list.css" rel="stylesheet" type="text/css">
+		<link href="../commons/per-color.css" rel="stylesheet" type="text/css">
+		<meta charset="utf-8">
+		<title>包管理器-浅谈Linux</title>
+	</head>
+	<body>
+		<div id="container" >
+			<div id="header"></div>
+			<div id="nav">
+				<ul>
+					<li><a href="index.html">Linux简介</a></li>
+					<li><a href="release.html">发&nbsp行&nbsp版</a></li>
+					<li><a href="desktop-enviroment.html">桌面环境</a></li>
+					<li><a href="package-manager.html" style="background-color: #e95420;color: #fff;">包管理器</a></li>
+					<li><a href="intro.html">网站介绍</a></li>
+				</ul>
+			</div>
+			
+			<div id="content">
+				<div id="left">
+					<iframe src="left-nav.html" width="140px" height="500px" frameborder="no"></iframe>
+				</div>
+
+
+				<div id="middle">
+				<div style="height: 600px; width:540px;overflow-y: scroll;overflow-x:hidden;">
+				        <div class="list"><b>Dpkg</b> 是 Debian Linux家族的基础包管理系统，
+				          它用于安装、删除、存储和提供deb包的信息。包括如下：
+				
+				        </div>
+
+                        <div class="item1 debian"><b>APT</b><br>
+                              dpkg 包管理系统的前端工具。Debian 及其衍生版，例如 Ubuntu 和 Linux Mint 都是用了这个包管理工具。
+						</div>
+
+				        <div class="item1 debian"><b>Aptitude</b><br>
+                              Debian 家族的一个包管理工具，它最初为 Debian家族设计的，现在它的功能延伸到 RHEL 家族。
+						</div>
+
+				        <div class="item1 debian"><b>Synaptic</b><br>
+				                Synaptic是基于GTK+的APT的可视化包管理器，对于一些不想使用命令行的用户，它非常好用。
+				        </div>
+
+                        <div class="list"><b>RPM</b><br>红帽创建的 Linux 基本标准（LSB）打包格式和基础包管理系统。
+				                  基于这个底层系统，有多个前端包管理工具可使用：
+				        </div>
+				
+				        <div class="item1 redhat"><b>YUM</b><br>
+						      开源、流行的命令行包管理器，它是用户使用 RPM 的界面（之一）。
+				              它和 APT 拥有相同的功能。
+				        </div>
+				
+				
+				        <div class="item1 redhat"><b>DNF</b><br>基于 RPM 的发行版的包管理器，
+				                 Fedora18引入了它，
+				                 Fedora22默认包管理器，它是下一代 YUM。
+				        </div>
+				    
+				        <div class="list"><b>Pacman 包管理器 – Arch Linux</b><br>
+                                 这个是一个流行的、强大而易用的包管理器，它用于 Arch Linux 和其他的一些小众发行版。
+                                 它提供了一些其他包管理器提供的基本功能，包括安装、自动解决依赖关系、升级、卸载和降级软件。
+				        </div>
+						<div class="list"><b>Zypper 包管理器 – openSUSE</b><br>
+                         这个是一个使用 libzypp 库制作的用于 OpenSUSE 系统上的命令行包管理器，它的常用功能包括访问仓库、安装包、解决依赖问题和其他功能。
+
+                         更重要的是，它也可以支持存储库扩展功能，如模式、补丁和产品。新的</div>
+						<div class="list"><b>Portage 包管理器 – Gentoo</b><br>
+                                 这个是 Gentoo 的包管理器，当下不怎么流行的一个发行版，但是这并不阻止它成为 Linux 下最好的软件包管理器之一。
+
+                                 Portage 项目的主要目标是创建一个简单、无故障的包管理系统，包含向后兼容、自动化等功能。</div>
+
+				</div>
+
+            </div>
+				<div id="right">
+
+					
+						<p class="search-title">页面备注</p>
+                        <p class="mark">本页的很大一部分内容来自日常使用的经验之谈，但Zypper、Portage的一些内容是摘自网络的。</p>
+                        <div class="mark">版权所有：650王超磊</div>
+				</div>
+			</div>
+			<div id="footer">
+			包管理器/package-manager
+			<a href="index.html">回到主页</a>
+			</div>
+
+		</div>
+	</body>
+</html>

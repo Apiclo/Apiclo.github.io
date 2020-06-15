@@ -1,0 +1,116 @@
+#left {
+	width: 130px;
+	float: left;
+}
+#left ul li{
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	list-style-type: none;
+	background-color: rgb(255, 255, 255);
+	border-radius: 18px;
+	margin-top: 10px;
+	border: 1px solid #DFDFDF;
+	box-shadow: 0 2px 4px rgba(0,0,0,6);
+	transition: 0.4s;
+}
+#left ul li:hover {
+	background-color: #e8e8e8;
+	border: 1px solid rgba(255, 255, 255, 0.6);
+	box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+}
+
+
+
+
+
+
+#middle {
+	float: left;
+	width: 540px;
+	height: auto;
+	margin-bottom: 30px;
+}
+.item1 {
+    float: left;
+    margin: 50px 0px 0px 30px;
+	padding: 10px;
+	width: 120px;
+    border-radius: 15px;
+	transition: 0.4s;
+	background-color: #fff;
+}
+
+.mid-p{
+	margin: 20px 20px 0px 20px;
+	padding:10px;
+	background-color: #fff;
+	border:1px solid rgba(0,0,0,0.2);
+	border-radius: 15px;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.8);
+
+}
+
+.giao-name {
+	font-size: 15px;
+	font-weight: bolder;
+	text-align: center;
+}
+.price {
+	text-align: center;
+	background-color: rgb(244, 244, 244);
+	border-radius: 5px;
+	border: #DFDFDF 1px solid;
+	box-shadow: 0 0 5px rgb(232, 232, 232);
+	clear: both;
+}
+.mid-up {
+	height: 300px;
+	border-bottom: rgba(0,0,0,0.7) solid 1px;
+}
+.mid-down {
+	height: 300px;
+}
+
+
+
+
+
+
+
+
+#right {
+	width: 130px;
+	float: left;
+	height: 600px;
+
+}
+
+
+
+.search-title {
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	list-style-type: none;
+	background-color: #e95420;
+	color: #fff;
+	border: #DFDFDF solid 1px;
+	border-radius: 18px;
+	margin-top: 10px;
+	box-shadow: 0px 3px 6px rgba(0,0,0,0.6);
+}
+
+.mark{
+	height: autox;
+	text-align: left;
+	list-style-type: none;
+	background-color:rgba(255,255,255,0.8);
+	border: rgba(0,0,0,0.2) solid 1px;
+	border-radius: 15px;
+	color: #000;
+	margin: 10px 5px 5px 5px;
+	padding: 5px;
+	font-size: 14px;
+	box-shadow: 0px 3px 6px rgba(0,0,0, 0.6);
+}

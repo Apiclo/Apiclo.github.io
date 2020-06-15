@@ -1,0 +1,48 @@
+/*声明 WebFont*/
+/*声明 WebFont*/
+@font-face {
+  font-family: 'ubt';
+  src: url('../fonts/ubt.eot');
+  src:
+    url('../fonts/ubt.eot?#font-spider') format('embedded-opentype'),
+    url('../fonts/ubt.woff') format('woff'),
+    url('../fonts/ubt.ttf') format('truetype'),
+    url('../fonts/ubt.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/*使用选择器指定字体*/
+#ubt {
+    font-family: ubt;
+}
+#ubt ul li {
+    list-style-type:none;
+}
+
+
+        
+._container {
+	height: 70px;
+	overflow: hidden;
+	border-bottom: 0px solid #000;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+		
+}		
+
+._container li {
+	height: 70px;
+	color:black;
+	font-family:ubt;
+	line-height: 60px;
+	font-size: 60px;
+		
+}	
+			
+		
+._container li:first-child {
+    margin-top: 0;
+	transition: margin-top .8s;		
+			
+}			
