@@ -15,8 +15,13 @@
 #ubt {
     font-family: ubt;
 }
+li{
+    list-style:none;
+    list-style-type:none;
+}
 #ubt ul li {
     list-style-type:none;
+    list-style:none;
 }
 
 
@@ -37,6 +42,7 @@
 	font-family:ubt;
 	line-height: 60px;
 	font-size: 60px;
+	list-style:none;
 		
 }	
 			
