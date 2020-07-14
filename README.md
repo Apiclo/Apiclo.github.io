@@ -9,10 +9,4 @@
 
 
 <b>欢迎访问我的博客：</b><a href="http://www.apiclo.top" target="new">www.apiclo.top</a>
-<span class="gp-mark">(别看了，服务器挂了。硬盘送朋友了)</span>
-
-<style>
-  .gp-mark {
-      font-size: 0.7rem;
-      
-  </style>
+<span>##别看了，服务器挂了。硬盘送朋友了</span>
