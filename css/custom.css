@@ -8,10 +8,19 @@
 	padding:0px;
 }
 
+.navbar {
+	height: 50px;
+	line-height: 50px;
+	color:#fff;
+	background-color: #000;
+	border-bottom: #333 1px solid;
+}
+
 /*logo*/
 .title-logo {
 	color:#00aaff;
 	font-size: 18px;
+	margin-left: 2rem;
 	text-decoration: none;
 	font-family: "ubt";
 	font-weight: bold;
@@ -19,7 +28,7 @@
 }
 .title-logo:hover {
 	text-decoration: none;
-	color: #000;
+	color: #0aaaa0;
 	font-size: 20px;
 }
 
@@ -35,9 +44,8 @@
 	
     background: linear-gradient(45deg,#1E88E5,#8965d6,#d36264,#76c55d,#1E88E5);
 	background-size:400%;
-    color: #ffffff;
-    padding: 5px 14px;
-	width: 120px;
+    color: #fff;
+    padding: 0.5rem 2rem 0.5rem 2rem;
     text-align: center;
     font-size: 14px;
 	border: 0;
@@ -134,22 +142,25 @@ li {
 
 /*介绍页相关css*/
 .intro-main {
-position: absolute;
-top:50px;
-left:10%;
+    position: absolute;
+    top:10%;
+    left:10%;
 }
 .intro-list {
-  font-family: 'ubt';
-  font-size: 18px;
-  color: #797979;
-  line-height: 36px;
+    font-family: 'ubt';
+    font-size: 18px;
+    color: #797979;
+    line-height: 36px;
 }
 
 /*Footer*/
-.foot-foot {
+.footer-all {
 	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 48px;
+	bottom: 0px;
+	width:100%;
+	height:48px;
+	background-color: #282828;
+	color: #fff;
+	text-align: center;
+	line-height: 48px;
 }

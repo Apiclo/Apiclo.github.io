@@ -1,12 +1,21 @@
-# 这里只有作业
-
-<strong>主要是存一下网页Dreamweaver作业(包括之前的网站页面所有内容)</strong>##咳咳，有点土，别嫌弃。<br>
-
-<b>最近上传作业：</b>2020年6月16日(DW期末大作业)<br>
-
-<b>历史作业存放路径：</b><a href="https://github.com/Apiclo/Apiclo.github.io/tree/master/tasks"><code>/tasks/</code></a><br>
+# 简介  
 
 
+**主要是存一下网页Dreamweaver作业** *咳咳，有点土，别嫌弃。*  
+**其次就是上传一下Web学习内容** 比如php,javascript,bootstrap,vue.js *虽然学会的东西不太多*  
 
-<b>欢迎访问我的博客：</b><a href="http://www.apiclo.top" target="new">www.apiclo.top</a>
-<span>##别看了，服务器挂了。硬盘送朋友了</span>
+**最近上传作业：** 2020年6月16日(DW期末大作业)  
+
+**历史作业存放路径：** [/tasks/](https://github.com/Apiclo/Apiclo.github.io/tree/master/tasks)  
+
+**欢迎访问我的博客：** ~~[http://www.apiclo.top](http://www.apiclo.top)~~ *别看了，服务器挂了。硬盘送朋友了*  
+
+*****
+
+----
+
+# 最近更新  
+## 2020年7月19日  
+把html纯静态改到了php与html混合状态。  
+*说实在的，和静态没什么区别，现在只是用到了echo实现输出而已）。*  
+整体改为暗色调。  
