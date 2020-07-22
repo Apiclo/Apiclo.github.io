@@ -27,11 +27,11 @@
     position: absolute;
     left: 50%;
     bottom: 30px;
-    transform: translateX(-50px);
+    transform: translateX(-60px);
     font-size: 0.8rem;
     line-height: 20px;
     height: 20px;
-    width: 150px;
+    width: 120px;
     color: #000;
     border-radius: 10px;
     background-color: #eee;
@@ -41,6 +41,7 @@
 .github:hover {
     color: #fff;
     width: 100px;
+    transform: translateX(-50px);
     background-color: #000;
     border-radius: 5px;
 }
