@@ -3,14 +3,14 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100px;
+    width: 150px;
     height: 40px;
     line-height: 40px;
     background-color: #000;
     border: 1px dotted #000;
     border-radius: 25px;
     box-shadow: 0px 2px 4px #555;
-    transform:translateY(50%) translateX(-50px);
+    transform:translateY(50%) translateX(-75px);
     text-decoration: none;
     text-align: center;
     color: #fff;
@@ -25,7 +25,7 @@
 .github {
     position: absolute;
     left: 50%;
-    bottom: 10px;
+    bottom: 30px;
     transform: translateX(-50px);
     font-size: 0.8rem;
     height: 20px;
