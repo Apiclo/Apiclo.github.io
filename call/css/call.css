@@ -13,6 +13,7 @@
     transform:translateY(20px) translateX(-75px);
     text-decoration: none;
     text-align: center;
+    font-weight: bold;
     color: #fff;
     transition: 0.5s;
 }
@@ -28,8 +29,9 @@
     bottom: 30px;
     transform: translateX(-50px);
     font-size: 0.8rem;
+    line-height: 20px;
     height: 20px;
-    width: 100px;
+    width: 150px;
     color: #000;
     border-radius: 10px;
     background-color: #eee;
@@ -38,6 +40,7 @@
 }
 .github:hover {
     color: #fff;
+    width: 100px;
     background-color: #000;
     border-radius: 5px;
 }
