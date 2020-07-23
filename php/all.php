@@ -5,15 +5,15 @@ $head = <<<EOT
 <html>
 <head>
 <meta charset="utf-8"/>
-<link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
-<link rel="stylesheet" href="css/custom.css">
-<link rel="stylesheet" href="css/footer.css">
-<link rel="stylesheet" href="css/table.css">
-<link rel="stylesheet" href="css/font.css">
-<link rel="stylesheet" href="css/layout.css">
-<link rel="stylesheet" href="css/phptest.css">
-<link rel="stylesheet" href="css/text.css">
-<link rel="shortcut icon" href="img/favicon.png">
+<link rel="stylesheet" href="../css/style.default.css" id="theme-stylesheet">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/table.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/phptest.css">
+<link rel="stylesheet" href="../css/text.css">
+<link rel="shortcut icon" href="../img/favicon.png">
 <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.css" rel="stylesheet">
 </head>
 <body>
@@ -23,7 +23,7 @@ EOT?>
     $index = '<a href="src.php" target="_blank" class="headmenu-btn">个人主页</a>';
     $intro = '<a href="intro.php" target="_blank" class="headmenu-btn">站点介绍</a>';
     $te = '<a href="te.php" target="_blank"  class="headmenu-btn">拓展资料</a>';
-    $hehua = '<a href="hehua.html" target="_blank" class="headmenu-btn">往期作业</a>';
+    $tasks = '<a href="../index.html" target="_blank" class="headmenu-btn">往期作业</a>';
 ?>
 
 <?php //导航栏
@@ -36,7 +36,7 @@ $NavBar = <<<EOT
                       <tr>
                       <td>$index</td>
                       <td>$te</td>
-                      <td>$hehua</td>
+                      <td>$tasks</td>
                       <td>$intro</td>
                       <td>$index</td>
                       </tr>

@@ -17,7 +17,7 @@
 			  <tr>
 		      <td width="120"><?php echo $index;?>
 			  <td width="120"><?php echo $te;?>
-			  <td width="120"><?php echo $hehua;?>
+			  <td width="120"><?php echo $tasks;?>
 			  <td width="120"><?php echo $intro;?>
 			  </tr>
 			  </table>
