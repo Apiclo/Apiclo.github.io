@@ -1,8 +1,9 @@
 <?php include 'all.php';?>
 <?php echo $head;?>
 <title>测试用</title>
+
 <?php echo $NavBar;?>
-      <div class="php-main">
+      <div class="php-main" <?php mainCard() ?>>
         <?php
                     echo "<hr color=\"#555\">";//分割线
             $UserInfDemo = ['name'=>'王富贵','sex'=>'男','age'=> 60];//创建数组
@@ -24,7 +25,7 @@
             <div class="print">
             <?php
             if ($_GET['action']=='login') {
-                if ($_POST['name']=='DemoUser' && $_POST['pwd']=='DemoPasswd'){
+                if ($_POST['name']=='username' && $_POST['pwd']=='password'){
                     setcookie('userName',$_POST['name'],time()+3600*24);
                     setcookie('passWord',$_POST['pwd'],time()+3600*24);
                     echo '<span>cookie创建成功</span>';
@@ -42,7 +43,7 @@
             </div>
       </div>
     
-      <div class="php-main">
+      <div class="php-main" <?php mainCard() ?>>
           <?php 
               class Teessstt {
                   public $name = "王富贵";
@@ -67,7 +68,7 @@
           ?>
         </div>
         
-        <div class="php-main">
+        <div class="php-main" <?php mainCard() ?>>
             <?php
               print_r ((object)['s','Demo','Test']);
               print_r ((object)'啾啾啾');
@@ -75,7 +76,7 @@
             ?>
         </div>
         
-        <div class="php-main">
+        <div class="php-main" <?php mainCard() ?>>
               <?php
                   $site = 'PHP';
                   echo $site;
@@ -86,8 +87,8 @@
                   echo '</pre>';
               ?>
         </div>
-        -
-        <div class="php-main">
+        
+        <div class="php-main" <?php mainCard() ?>>
           <?php
                 session_start();
                 echo session_id();
@@ -96,11 +97,11 @@
                 echo "<hr color=\"#555\">";
                 echo $_SESSION['userID'];
                 //unset($_SESSION['userID']);
-                //session_destroy();                
+                //session_destroy();
           ?>
         </div>
         
-        <div class="php-main">
+        <div class="php-main" <?php mainCard() ?>>
         <form action="te.php" method="post">
         <p>输入一个数字：</p>
         <input class="input-bar" type="number" name="num">
@@ -111,21 +112,21 @@
         if (isset($_POST['num'])) {
 
             if ($_POST['num'] = null) {
-                echo '空';
+                echo '<br>空';
             }
             elseif ($_POST['num'] % 2 == 0) {
-                echo '这是个偶数';
+                echo '<br>这是个偶数';
             }
             else {
-                echo '这是个奇数';
+                echo '<br>这是个奇数';
             }}
         else {
-            echo '当前为空';
+            echo '<br>当前为空';
         }
         ?>
         </div>
         
-        <div class="php-main">
+        <div class="php-main" <?php mainCard() ?>>
         <form action="te.php" method="post">
             <datalist id="ppx">
                 <option value="皮小妹">
@@ -153,7 +154,7 @@
             }
         ?>
         </div>
-        <div class="php-main">
+        <div class="php-main" <?php mainCard() ?>>
         <form action="" method="post">
             <input type="num" name="row" class="input-bar">
             <input type="num" name="col" class="input-bar">

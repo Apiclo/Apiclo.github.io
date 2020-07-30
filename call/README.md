@@ -3,15 +3,15 @@
 
 网页整体只有两个超链接，没什么技术含量(有手就行)。  
 大概步骤：  
-<ol>
-<li>买一辆车</li>
-<li>创建一个Github账号</li>
-<li>创建一个Github pages</li>
-<li>把这个文件夹内所有内容下载到电脑上</li>
-<li>改成自己的手机号</li>
-<li>上传到Github pages的repository里</li>
-<li>试一下有没有生效</li>
-<li>把url制作成二维码打印出来贴前挡风</li>
-</ol>
+
+1. 买一辆车
+2. 创建一个Github账号
+3. 创建一个Github pages
+4. 把这个文件夹内所有内容下载到电脑上
+5. 把call.html中的`tel:1***`改成自己的手机号
+6. 上传到Github pages的repository里
+7. 试一下有没有生效
+8. 把url制作成二维码打印出来贴前挡风
+
 
 需要技术支持请直接联系网页里的电话。  

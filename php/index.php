@@ -4,7 +4,7 @@
 
 <div align="center" style="margin-top:300px" class="animated bounceInUp y-5  text-center">
 	    <h1>
-		  <iframe scrolling="no" frameborder="0" height="70" width="320" src="html/welcom.html"></iframe>
+		  <iframe scrolling="no" frameborder="0" height="70" width="320" src="../html/welcom.html"></iframe>
 		</h1>
 		<p class="lead my-4">
 		<script type="text/javascript" src="https://api.guoch.xyz/?code=js&amp;charset=utf-8"></script>
