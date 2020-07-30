@@ -1,4 +1,7 @@
 /*主要是网页的样式，有能力的可以自己改一改*/
+*{
+    transition: 0.5s;
+}
 .main-button {
     position: absolute;
     top: 40%;
@@ -6,8 +9,8 @@
     width: 150px;
     height: 40px;
     line-height: 40px;
-    background-color: #000;
-    border: 1px dotted #000;
+    background-color: rgba(0,0,0,0.6);
+    border: 1px solid #000;
     border-radius: 25px;
     box-shadow: 0px 0px 2px #555;
     transform:translateY(20px) translateX(-75px);
@@ -44,4 +47,37 @@
     transform: translateX(-50px);
     background-color: #000;
     border-radius: 5px;
+}
+
+.body-bg1 {
+    background-color: #eea2a4;/*牡丹粉红*/
+}
+.body-bg2 {
+    background-color: #619ac3;/*羽扇豆蓝*/
+}
+.body-bg3 {
+    background-color: #f8df72;/*茉莉黄*/
+}
+.body-bg4 {
+    background-color: #45b787;/*蛙绿*/
+}
+.body-bg5 {
+    background-color: #fffef9;/*雪白*/
+}
+
+.table {
+    position: absolute;
+    left: 5%;
+    bottom: 72px;
+    width:90%;
+    height:40px;
+    text-align: center;
+}
+
+.round-button {
+    height: 36px;
+    width: 36px;
+    border:#eee 1px solid;
+    border-radius: 18px;
+    box-shadow: 0px 1px 2px #000;
 }
