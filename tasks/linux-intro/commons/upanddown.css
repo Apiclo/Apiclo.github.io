@@ -2,9 +2,10 @@
 	padding: 0;
 	margin: 0;	
 }
-body{
-	background-image: url(../images/bg.jpg);
-}
+/*body{
+*	background-image: url(../images/bg.jpg);
+*}
+*/
 a{
 	text-decoration: none;
 	color: #e95420;
