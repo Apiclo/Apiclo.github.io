@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+    <link rel="shortcut icon" href="img/favicon.png">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <title>作业列表</title>
+<style>
+
+@keyframes sun {
+	100% {
+
+	background-position:-400% 0;
+	
+	}
+}
+
+
+.href-card {
+    background: linear-gradient(90deg,#1E88E5,#8965d6,#d3835b,#e36897,#1E88E5);
+	background-size:400%;
+	padding: 5px 10px 5px 10px;
+	margin: 10px;
+	border-radius: 15px;
+	border: 1px;
+	box-shadow:0 0 10px rgba(0,0,0,0.2);
+	word-wrap:break-word;
+	transition-duration: 0.3s;
+	text-decoration:none;
+	font-size: 0.8rem;
+	color:#e8e8e8;
+
+}
+.href-card:hover{
+    animation: sun 8s infinite;
+    background: linear-gradient(90deg,#1E88E5,#8965d6,#d3835b,#e36897,#1E88E5);
+    background-size:400%;
+    box-shadow: 0 0 25px rgba(0,0,0,0.7);
+    font-size: 1.2rem;
+
+}
+
+.pcs {
+	width: 296px;
+	height: 50px;
+	text-align:center;
+	line-height: 50px;
+}
+.pcs:hover{ 
+    height:70px;
+    line-height: 70px;
+}
+
+.mp {
+	text-decoration:none;
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: 300;
+}
+.mp:hover {
+	color:#b3e5fc;
+	font-weight:500;
+}
+.btmbtn{
+    position:absolute;
+    left:50%;
+    top:95%;
+    width:54px;
+    height:20px;
+    transform: translate(27px,10px);
+    font-size: 0.6rem;
+    background-color: #e8e8e8;
+
+}
+
+</style>
+</head>
+<body>
+	<div style="margin: 5px;height: 5px;"></div>
+    <div align="center">
+	    <!--<a href="tasks/##DATE##/index.html" target="_blank" class="mp"><div class="href-card pcs">##TITLE##</div></a> -->
+	<a href="tasks/linux-intro/webs/index-list.html" target="_blank" class="mp"><div class="href-card pcs">你看你🐴呢</div></a>
+	</div>
+    <div class="btmbtn"><a href="index-list.html">List</a></div>
+</body>
+</html>
