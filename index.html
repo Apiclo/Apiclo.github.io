@@ -1,92 +1,99 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-    <link rel="shortcut icon" href="img/favicon.png">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
-    <title>作业列表</title>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+        <title>拨打电话</title>
+        <link rel="stylesheet" href="css/call.css">
+
 <style>
 
-@keyframes sun {
-	100% {
-
-	background-position:-400% 0;
-	
-	}
-}
-
-
-.href-card {
-    background: linear-gradient(90deg,#1E88E5,#8965d6,#d3835b,#e36897,#1E88E5);
-	background-size:400%;
-	padding: 5px 10px 5px 10px;
-	margin: 10px;
-	border-radius: 15px;
-	border: 1px;
-	box-shadow:0 0 10px rgba(0,0,0,0.2);
-	word-wrap:break-word;
-	transition-duration: 0.3s;
-	text-decoration:none;
-	font-size: 0.8rem;
-	color:#e8e8e8;
-
-}
-.href-card:hover{
-    animation: sun 8s infinite;
-    background: linear-gradient(90deg,#1E88E5,#8965d6,#d3835b,#e36897,#1E88E5);
-    background-size:400%;
-    box-shadow: 0 0 25px rgba(0,0,0,0.7);
-    font-size: 1.2rem;
-
-}
-
-.pcs {
-	width: 296px;
-	height: 50px;
-	text-align:center;
-	line-height: 50px;
-}
-.pcs:hover{ 
-    height:70px;
-    line-height: 70px;
-}
-
-.mp {
-	text-decoration:none;
-	color: #FFFFFF;
-	font-size: 14px;
-	font-weight: 300;
-}
-.mp:hover {
-	color:#b3e5fc;
-	font-weight:500;
-}
-.btmbtn{
-    position:absolute;
-    left:50%;
-    top:95%;
-    width:46px;
-    height:20px;
-    transform: translate(-23px,-10px);
-    font-size: 0.6rem;
-    background-color: #e8e8e8;
+    @keyframes sun {
+        100% {
     
-    text-align: center;
-
-	}
-.btmbtn a{
-    color:#000;
-    text-decoration:none;
-}
-
-</style>
-</head>
-<body>
-	<div style="margin: 5px;height: 5px;"></div>
-    <div style="width:300px;height:100px;position:absolute;top:50%;left:50%;transform:translate(-150px,-50px);">
-	    <!--<a href="tasks/##DATE##/index.html" target="_blank" class="mp"><div class="href-card pcs">##TITLE##</div></a> -->
-	<a href="tasks/linux-intro/webs/index-list.html" target="_blank" class="mp"><div class="href-card pcs">你看你🐴呢</div></a>
-	</div>
-    <div class="btmbtn"><a href="index-list.html">List</a></div>
-</body>
+        background-position:-400% 0;
+        
+        }
+    }
+    
+    
+    .href-card {
+        background: linear-gradient(90deg,#1E88E5,#8965d6,#d3835b,#e36897,#1E88E5);
+        background-size:400%;
+        padding: 5px 10px 5px 10px;
+        margin: 10px;
+        border-radius: 15px;
+        border: 1px;
+        box-shadow:0 0 10px rgba(0,0,0,0.2);
+        word-wrap:break-word;
+        transition-duration: 0.3s;
+        text-decoration:none;
+        font-size: 0.8rem;
+        color:#e8e8e8;
+    
+    }
+    .href-card:hover{
+        animation: sun 8s infinite;
+        background: linear-gradient(90deg,#1E88E5,#8965d6,#d3835b,#e36897,#1E88E5);
+        background-size:400%;
+        box-shadow: 0 0 25px rgba(0,0,0,0.7);
+        font-size: 1.2rem;
+    
+    }
+    
+    .pcs {
+        width: 296px;
+        height: 50px;
+        text-align:center;
+        line-height: 50px;
+    }
+    .pcs:hover{ 
+        height:70px;
+        line-height: 70px;
+    }
+    
+    .mp {
+        text-decoration:none;
+        color: #FFFFFF;
+        font-size: 14px;
+        font-weight: 300;
+    }
+    .mp:hover {
+        color:#b3e5fc;
+        font-weight:500;
+    }
+    .btmbtn{
+        position:absolute;
+        left:50%;
+        top:95%;
+        width:46px;
+        height:20px;
+        transform: translate(-23px,-10px);
+        font-size: 0.6rem;
+        background-color: #e8e8e8;
+        
+        text-align: center;
+    
+        }
+    .btmbtn a{
+        color:#000;
+        text-decoration:none;
+    }
+    
+    </style>
+    </head>
+    <body id="body">
+        <a href="#" target="_blank" class="main-button"><div class="href-card pcs">你看你🐴呢</div></a>
+        <!--把href="tel:1xxx"换成自己的电话即可-->
+        <table cellspacing="0" border="0" class="table">
+        <tr>
+        <td align="center"><div class="round-button body-bg1" onclick="body.className='body-bg1';"></div></td>
+        <td align="center"><div class="round-button body-bg2" onclick="body.className='body-bg2';"></div></td>
+        <td align="center"><div class="round-button body-bg3" onclick="body.className='body-bg3';"></div></td>
+        <td align="center"><div class="round-button body-bg4" onclick="body.className='body-bg4';"></div></td>
+        <td align="center"><div class="round-button body-bg5" onclick="body.className='body-bg5';"></div></td>
+        </tr>
+        </table>
+        <a class="github" href="https://github.com/Apiclo">list</a>
+    </body>
 </html>
