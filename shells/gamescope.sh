@@ -21,8 +21,8 @@ function checkGit() {
 	dir_scope="gamescope-session"
 	dir_steam="gamescope-session-steam"
     function reclone() {
-        echo -ne "${YELLOW}文件${1}需要克隆,继续吗？ (y/n): ${NC}" && read reclone && reclone=${reclone:-y}
-        if [ "$reclone" = "y" ]; then
+        echo -ne "${YELLOW}文件${1}需要克隆,继续吗？ (y/n): ${NC}" && read reclone && is_reclone=${reclone:-y}
+        if [ "$is_reclone" = "y" ]; then
             cd ~/gamescope
             rm -rf ${dir_scope} ${dir_steam} &> /dev/null
             git clone $git_scope
