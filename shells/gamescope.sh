@@ -6,6 +6,150 @@ BLUE='\033[1;34m'
 NC='\033[0m'
 reset_terminal=$(tput sgr0)
 clear
+function checkOS() {
+    os_type=$(uname -s)
+    if [ "$os_type" = "Linux" ]; then
+        if [ -f /etc/os-release ]; then
+            . /etc/os-release
+            os_release=$ID
+        else
+            echo "无法检测操作系统发行版"
+            exit 1
+        fi
+    else
+        os_release="unknown"
+    fi
+    os_architecture=$(uname -m)
+    os_kernel=$(uname -r)
+    os_hostname=$(uname -n)
+    os_internal_ip=$(hostname -i | awk '{print $1}')
+	function detectGPU {
+    	vga_info=$(lspci | grep -i vga)
+    	brand=$(echo "$vga_info" | grep -o -i 'AMD\|NVIDIA\|Intel' | tr '[:upper:]' '[:lower:]')
+    	echo $brand
+	}
+
+    echo -e "${BLUE}操作系统:${NC} $os_type"
+    echo -e "${BLUE}发行版:${NC} $os_release"
+    echo -e "${BLUE}处理器架构:${NC} $os_architecture"
+    echo -e "${BLUE}内核:${NC} $os_kernel"
+	echo -e "${BLUE}显卡品牌:${NC} $(detectGPU)"
+    echo -e "${BLUE}主机名:${NC} $os_hostname"
+    echo -e "${BLUE}内网IP地址:${NC} $os_internal_ip"
+    # 写在这里是为了就算网络不好也可以回声前几行内容
+    os_external_ip=$(curl -s http://myip.ipip.net/ | sed 's/[：, ]/:/g' | cut -f 3 -d ":")
+    os_dns=$(grep -E "\<nameserver[ ]+" /etc/resolv.conf | awk '{print $NF}')
+    echo -e "${BLUE}公网IP地址:${NC} $os_external_ip"
+    echo -e "${BLUE}指定的DNS:${NC} $os_dns"
+	echo -ne "${BLUE}GitHub连通性:${NC}"
+    ping_add='github.com'
+    os_connected=$(ping -c 2 $ping_add &> /dev/null && echo "可连接至GitHub" || echo "GitHub不可达")
+    echo  "$os_connected"
+}
+
+function checkEnviroment {
+    echo -e "${BLUE}开始检测运行环境...${NC}"
+    gamescope_status='not_installed'
+    env_status='broken'
+    if gamescope --version &> /dev/null; then
+        echo -e "${GREEN}gamescope已经安装${NC}" && gamescope_status='installed'
+    else 
+        echo -e "${RED}gamescope未安装${NC}"
+    fi
+    
+    if [ "$gamescope_status" == 'installed' ]; then
+        echo -e "${GREEN}运行环境完整${NC}" && env_status='full'
+    else
+        echo -e "${RED}运行环境不完整,尝试安装${NC}"
+        os_release=$(grep -Eo 'ID=[a-z]+' /etc/os-release | cut -d '=' -f 2)
+        gpu_brand=$(detectGPU)
+        
+        case "$os_release" in
+            arch|manjaro|blackarch)
+                echo "使用的是pacman包管理器, 使用pacman进行安装必要环境"
+                sudo pacman -Syyu --noconfirm
+                if [ "$gpu_brand" == "amd" ]; then
+                    sudo pacman -S --noconfirm gamescope-git
+                elif [ "$gpu_brand" == "nvidia" ]; then
+                    sudo pacman -S --noconfirm gamescope-nvidia-git
+                else
+                    sudo pacman -S --noconfirm gamescope-git
+                fi
+                ;;
+            ubuntu|debian|deepin)
+                echo "使用的是apt包管理器, 使用apt进行安装必要环境"
+                sudo apt-get update
+                if [ "$gpu_brand" == "amd" ]; then
+                    sudo apt-get install -y gamescope
+                elif [ "$gpu_brand" == "nvidia" ]; then
+                    sudo apt-get install -y gamescope
+                else
+                    sudo apt-get install -y gamescope
+                fi
+                ;;
+            fedora)
+                echo "使用的是dnf包管理器, 使用dnf进行安装必要环境"
+                sudo dnf update -y
+                if [ "$gpu_brand" == "amd" ]; then
+                    sudo dnf install -y gamescope
+                elif [ "$gpu_brand" == "nvidia" ]; then
+                    sudo dnf install -y gamescope
+                else
+                    sudo dnf install -y gamescope
+                fi
+                ;;
+            centos|rhel)
+                echo "使用的是yum包管理器, 使用yum进行安装必要环境"
+                sudo yum update -y
+                if [ "$gpu_brand" == "amd" ]; then
+                    sudo yum install -y gamescope
+                elif [ "$gpu_brand" == "nvidia" ]; then
+                    sudo yum install -y gamescope
+                else
+                    sudo yum install -y gamescope
+                fi
+                ;;
+            suse|opensuse)
+                echo "使用的是zypper包管理器, 使用zypper进行安装必要环境"
+                sudo zypper refresh
+                if [ "$gpu_brand" == "amd" ]; then
+                    sudo zypper install -y gamescope
+                elif [ "$gpu_brand" == "nvidia" ]; then
+                    sudo zypper install -y gamescope
+                else
+                    sudo zypper install -y gamescope
+                fi
+                ;;
+            gentoo)
+                echo "使用的是emerge包管理器, 使用emerge进行安装必要环境"
+                sudo emerge --sync
+                sudo emerge -av gamescope
+                ;;
+            alpine)
+                echo "使用的是apk包管理器, 使用apk进行安装必要环境"
+                sudo apk update
+                sudo apk add gamescope
+                ;;
+            solus)
+                echo "使用的是eopkg包管理器, 使用eopkg进行安装必要环境"
+                sudo eopkg update-repo
+                sudo eopkg install -y gamescope
+                ;;
+            void)
+                echo "使用的是xbps包管理器, 使用xbps进行安装必要环境"
+                sudo xbps-install -Syu
+                sudo xbps-install -y gamescope
+                ;;
+            *)
+                echo -e "${RED}未支持的操作系统,请手动安装以下包:${NC}"
+                echo "gamescope"
+                return
+                ;;
+        esac
+
+        exec "$SHELL" -l
+    fi
+}
 
 function checkDir {
 	cd ~/
@@ -79,26 +223,27 @@ function copyFiles {
 	file211='/usr/share/gamescope-session-plus/sessions.d/steam'
 	file212='/usr/share/polkit-1/actions/org.chimeraos.update.policy'
 	file213='/usr/share/wayland-sessions/gamescope-session-steam.desktop'
+	echo -e "${BLUE}正在处理文件...${NC}"
 
-	sudo cp  ~/gamescope/${dir_scope}${file11}  ${file11}
-	sudo cp  ~/gamescope/${dir_scope}${file12}  ${file12}
-	sudo cp  ~/gamescope/${dir_scope}${file13}  ${file13}
-	sudo cp  ~/gamescope/${dir_scope}${file14}  ${file14}
-	sudo cp  ~/gamescope/${dir_scope}${file15}  ${file15}
+	sudo /bin/cp -rf ~/gamescope/${dir_scope}${file11}  ${file11}
+	sudo /bin/cp -rf ~/gamescope/${dir_scope}${file12}  ${file12}
+	sudo /bin/cp -rf ~/gamescope/${dir_scope}${file13}  ${file13}
+	sudo /bin/cp -rf ~/gamescope/${dir_scope}${file14}  ${file14}
+	sudo /bin/cp -rf ~/gamescope/${dir_scope}${file15}  ${file15}
 
-	sudo cp  ~/gamescope/${dir_steam}${file21}  ${file21}
-	sudo cp  ~/gamescope/${dir_steam}${file22}  ${file22}
-	sudo cp  ~/gamescope/${dir_steam}${file23}  ${file23}
-	sudo cp  ~/gamescope/${dir_steam}${file24}  ${file24}
-	sudo cp  ~/gamescope/${dir_steam}${file25}  ${file25}
-	sudo cp  ~/gamescope/${dir_steam}${file26}  ${file26}
-	sudo cp  ~/gamescope/${dir_steam}${file27}  ${file27}
-	sudo cp  ~/gamescope/${dir_steam}${file28}  ${file28}
-	sudo cp  ~/gamescope/${dir_steam}${file29}  ${file29}
-	sudo cp  ~/gamescope/${dir_steam}${file210}  ${file210}
-	sudo cp  ~/gamescope/${dir_steam}${file211}  ${file211}
-	sudo cp  ~/gamescope/${dir_steam}${file212}  ${file212}
-	sudo cp  ~/gamescope/${dir_steam}${file213}  ${file213}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file21}  ${file21}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file22}  ${file22}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file23}  ${file23}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file24}  ${file24}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file25}  ${file25}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file26}  ${file26}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file27}  ${file27}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file28}  ${file28}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file29}  ${file29}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file210}  ${file210}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file211}  ${file211}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file212}  ${file212}
+	sudo /bin/cp -rf ~/gamescope/${dir_steam}${file213}  ${file213}
 	sudo chmod +x ${file11}
 	sudo chmod +x ${file12}
 	sudo chmod +x ${file14}
@@ -113,11 +258,12 @@ function copyFiles {
 	sudo chmod +x ${file29}
 	sudo chmod +x ${file211}
 	sudo chmod +x ${file213}
-	
+	echo -e "${BLUE}文件处理完毕${NC}"
 	if [ -f $steam_session ]; then
 		sudo sed -i "s/^Name=.*/Name=SteamOS/" "$steam_session"
 		sudo chmod +x $steam_session
 		sudo sed -i "s/^Comment=.*/Comment=进入SteamDeck下的大屏幕模式/" "$steam_session"
+		sudo sed -i "s|^Exec=.*|Exec=/usr/bin/gamescope-session-plus steam|" "$steam_session"
 		sudo rm /usr/share/wayland-sessions/gamescope-session.desktop &> /dev/null
 		echo -e "${GREEN}安装完毕了!${NC}"
 		echo -e "${BLUE}注销后在会话管理中即可进入SteamOS${NC}"
@@ -140,8 +286,16 @@ function cleanDir {
 }
 
 function main {
+	checkOS
+	checkEnviroment
 	checkDir
-	checkGit
+	if [ "${env_status}" = "full" ]; then
+		checkGit
+	else
+		echo -e "${RED}您没有安装gamescope,请手动安装,停止运行${NC}"
+		git_status="broken"
+	fi
+	
 	if [ "${git_status}" = "full" ]; then
 		copyFiles
 	else
