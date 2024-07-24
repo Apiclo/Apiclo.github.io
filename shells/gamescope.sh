@@ -61,7 +61,6 @@ function checkEnviroment {
         echo -e "${GREEN}运行环境完整${NC}" && env_status='full'
     else
         echo -e "${RED}运行环境不完整,尝试安装${NC}"
-        os_release=$(grep -Eo 'ID=[a-z]+' /etc/os-release | cut -d '=' -f 2)
         gpu_brand=$(detectGPU)
         
         case "$os_release" in
@@ -167,7 +166,7 @@ function checkGit() {
 	dir_steam="gamescope-session-steam"
 	
     function reclone() {
-        echo -ne "${YELLOW}文件${1}需要克隆,继续吗？ (y/n): ${NC}" && read is_reclone
+        echo -ne "${YELLOW}文件${1}需要克隆,继续吗？ (y/n): ${NC}" && read -p ""  is_reclone
 		is_reclone=${is_reclone:-y}
         if [ "$is_reclone" = "y" ]; then
             cd ~/gamescope
@@ -274,7 +273,7 @@ function copyFiles {
 }
 
 function cleanDir {
-	echo -e "${YELLOW}需要执行清理吗?(n/y)${NC}" && read is_clean
+	echo -e "${YELLOW}需要执行清理吗?(n/y)${NC}" && read -p ""  is_clean
 	is_clean=${is_clean:-n}
 	if [ "$is_clean" = "y" ]; then
 		rm -rf ~/gamescope
