@@ -85,6 +85,7 @@ function cleanDir {
 		echo -e "${GREEN}清理完毕${NC}"
 	else
 		echo -e "${BLUE}取消清理${NC}"
+		echo -e "${BLUE}已下载的安装文件在~/gamescope,您可以手动删除${NC}"
 	fi
 }
 
