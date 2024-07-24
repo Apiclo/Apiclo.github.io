@@ -61,14 +61,64 @@ function copyFiles {
 	steam_session="/usr/share/wayland-sessions/gamescope-session-steam.desktop"
 	
 	echo -e "${BLUE}需要sudo密码才能继续安装${NC}"
-	sudo cp -r ~/gamescope/${dir_scope}/usr/* /usr/
-	sudo cp -r ~/gamescope/${dir_steam}/usr/* /usr/
+	file11='/usr/bin/export-gpu'
+	file12='/usr/bin/gamescope-session-plus'
+	file13='/usr/lib/systemd/user/gamescope-session-plus@.service'
+	file14='/usr/share/gamescope-session-plus/gamescope-session-plus'
+	file15='/usr/share/gamescope-session-plus/device-quirks'
+	file21='/usr//bin/jupiter-biosupdate'
+	file22='/usr/bin/steam-http-loader'
+	file23='/usr/bin/steamos-select-branch'
+	file24='/usr/bin/steamos-session-select'
+	file25='/usr/bin/steamos-update'
+	file26='/usr/bin/steamos-polkit-helpers/jupiter-biosupdate'
+	file27='/usr/bin/steamos-polkit-helpers/steamos-select-branch'
+	file28='/usr/bin/steamos-polkit-helpers/steamos-update'
+	file29='/usr/share/applications/steam_http_loader.desktop'
+	file210='/usr/share/applications/gamescope-mimeapps.list'
+	file211='/usr/share/gamescope-session-plus/sessions.d/steam'
+	file212='/usr/share/polkit-1/actions/org.chimeraos.update.policy'
+	file213='/usr/share/wayland-sessions/gamescope-session-steam.desktop'
+
+	sudo cp  ~/gamescope/${dir_scope}${file11}  ${file11}
+	sudo cp  ~/gamescope/${dir_scope}${file12}  ${file12}
+	sudo cp  ~/gamescope/${dir_scope}${file13}  ${file13}
+	sudo cp  ~/gamescope/${dir_scope}${file14}  ${file14}
+	sudo cp  ~/gamescope/${dir_scope}${file15}  ${file15}
+
+	sudo cp  ~/gamescope/${dir_steam}${file21}  ${file21}
+	sudo cp  ~/gamescope/${dir_steam}${file22}  ${file22}
+	sudo cp  ~/gamescope/${dir_steam}${file23}  ${file23}
+	sudo cp  ~/gamescope/${dir_steam}${file24}  ${file24}
+	sudo cp  ~/gamescope/${dir_steam}${file25}  ${file25}
+	sudo cp  ~/gamescope/${dir_steam}${file26}  ${file26}
+	sudo cp  ~/gamescope/${dir_steam}${file27}  ${file27}
+	sudo cp  ~/gamescope/${dir_steam}${file28}  ${file28}
+	sudo cp  ~/gamescope/${dir_steam}${file29}  ${file29}
+	sudo cp  ~/gamescope/${dir_steam}${file210}  ${file210}
+	sudo cp  ~/gamescope/${dir_steam}${file211}  ${file211}
+	sudo cp  ~/gamescope/${dir_steam}${file212}  ${file212}
+	sudo cp  ~/gamescope/${dir_steam}${file213}  ${file213}
+	sudo chmod +x ${file11}
+	sudo chmod +x ${file12}
+	sudo chmod +x ${file14}
+	sudo chmod +x ${file21}
+	sudo chmod +x ${file22}
+	sudo chmod +x ${file23}
+	sudo chmod +x ${file24}
+	sudo chmod +x ${file25}
+	sudo chmod +x ${file26}
+	sudo chmod +x ${file27}
+	sudo chmod +x ${file28}
+	sudo chmod +x ${file29}
+	sudo chmod +x ${file211}
+	sudo chmod +x ${file213}
 	
 	if [ -f $steam_session ]; then
 		sudo sed -i "s/^Name=.*/Name=SteamOS/" "$steam_session"
 		sudo chmod +x $steam_session
 		sudo sed -i "s/^Comment=.*/Comment=进入SteamDeck下的大屏幕模式/" "$steam_session"
-		sudo rm /usr/share/wayland-sessions/gamescope-session.desktop
+		sudo rm /usr/share/wayland-sessions/gamescope-session.desktop &> /dev/null
 		echo -e "${GREEN}安装完毕了!${NC}"
 		echo -e "${BLUE}注销后在会话管理中即可进入SteamOS${NC}"
 	else
