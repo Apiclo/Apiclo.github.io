@@ -69,11 +69,11 @@ function checkEnviroment {
                 echo "使用的是pacman包管理器, 使用pacman进行安装必要环境"
                 sudo pacman -Syyu --noconfirm
                 if [ "$gpu_brand" == "amd" ]; then
-                    sudo pacman -S --noconfirm gamescope-git
+                    sudo pacman -S --noconfirm gamescope
                 elif [ "$gpu_brand" == "nvidia" ]; then
-                    sudo pacman -S --noconfirm gamescope-nvidia-git
+                    sudo pacman -S --noconfirm gamescope
                 else
-                    sudo pacman -S --noconfirm gamescope-git
+                    sudo pacman -S --noconfirm gamescope
                 fi
                 ;;
             ubuntu|debian|deepin)
