@@ -61,6 +61,7 @@ function checkEnviroment {
         echo -e "${GREEN}运行环境完整${NC}" && env_status='full'
     else
         echo -e "${RED}运行环境不完整,尝试安装${NC}"
+		echo -e "${BLUE}安装完成后需要重新运行脚本!${NC}"
         gpu_brand=$(detectGPU)
         
         case "$os_release" in
