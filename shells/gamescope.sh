@@ -123,6 +123,7 @@ function checkEnviroment {
             else 
                 gamescope_status='broken'
                 env_status='broken' 
+            fi
         }
 
         function confirm {
