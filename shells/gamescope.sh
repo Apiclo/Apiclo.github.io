@@ -6,6 +6,7 @@ BLUE='\033[1;34m'
 NC='\033[0m'
 reset_terminal=$(tput sgr0)
 clear
+
 function checkOS() {
     os_type=$(uname -s)
     if [ "$os_type" = "Linux" ]; then
@@ -14,7 +15,7 @@ function checkOS() {
             os_release=$ID
         else
             echo "无法检测操作系统发行版"
-            exit 1
+            exit 0
         fi
     else
         os_release="unknown"
@@ -41,10 +42,28 @@ function checkOS() {
     os_dns=$(grep -E "\<nameserver[ ]+" /etc/resolv.conf | awk '{print $NF}')
     echo -e "${BLUE}公网IP地址:${NC} $os_external_ip"
     echo -e "${BLUE}指定的DNS:${NC} $os_dns"
-	echo -ne "${BLUE}GitHub连通性:${NC}"
-    ping_add='github.com'
-    os_connected=$(ping -c 2 $ping_add &> /dev/null && echo "可连接至GitHub" || echo "GitHub不可达")
+	echo -ne "${BLUE}网络连通性:${NC}"
+    ping_add='bing.com'
+    os_connected=$(ping -c 2 $ping_add &> /dev/null && echo "已连接" || echo "未连接")
     echo  "$os_connected"
+    gpu=$(detectGPU);
+    if [ ${gpu} == "amd" ]; then
+        echo -e "${GREEN}您使用的是AMD显卡${NC}"       
+    elif [ ${gpu} == "nvidia" ]; then
+        echo -e "${GREEN}您使用的是NVIDIA显卡,虽然Valve确认gamescope在NVIDIA下运行良好,但是由于gamescope-session创建在wayland会话下,可能会出现界面黑屏或者退回Display Manager的情况${NC}"
+    else
+        echo -e "${GREEN}您使用的是Intel显卡${NC}" 
+    fi
+}
+function checkDir {
+	cd ~/
+	if [ -d ~/gamescope/git ]; then
+		cd ~/gamescope
+	else
+		mkdir -p ~/gamescope/git
+        cd ~/gamescope
+        
+	fi
 }
 
 function checkEnviroment {
@@ -58,107 +77,201 @@ function checkEnviroment {
     fi
     
     if [ "$gamescope_status" == 'installed' ]; then
-        echo -e "${GREEN}运行环境完整${NC}" && env_status='full'
+        echo -e "${GREEN}执行下一步骤${NC}" && env_status='full'
     else
-        echo -e "${RED}运行环境不完整,尝试安装${NC}"
-		echo -e "${BLUE}安装完成后需要重新运行脚本!${NC}"
-        gpu_brand=$(detectGPU)
+        echo -e "${RED}运行环境不完整,尝试安装依赖和gamescope${NC}"
+		echo -e "${YELLOW}依赖安装完成后需要重新运行脚本!${NC}"
+        
+        function installGamescope() {
+            selected_url=""
+
+            function chooseSource() {
+                while true; do
+                    echo -e "${BLUE}gamescope有两个可选\n${NC}" 
+                    echo -e "${BLUE}ValveSoftware:${NC} \n      https://github.com/ValveSoftware/gamescope"
+                    echo -e "${BLUE}ChimeraOS:${NC}\n      https://github.com/ChimeraOS/gamescope"
+                    echo -ne "${BLUE}\n选择gamescope分支${NC}" 
+                    read -p "(1:ValveSoftware, 2:ChimeraOS): " gs_source
+                    gs_source=${gs_source:-2}
+
+                    case $gs_source in
+                        1)
+                            selected_url='https://github.com/ValveSoftware/gamescope.git'
+                            break
+                            ;;
+                        2)
+                            selected_url='https://github.com/ChimeraOS/gamescope.git'
+                            break
+                            ;;
+                        *)
+                            echo "输出有误! 重新输入:"
+                            ;;
+                    esac
+                done
+            }
+            chooseSource 
+            cd ~/gamescope/git
+            git clone ${selected_url}
+            cd gamescope
+            git submodule update --init
+            meson build/
+            ninja -C build/
+            meson install -C build/ --skip-subprojects
+            if [ $? -eq 0 ]; then 
+                gamescope_status='installed'
+                env_status='full'
+            else 
+                gamescope_status='broken'
+                env_status='broken' 
+        }
+
+        function confirm {
+            if [ ${dependencies} = 'full' ]; then
+                echo -e "${GREEN}依赖似乎已经安装完毕${NC}"
+                installGamescope
+            else
+                echo -e "${YELLOW}依赖似乎不完整${NC}"
+                echo -ne "${YELLOW}手动确认依赖是否安装成功${NC}" && read -p "(y/n):" is_gs_success
+                sleep 1
+                is_gs_success=${is_gs_success:-y}
+                is_gs_success=$(echo "$is_gs_success" | tr '[:upper:]' '[:lower:]')
+            
+                if [ ${is_gs_success} = 'y' ]; then
+                    echo -e "执行后续步骤..."
+                    installGamescope
+                else 
+                    echo -e "${YELLOW}建议确保依赖完整!${NC}"
+                    echo -e "${BLUE}你可能需要以下包(以pacman的包举例,数据来自AUR):${NC}"
+                    echo "gcc-libs glibc libavif libcap.so=2-64 libdecor libdrm libinput libpipewire-0.3.so=0-64 libx11 libxcb libxcomposite libxdamage libxext libxfixes libxkbcommon.so=0-64 libxmu libxrender libxres libxtst libxxf86vm sdl2 seatd vulkan-icd-loader wayland xcb-util-errors xcb-util-wm xorg-server-xwayland"
+                    echo "\n"
+                    echo -ne "${YELLOW}要强行安装gamescope吗${NC}" && read -p "(y/n):" is_force_install
+                    sleep 1
+                    is_force_install=${is_force_install:-y}
+                    is_force_install=$(echo "$is_force_install" | tr '[:upper:]' '[:lower:]')
+                    if [ ${is_force_install} = 'y' ]; then
+                        echo -e "${YELLOW}您可能会面临gamescope安装失败,steamOS会话黑屏等问题${NC}"
+                        installGamescope
+                    else
+                        echo "取消安装"
+                        exit 0
+                    fi
+                fi
+            fi
+        }
         
         case "$os_release" in
             arch|manjaro|blackarch)
-                echo "使用的是pacman包管理器, 使用pacman进行安装必要环境"
+                echo "使用的是pacman包管理器, 使用pacman进行安装必要依赖"
                 sudo pacman -Syyu --noconfirm
-                if [ "$gpu_brand" == "amd" ]; then
-                    sudo pacman -S --noconfirm gamescope
-                elif [ "$gpu_brand" == "nvidia" ]; then
-                    sudo pacman -S --noconfirm gamescope
-                else
-                    sudo pacman -S --noconfirm gamescope
+                sudo pacman -S --noconfirm gcc-libs glibc libavif libcap.so=2-64 libdecor libdrm libinput libpipewire-0.3.so=0-64 libx11 libxcb libxcomposite libxdamage libxext libxfixes libxkbcommon.so=0-64 libxmu libxrender libxres libxtst libxxf86vm sdl2 seatd vulkan-icd-loader wayland xcb-util-errors xcb-util-wm xorg-server-xwayland
+                if [ $? -eq 0 ]; then 
+                    dependencies='full'
+                else 
+                    dependencies='broken'
                 fi
+                confirm
                 ;;
             ubuntu|debian|deepin)
-                echo "使用的是apt包管理器, 使用apt进行安装必要环境"
+                echo "使用的是apt包管理器, 使用apt进行安装必要依赖"
                 sudo apt-get update
-                if [ "$gpu_brand" == "amd" ]; then
-                    sudo apt-get install -y gamescope
-                elif [ "$gpu_brand" == "nvidia" ]; then
-                    sudo apt-get install -y gamescope
-                else
-                    sudo apt-get install -y gamescope
+                sudo apt-get install -y libavif15 libbenchmark1debian libdisplay-info1 libevdev-dev libgav1-1 libgudev-1.0-dev libmtdev-dev libseat1 libstb0 libwacom-dev libxcb-ewmh2 libxcb-shape0-dev libxcb-xfixes0-dev libxmu-headers libyuv0 libx11-xcb-dev libxres-dev libxmu-dev libseat-dev libinput-dev libxcb-composite0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-res0-dev libcap-dev
+                if [ $? -eq 0 ]; then 
+                    dependencies='full'
+                else 
+                    dependencies='broken'
                 fi
+                confirm
                 ;;
             fedora)
                 echo "使用的是dnf包管理器, 使用dnf进行安装必要环境"
                 sudo dnf update -y
-                if [ "$gpu_brand" == "amd" ]; then
-                    sudo dnf install -y gamescope
-                elif [ "$gpu_brand" == "nvidia" ]; then
-                    sudo dnf install -y gamescope
-                else
-                    sudo dnf install -y gamescope
+                sudo dnf install libavif benchmark xorg-x11-utils libevdev-devel libgav1 gudev1-devel mtdev-devel libseat stb libwacom-devel libxcb-ewmh libxcb-devel libXmu-devel libyuv libX11-devel libXres-devel libseat-devel libinput-devel libxcb-ewmh-devel libxcb-icccm-devel libcap-devel
+                if [ $? -eq 0 ]; then 
+                    dependencies='full'
+                else 
+                    dependencies='broken'
                 fi
+                confirm
                 ;;
             centos|rhel)
                 echo "使用的是yum包管理器, 使用yum进行安装必要环境"
                 sudo yum update -y
-                if [ "$gpu_brand" == "amd" ]; then
-                    sudo yum install -y gamescope
-                elif [ "$gpu_brand" == "nvidia" ]; then
-                    sudo yum install -y gamescope
-                else
-                    sudo yum install -y gamescope
+                sudo yum install -y libavif benchmark xorg-x11-utils libevdev-devel libgav1 libgudev1-devel mtdev-devel libseat stb libwacom-devel libxcb-ewmh libxcb-devel libXmu-devel libyuv libX11-devel libXres-devel libseat-devel libinput-devel libxcb-ewmh-devel libxcb-icccm-devel libcap-devel
+                if [ $? -eq 0 ]; then 
+                    dependencies='full'
+                else 
+                    dependencies='broken'
                 fi
+                confirm
                 ;;
             suse|opensuse)
                 echo "使用的是zypper包管理器, 使用zypper进行安装必要环境"
                 sudo zypper refresh
-                if [ "$gpu_brand" == "amd" ]; then
-                    sudo zypper install -y gamescope
-                elif [ "$gpu_brand" == "nvidia" ]; then
-                    sudo zypper install -y gamescope
-                else
-                    sudo zypper install -y gamescope
+                sudo zypper install -y libavif benchmark libdisplay-info libevdev-devel libgav1 libgudev-1_0-devel libmtdev-devel libseat libstb libwacom-devel libxcb-ewmh2 libxcb-shape0-devel libxcb-xfixes0-devel libxmu-headers libyuv libx11-xcb-devel libXRes-devel libXmu-devel libseat-devel libinput-devel libxcb-composite0-devel libxcb-ewmh-devel libxcb-icccm4-devel libxcb-res0-devel libcap-devel
+                if [ $? -eq 0 ]; then 
+                    dependencies='full'
+                else 
+                    dependencies='broken'
                 fi
+                confirm
                 ;;
             gentoo)
                 echo "使用的是emerge包管理器, 使用emerge进行安装必要环境"
                 sudo emerge --sync
-                sudo emerge -av gamescope
+                sudo emerge -av sys-libs/libcap x11-libs/xcb-util x11-libs/xcb-util-wm x11-libs/xcb-util-wm x11-libs/libxcb dev-libs/libinput sys-libs/libseat x11-libs/libXres x11-libs/libX11 media-libs/libyuv x11-libs/libXmu x11-libs/xcb-util x11-libs/libxcb x11-libs/xcb-util-wm dev-libs/libwacom media-libs/stb media-libs/libavif dev-cpp/benchmark media-libs/libdisplay-info dev-libs/libevdev media-libs/libgav1 dev-libs/libgudev dev-libs/mtdev sys-libs/libseat 
+                if [ $? -eq 0 ]; then 
+                    dependencies='full'
+                else 
+                    dependencies='broken'
+                fi
+                confirm
                 ;;
             alpine)
                 echo "使用的是apk包管理器, 使用apk进行安装必要环境"
                 sudo apk update
-                sudo apk add gamescope
+                apk add libavif benchmark libevdev libgav1 libgudev libmtdev libseat libstb libwacom libxcb-ewmh libxcb libxmu libyuv libx11 libxres libinput libcap
+                if [ $? -eq 0 ]; then 
+                    dependencies='full'
+                else 
+                    dependencies='broken'
+                fi
+                confirm
                 ;;
             solus)
                 echo "使用的是eopkg包管理器, 使用eopkg进行安装必要环境"
                 sudo eopkg update-repo
-                sudo eopkg install -y gamescope
+                sudo eopkg install -y libavif libbenchmark libdisplay-info libevdev libgav1 libgudev libmtdev libseat libstb libwacom libxcb-ewmh libxcb-shape libxcb-xfixes libxmu-headers libyuv libx11-xcb libxres libxmu libseat libinput libxcb-composite libxcb-ewmh libxcb-icccm libxcb-res libcap
+                if [ $? -eq 0 ]; then 
+                    dependencies='full'
+                else 
+                    dependencies='broken'
+                fi
+                confirm
                 ;;
             void)
                 echo "使用的是xbps包管理器, 使用xbps进行安装必要环境"
                 sudo xbps-install -Syu
-                sudo xbps-install -y gamescope
+                sudo xbps-install -S libavif libbenchmark libdisplay-info libevdev-devel libgav1 libgudev-devel libmtdev-devel libseat libstb libwacom-devel libxcb-ewmh libxcb-shape-devel libxcb-xfixes-devel libxmu-headers libyuv libx11-xcb-devel libxres-devel libxmu-devel libseat-devel libinput-devel libxcb-composite-devel libxcb-ewmh-devel libxcb-icccm4-devel libxcb-res-devel libcap-devel
+                if [ $? -eq 0 ]; then 
+                    dependencies='full'
+                else 
+                    dependencies='broken'
+                fi
+                confirm
                 ;;
             *)
-                echo -e "${RED}未支持的操作系统,请手动安装以下包:${NC}"
-                echo "gamescope"
-                return
+                echo -e "${RED}未支持的发行版,跳过依赖安装,直接安装gamescope${NC}"
+                confirm
                 ;;
         esac
+
+
 
         exec "$SHELL" -l
     fi
 }
 
-function checkDir {
-	cd ~/
-	if [ -d "gamescope" ]; then
-		cd ~/gamescope
-	else
-		mkdir ~/gamescope && cd ~/gamescope
-	fi
-}
+
 
 function checkGit() {
 	git_scope="https://github.com/ChimeraOS/gamescope-session.git"
@@ -167,8 +280,10 @@ function checkGit() {
 	dir_steam="gamescope-session-steam"
 	
     function reclone() {
-        echo -ne "${YELLOW}文件${1}需要克隆,继续吗？ (y/n): ${NC}" && read -p ""  is_reclone
+        echo -ne "${YELLOW}文件${1}需要克隆,继续吗?${NC}" && read -p "(y/n):" is_reclone
+        sleep 1
 		is_reclone=${is_reclone:-y}
+        is_reclone=$(echo "$is_reclone" | tr '[:upper:]' '[:lower:]')
         if [ "$is_reclone" = "y" ]; then
             cd ~/gamescope
             rm -rf ${dir_scope} ${dir_steam} &> /dev/null
@@ -274,8 +389,10 @@ function copyFiles {
 }
 
 function cleanDir {
-	echo -e "${YELLOW}需要执行清理吗?(n/y)${NC}" && read -p ""  is_clean
+	echo -e "${YELLOW}需要执行清理吗?${NC}" && read -p "(n/y):"  is_clean
+    sleep 1
 	is_clean=${is_clean:-n}
+    is_clean=$(echo "$is_clean" | tr '[:upper:]' '[:lower:]')
 	if [ "$is_clean" = "y" ]; then
 		rm -rf ~/gamescope
 		echo -e "${GREEN}清理完毕${NC}"
