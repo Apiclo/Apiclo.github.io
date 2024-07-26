@@ -105,29 +105,19 @@ function checkEnviroment {
             selected_url=""
             # 选择安装源
             function chooseSource() {
-                while true; do
-                    echo -e "${BLUE}gamescope有两个可选\n${NC}" 
-                    echo -e "${BLUE}ValveSoftware:${NC} \n      https://github.com/ValveSoftware/gamescope"
-                    echo -e "${BLUE}ChimeraOS:${NC}\n      https://github.com/ChimeraOS/gamescope"
-                    echo -ne "${BLUE}\n选择gamescope分支${NC} \n (1:ValveSoftware, 2:ChimeraOS)" 
-                    gs_source=""
-                    gs_source=$(get_user_input)
-                    case $gs_source in
-                        y)  
-                            echo -e "${BLUE}选择了ValveSoftware${NC}"
-                            selected_url='https://github.com/ValveSoftware/gamescope.git'
-                            break
-                            ;;
-                        n)
-                            echo -e "${BLUE}选择了ChimeraOS${NC}"
-                            selected_url='https://github.com/ChimeraOS/gamescope.git'
-                            break
-                            ;;
-                        *)
-                            echo "输出有误! 重新输入:"
-                            ;;
-                    esac
-                done
+                echo -e "${BLUE}gamescope有两个可选\n${NC}" 
+                echo -e "${BLUE}ValveSoftware:${NC} \n      https://github.com/ValveSoftware/gamescope"
+                echo -e "${BLUE}ChimeraOS:${NC}\n      https://github.com/ChimeraOS/gamescope"
+                echo -ne "${BLUE}\n选择gamescope分支${NC} \n (1:ValveSoftware, 2:ChimeraOS)" 
+                gs_source=""
+                gs_source=$(get_user_input)
+                if [ "$gs_sources" = "y" ]  
+                        echo -e "${BLUE}选择了ValveSoftware${NC}"
+                        selected_url='https://github.com/ValveSoftware/gamescope.git'
+                else
+                        echo -e "${BLUE}选择了ChimeraOS${NC}"
+                        selected_url='https://github.com/ChimeraOS/gamescope.git'
+                fi
             }
             echo -e "${BLUE}开始安装gamescope${NC}"
             chooseSource 
@@ -302,7 +292,6 @@ function checkGit() {
     function reclone() {
         echo -ne "${YELLOW}文件${1}需要克隆,继续吗?${NC}(y/n)" && is_reclone=""
         is_reclone=$(get_user_input)
-        is_reclone=$(echo "$is_reclone" | tr '[:upper:]' '[:lower:]')
         if [ "$is_reclone" = "y" ]; then
             cd ~/gamescope
             rm -rf ${dir_scope} ${dir_steam} &> /dev/null
