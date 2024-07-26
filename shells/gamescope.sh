@@ -111,7 +111,7 @@ function checkEnviroment {
                 echo -ne "${BLUE}\n选择gamescope分支${NC} \n (1:ValveSoftware, 2:ChimeraOS)" 
                 gs_source=""
                 gs_source=$(get_user_input)
-                if [ "$gs_sources" = "y" ]  
+                if [ "$gs_sources" = "y" ]; then  
                     echo -e "${BLUE}选择了ValveSoftware${NC}"
                     selected_url='https://github.com/ValveSoftware/gamescope.git'
                 else
