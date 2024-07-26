@@ -7,6 +7,31 @@ NC='\033[0m'
 reset_terminal=$(tput sgr0)
 clear
 
+# 优化用户输入方法
+function get_user_input {
+    local prompt_message=$1
+    local user_input=""
+    # 只能输入 y/n|1/2
+    while true; do
+        echo -ne "$prompt_message" && read -r -p ":" user_input
+        user_input=$(echo "$user_input" | tr '[:upper:]' '[:lower:]')
+        
+        case "$user_input" in
+            y|1)
+                echo "y"
+                return 0
+                ;;
+            n|2)
+                echo "n"
+                return 0
+                ;;
+            *)
+                echo "无效输入，请输入 'y'或'n'."
+                ;;
+        esac
+    done
+}
+# 检查操作系统
 function checkOS() {
     os_type=$(uname -s)
     if [ "$os_type" = "Linux" ]; then
@@ -24,6 +49,7 @@ function checkOS() {
     os_kernel=$(uname -r)
     os_hostname=$(uname -n)
     os_internal_ip=$(hostname -i | awk '{print $1}')
+    # 获取显卡信息
 	function detectGPU {
     	vga_info=$(lspci | grep -i vga)
     	brand=$(echo "$vga_info" | grep -o -i 'AMD\|NVIDIA\|Intel' | tr '[:upper:]' '[:lower:]')
@@ -38,14 +64,6 @@ function checkOS() {
     echo -e "${BLUE}主机名:${NC} $os_hostname"
     echo -e "${BLUE}内网IP地址:${NC} $os_internal_ip"
     # 写在这里是为了就算网络不好也可以回声前几行内容
-    os_external_ip=$(curl -s http://myip.ipip.net/ | sed 's/[：, ]/:/g' | cut -f 3 -d ":")
-    os_dns=$(grep -E "\<nameserver[ ]+" /etc/resolv.conf | awk '{print $NF}')
-    echo -e "${BLUE}公网IP地址:${NC} $os_external_ip"
-    echo -e "${BLUE}指定的DNS:${NC} $os_dns"
-	echo -ne "${BLUE}网络连通性:${NC}"
-    ping_add='bing.com'
-    os_connected=$(ping -c 2 $ping_add &> /dev/null && echo "已连接" || echo "未连接")
-    echo  "$os_connected"
     gpu=$(detectGPU);
     if [ ${gpu} == "amd" ]; then
         echo -e "${GREEN}您使用的是AMD显卡${NC}"       
@@ -55,17 +73,18 @@ function checkOS() {
         echo -e "${GREEN}您使用的是Intel显卡${NC}" 
     fi
 }
+# 检查工作目录
 function checkDir {
 	cd ~/
 	if [ -d ~/gamescope/git ]; then
 		cd ~/gamescope
 	else
-		mkdir -p ~/gamescope/git
+		mkdir -p ~/gamescope/git/
         cd ~/gamescope
         
 	fi
 }
-
+# 检查运行环境
 function checkEnviroment {
     echo -e "${BLUE}开始检测运行环境...${NC}"
     gamescope_status='not_installed'
@@ -81,25 +100,24 @@ function checkEnviroment {
     else
         echo -e "${RED}运行环境不完整,尝试安装依赖和gamescope${NC}"
 		echo -e "${YELLOW}依赖安装完成后需要重新运行脚本!${NC}"
-        
+        # 安装Gamescope
         function installGamescope() {
             selected_url=""
-
+            # 选择安装源
             function chooseSource() {
                 while true; do
                     echo -e "${BLUE}gamescope有两个可选\n${NC}" 
                     echo -e "${BLUE}ValveSoftware:${NC} \n      https://github.com/ValveSoftware/gamescope"
                     echo -e "${BLUE}ChimeraOS:${NC}\n      https://github.com/ChimeraOS/gamescope"
-                    echo -ne "${BLUE}\n选择gamescope分支${NC}" 
-                    read -p "(1:ValveSoftware, 2:ChimeraOS): " gs_source
-                    gs_source=${gs_source:-2}
-
+                    echo -ne "${BLUE}\n选择gamescope分支${NC} \n (1:ValveSoftware, 2:ChimeraOS)" 
+                    gs_source=""
+                    gs_source=$(get_user_input)
                     case $gs_source in
-                        1)
+                        y)
                             selected_url='https://github.com/ValveSoftware/gamescope.git'
                             break
                             ;;
-                        2)
+                        n)
                             selected_url='https://github.com/ChimeraOS/gamescope.git'
                             break
                             ;;
@@ -109,6 +127,7 @@ function checkEnviroment {
                     esac
                 done
             }
+
             chooseSource 
             cd ~/gamescope/git
             git clone ${selected_url}
@@ -125,18 +144,16 @@ function checkEnviroment {
                 env_status='broken' 
             fi
         }
-
+        # 确认依赖安装情况
         function confirm {
             if [ ${dependencies} = 'full' ]; then
                 echo -e "${GREEN}依赖似乎已经安装完毕${NC}"
                 installGamescope
             else
                 echo -e "${YELLOW}依赖似乎不完整${NC}"
-                echo -ne "${YELLOW}手动确认依赖是否安装成功${NC}" && read -p "(y/n):" is_gs_success
-                sleep 1
-                is_gs_success=${is_gs_success:-y}
-                is_gs_success=$(echo "$is_gs_success" | tr '[:upper:]' '[:lower:]')
-            
+                echo -ne "${YELLOW}手动确认依赖是否安装成功${NC}(y:成功; n:未成功)" && is_gs_success=""
+                is_gs_success=$(get_user_input)
+
                 if [ ${is_gs_success} = 'y' ]; then
                     echo -e "执行后续步骤..."
                     installGamescope
@@ -145,10 +162,8 @@ function checkEnviroment {
                     echo -e "${BLUE}你可能需要以下包(以pacman的包举例,数据来自AUR):${NC}"
                     echo "gcc-libs glibc libavif libcap.so=2-64 libdecor libdrm libinput libpipewire-0.3.so=0-64 libx11 libxcb libxcomposite libxdamage libxext libxfixes libxkbcommon.so=0-64 libxmu libxrender libxres libxtst libxxf86vm sdl2 seatd vulkan-icd-loader wayland xcb-util-errors xcb-util-wm xorg-server-xwayland"
                     echo "\n"
-                    echo -ne "${YELLOW}要强行安装gamescope吗${NC}" && read -p "(y/n):" is_force_install
-                    sleep 1
-                    is_force_install=${is_force_install:-y}
-                    is_force_install=$(echo "$is_force_install" | tr '[:upper:]' '[:lower:]')
+                    echo -ne "${YELLOW}要强行安装gamescope吗${NC}" && is_force_install=""
+                    is_force_install=$(get_user_input "(y/n)")
                     if [ ${is_force_install} = 'y' ]; then
                         echo -e "${YELLOW}您可能会面临gamescope安装失败,steamOS会话黑屏等问题${NC}"
                         installGamescope
@@ -175,7 +190,7 @@ function checkEnviroment {
             ubuntu|debian|deepin)
                 echo "使用的是apt包管理器, 使用apt进行安装必要依赖"
                 sudo apt-get update
-                sudo apt-get install -y libavif15 libbenchmark1debian libdisplay-info1 libevdev-dev libgav1-1 libgudev-1.0-dev libmtdev-dev libseat1 libstb0 libwacom-dev libxcb-ewmh2 libxcb-shape0-dev libxcb-xfixes0-dev libxmu-headers libyuv0 libx11-xcb-dev libxres-dev libxmu-dev libseat-dev libinput-dev libxcb-composite0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-res0-dev libcap-dev
+                sudo apt-get install -y libbenchmark1.8.3 libdisplay-info1 libevdev-dev libgav1-1 libgudev-1.0-dev libmtdev-dev libseat1 libstb0t64 libwacom-dev libxcb-ewmh2 libxcb-shape0-dev libxcb-xfixes0-dev libxmu-headers libyuv0 libx11-xcb-dev libxres-dev libxmu-dev libseat-dev libinput-dev libxcb-composite0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-res0-dev libcap-dev
                 if [ $? -eq 0 ]; then 
                     dependencies='full'
                 else 
@@ -273,17 +288,16 @@ function checkEnviroment {
 }
 
 
-
+# 检查gamescope-session仓库
 function checkGit() {
 	git_scope="https://github.com/ChimeraOS/gamescope-session.git"
 	git_steam="https://github.com/ChimeraOS/gamescope-session-steam.git"
 	dir_scope="gamescope-session"
 	dir_steam="gamescope-session-steam"
-	
+	# 询问函数
     function reclone() {
-        echo -ne "${YELLOW}文件${1}需要克隆,继续吗?${NC}" && read -p "(y/n):" is_reclone
-        sleep 1
-		is_reclone=${is_reclone:-y}
+        echo -ne "${YELLOW}文件${1}需要克隆,继续吗?${NC}(y/n)" && is_reclone=""
+        is_reclone=$(get_user_input)
         is_reclone=$(echo "$is_reclone" | tr '[:upper:]' '[:lower:]')
         if [ "$is_reclone" = "y" ]; then
             cd ~/gamescope
@@ -315,6 +329,7 @@ function checkGit() {
     cd ~/gamescope
 }
 
+# 处理安装文件
 function copyFiles {
 	dir_scope="gamescope-session"
 	dir_steam="gamescope-session-steam"
@@ -376,10 +391,12 @@ function copyFiles {
 	sudo chmod +x ${file213}
 	echo -e "${BLUE}文件处理完毕${NC}"
 	if [ -f $steam_session ]; then
+        # 修改 Display Manager显示内容
 		sudo sed -i "s/^Name=.*/Name=SteamOS/" "$steam_session"
 		sudo chmod +x $steam_session
 		sudo sed -i "s/^Comment=.*/Comment=进入SteamDeck下的大屏幕模式/" "$steam_session"
 		sudo sed -i "s|^Exec=.*|Exec=/usr/bin/gamescope-session-plus steam|" "$steam_session"
+        # 删除符号链接
 		sudo rm /usr/share/wayland-sessions/gamescope-session.desktop &> /dev/null
 		echo -e "${GREEN}安装完毕了!${NC}"
 		echo -e "${BLUE}注销后在会话管理中即可进入SteamOS${NC}"
@@ -388,12 +405,10 @@ function copyFiles {
 		echo -e "${RED}2.安装失败,请手动将~/gamescope/${dir_steam}复制到/usr${NC}"
 	fi
 }
-
+# 清理工作目录
 function cleanDir {
-	echo -e "${YELLOW}需要执行清理吗?${NC}" && read -p "(n/y):"  is_clean
-    sleep 1
-	is_clean=${is_clean:-n}
-    is_clean=$(echo "$is_clean" | tr '[:upper:]' '[:lower:]')
+	echo -ne "${YELLOW}需要执行清理吗?(y/n)${NC}" && is_clean=""
+    is_clean=$(get_user_input "")
 	if [ "$is_clean" = "y" ]; then
 		rm -rf ~/gamescope
 		echo -e "${GREEN}清理完毕${NC}"
@@ -402,7 +417,7 @@ function cleanDir {
 		echo -e "${BLUE}已下载的安装文件在~/gamescope,您可以手动删除${NC}"
 	fi
 }
-
+# 主要函数
 function main {
 	checkOS
 	checkEnviroment
@@ -426,4 +441,5 @@ function main {
 	fi
 }
 
+# 运行
 main
