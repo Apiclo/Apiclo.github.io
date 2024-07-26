@@ -138,10 +138,12 @@ function checkEnviroment {
             meson install -C build/ --skip-subprojects
             if [ $? -eq 0 ]; then
                 echo -e "${BLUE}gamescope安装完毕${NC}"
+                cd ~/gamescope
                 gamescope_status='installed'
                 env_status='full'
             else
                 echo -e "${RED}gamescope似乎安装失败了${NC}"
+                cd ~/gamescope
                 gamescope_status='broken'
                 env_status='broken'
             fi
@@ -192,7 +194,7 @@ function checkEnviroment {
         ubuntu | debian | deepin)
             echo "使用的是apt包管理器, 使用apt进行安装必要依赖"
             sudo apt-get update
-            sudo apt-get install -y meson libbenchmark1.8.3 libdisplay-info1 libevdev-dev libgav1-1 libgudev-1.0-dev libmtdev-dev libseat1 libstb0t64 libwacom-dev libxcb-ewmh2 libxcb-shape0-dev libxcb-xfixes0-dev libxmu-headers libyuv0 libx11-xcb-dev libxres-dev libxmu-dev libseat-dev libinput-dev libxcb-composite0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-res0-dev libcap-dev
+            sudo apt-get install -y wayland-client meson libbenchmark1.8.3 libdisplay-info1 libevdev-dev libgav1-1 libgudev-1.0-dev libmtdev-dev libseat1 libstb0t64 libwacom-dev libxcb-ewmh2 libxcb-shape0-dev libxcb-xfixes0-dev libxmu-headers libyuv0 libx11-xcb-dev libxres-dev libxmu-dev libseat-dev libinput-dev libxcb-composite0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-res0-dev libcap-dev
             if [ $? -eq 0 ]; then
                 dependencies='full'
             else
@@ -295,6 +297,7 @@ function checkGit() {
     dir_steam="gamescope-session-steam"
     # 询问函数
     function reclone() {
+        cd ~/gamescope
         echo -ne "${YELLOW}文件${1}需要克隆,继续吗?${NC}(y/n)" && is_reclone=""
         is_reclone=$(get_user_input)
         if [ "$is_reclone" = "y" ]; then
