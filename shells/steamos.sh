@@ -355,6 +355,7 @@ function copyFiles {
     file211='/usr/share/gamescope-session-plus/sessions.d/steam'
     file212='/usr/share/polkit-1/actions/org.chimeraos.update.policy'
     file213='/usr/share/wayland-sessions/gamescope-session-steam.desktop'
+    file214='/usr/bin/steamos-polkit-helpers/jupiter-dock-updater'
     echo -e "${BLUE}正在处理文件...${NC}"
 
     sudo /bin/cp -rf ~/gamescope/${dir_scope}${file11} ${file11}
@@ -376,6 +377,7 @@ function copyFiles {
     sudo /bin/cp -rf ~/gamescope/${dir_steam}${file211} ${file211}
     sudo /bin/cp -rf ~/gamescope/${dir_steam}${file212} ${file212}
     sudo /bin/cp -rf ~/gamescope/${dir_steam}${file213} ${file213}
+    sudo /bin/cp -rf ~/gamescope/${dir_steam}${file214} ${file214}
     sudo chmod +x ${file11}
     sudo chmod +x ${file12}
     sudo chmod +x ${file14}
@@ -390,6 +392,7 @@ function copyFiles {
     sudo chmod +x ${file29}
     sudo chmod +x ${file211}
     sudo chmod +x ${file213}
+    sudo chmod +x ${file214}
     echo -e "${BLUE}文件处理完毕${NC}"
     if [ -f $steam_session ]; then
         # 修改 Display Manager显示内容
