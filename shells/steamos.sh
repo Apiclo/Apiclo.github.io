@@ -66,9 +66,9 @@ function checkOS() {
     echo -e "${BLUE}内网IP地址:${NC} $os_internal_ip"
     # 写在这里是为了就算网络不好也可以回声前几行内容
     gpu=$(detectGPU);
-    if [ ${gpu} = "amd" ]; then
+    if [ "$gpu" = "amd" ]; then
         echo -e "${GREEN}您使用的是AMD显卡${NC}"       
-    elif [ ${gpu} = "nvidia" ]; then
+    elif [ "$gpu" = "nvidia" ]; then
         echo -e "${GREEN}您使用的是NVIDIA显卡,虽然Valve确认gamescope在NVIDIA下运行良好,但是由于gamescope-session创建在wayland会话下,可能会出现界面黑屏或者退回Display Manager的情况${NC}"
     else
         echo -e "${GREEN}您使用的是Intel显卡或虚拟设备${NC}" 
