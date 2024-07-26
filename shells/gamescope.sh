@@ -112,11 +112,11 @@ function checkEnviroment {
                 gs_source=""
                 gs_source=$(get_user_input)
                 if [ "$gs_sources" = "y" ]  
-                        echo -e "${BLUE}选择了ValveSoftware${NC}"
-                        selected_url='https://github.com/ValveSoftware/gamescope.git'
+                    echo -e "${BLUE}选择了ValveSoftware${NC}"
+                    selected_url='https://github.com/ValveSoftware/gamescope.git'
                 else
-                        echo -e "${BLUE}选择了ChimeraOS${NC}"
-                        selected_url='https://github.com/ChimeraOS/gamescope.git'
+                    echo -e "${BLUE}选择了ChimeraOS${NC}"
+                    selected_url='https://github.com/ChimeraOS/gamescope.git'
                 fi
             }
             echo -e "${BLUE}开始安装gamescope${NC}"
