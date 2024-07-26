@@ -113,11 +113,13 @@ function checkEnviroment {
                     gs_source=""
                     gs_source=$(get_user_input)
                     case $gs_source in
-                        y)
+                        y)  
+                            echo -e "${BLUE}选择了ValveSoftware${NC}"
                             selected_url='https://github.com/ValveSoftware/gamescope.git'
                             break
                             ;;
                         n)
+                            echo -e "${BLUE}选择了ChimeraOS${NC}"
                             selected_url='https://github.com/ChimeraOS/gamescope.git'
                             break
                             ;;
@@ -127,7 +129,7 @@ function checkEnviroment {
                     esac
                 done
             }
-
+            echo -e "${BLUE}开始安装gamescope${NC}"
             chooseSource 
             cd ~/gamescope/git
             git clone ${selected_url}
@@ -137,9 +139,11 @@ function checkEnviroment {
             ninja -C build/
             meson install -C build/ --skip-subprojects
             if [ $? -eq 0 ]; then 
+                echo -e "${BLUE}gamescope安装完毕${NC}"
                 gamescope_status='installed'
                 env_status='full'
             else 
+                echo -e "${RED}gamescope似乎安装失败了${NC}"
                 gamescope_status='broken'
                 env_status='broken' 
             fi
