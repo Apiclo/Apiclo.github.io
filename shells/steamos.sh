@@ -397,8 +397,11 @@ function copyFiles {
         sudo chmod +x $steam_session
         sudo sed -i "s/^Comment=.*/Comment=进入SteamDeck下的大屏幕模式/" "$steam_session"
         sudo sed -i "s|^Exec=.*|Exec=/usr/bin/gamescope-session-plus steam|" "$steam_session"
+        # 重载服务
+        systemctl --user daemon-reload
         # 删除符号链接
         sudo rm /usr/share/wayland-sessions/gamescope-session.desktop &>/dev/null
+
         echo -e "${GREEN}安装完毕了!${NC}"
         echo -e "${BLUE}注销后在会话管理中即可进入SteamOS${NC}"
     else
