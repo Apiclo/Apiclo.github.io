@@ -14,6 +14,7 @@ function get_user_input {
     # 只能输入 y/n|1/2
     while true; do
         echo -ne "$prompt_message" && read -r -p ":" user_input
+        user_input=${user_input:-y}
         user_input=$(echo "$user_input" | tr '[:upper:]' '[:lower:]')
         
         case "$user_input" in
