@@ -41,7 +41,6 @@ function checkOS() {
             os_release=$ID
         else
             echo "无法检测操作系统发行版"
-            exit 0
         fi
     else
         os_release="unknown"
@@ -94,7 +93,7 @@ function checkDir {
 }
 # 检查运行环境
 function checkEnviroment {
-    echo -e "${BLUE}开始检测运行环境...${NC}"
+    echo -e "${BLUE}\n开始检测运行环境...${NC}"
     gamescope_status='not_installed'
     env_status='broken'
     if gamescope --version &>/dev/null; then
@@ -316,7 +315,7 @@ function checkGit() {
         fi
     }
 
-    echo -e "${BLUE}获取安装内容...${NC}"
+    echo -e "${BLUE}\n检查安装内容...${NC}"
 
     if [ -d "$dir_scope" ] && [ -d "$dir_steam" ]; then
         echo -e "${GREEN}源码已就绪${NC}" && git_status="full"
@@ -336,7 +335,7 @@ function copyFiles {
     dir_steam="gamescope-session-steam"
     steam_session="/usr/share/wayland-sessions/gamescope-session-steam.desktop"
 
-    echo -e "${BLUE}需要sudo密码才能继续安装${NC}"
+    echo -e "${BLUE}\n需要sudo密码才能继续安装${NC}"
     file11='/usr/bin/export-gpu'
     file12='/usr/bin/gamescope-session-plus'
     file13='/usr/lib/systemd/user/gamescope-session-plus@.service'
@@ -355,14 +354,14 @@ function copyFiles {
     file211='/usr/share/gamescope-session-plus/sessions.d/steam'
     file212='/usr/share/polkit-1/actions/org.chimeraos.update.policy'
     file213='/usr/share/wayland-sessions/gamescope-session-steam.desktop'
-    echo -e "${BLUE}正在处理文件...${NC}"
-
+    sudo echo -e "${BLUE}\n正在处理文件...${NC}"
+    # 复制基本文件
     sudo /bin/cp -rf ~/gamescope/${dir_scope}${file11} ${file11}
     sudo /bin/cp -rf ~/gamescope/${dir_scope}${file12} ${file12}
     sudo /bin/cp -rf ~/gamescope/${dir_scope}${file13} ${file13}
     sudo /bin/cp -rf ~/gamescope/${dir_scope}${file14} ${file14}
     sudo /bin/cp -rf ~/gamescope/${dir_scope}${file15} ${file15}
-
+    # 复制steam会话文件
     sudo /bin/cp -rf ~/gamescope/${dir_steam}${file21} ${file21}
     sudo /bin/cp -rf ~/gamescope/${dir_steam}${file22} ${file22}
     sudo /bin/cp -rf ~/gamescope/${dir_steam}${file23} ${file23}
@@ -376,42 +375,53 @@ function copyFiles {
     sudo /bin/cp -rf ~/gamescope/${dir_steam}${file211} ${file211}
     sudo /bin/cp -rf ~/gamescope/${dir_steam}${file212} ${file212}
     sudo /bin/cp -rf ~/gamescope/${dir_steam}${file213} ${file213}
-    sudo chmod +x ${file11}
-    sudo chmod +x ${file12}
-    sudo chmod +x ${file14}
-    sudo chmod +x ${file21}
-    sudo chmod +x ${file22}
-    sudo chmod +x ${file23}
-    sudo chmod +x ${file24}
-    sudo chmod +x ${file25}
-    sudo chmod +x ${file26}
-    sudo chmod +x ${file27}
-    sudo chmod +x ${file28}
-    sudo chmod +x ${file29}
-    sudo chmod +x ${file211}
-    sudo chmod +x ${file213}
-    echo -e "${BLUE}文件处理完毕${NC}"
-    if [ -f $steam_session ]; then
+
+    if [ -f "$file11" ] && [ -f "$file12" ] && [ -f "$file13" ] && [ -f "$file14" ] && [ -f "$file15" ] && [ -f "$file21" ] && [ -f "$file22" ] && [ -f "$file23" ] && [ -f "$file24" ] && [ -f "$file25" ] && [ -f "$file26" ] && [ -f "$file27" ] && [ -f "$file28" ] && [ -f "$file29" ] && [ -f "$file210" ] && [ -f "$file211" ] && [ -f "$file212" ] && [ -f "$file213" ]; then
+        echo -e "${BLUE}正在处理执行权限...${NC}"
+        sudo chmod +x ${file11}
+        sudo chmod +x ${file12}
+        sudo chmod +x ${file14}
+        sudo chmod +x ${file21}
+        sudo chmod +x ${file22}
+        sudo chmod +x ${file23}
+        sudo chmod +x ${file24}
+        sudo chmod +x ${file25}
+        sudo chmod +x ${file26}
+        sudo chmod +x ${file27}
+        sudo chmod +x ${file28}
+        sudo chmod +x ${file29}
+        sudo chmod +x ${file211}
+        sudo chmod +x ${file213}
+        echo -e "${BLUE}文件处理完毕${NC}"
+        file_status="full"
+    else
+        echo -e "${RED}\n1.安装文件不完整,请手动将~/gamescope/${dir_scope}/usr 复制到/usr${NC}"
+        echo -e "${RED}2.安装文件不完整,请手动将~/gamescope/${dir_steam}/usr 复制到/usr${NC}"
+        echo -e "${RED}\n安装文件缺失,请检查~/gamescope中是否存在上文cp命令中的文件${NC}"
+        echo -e "${YELLOW}如果不存在,您可以尝试:更换一个可以顺畅连接到GitHub的网络之后运行以下命令:\n /bin/sh ~/steam-session.sh${NC}"
+        echo -e "${BLUE}\n如果你使用的是Arch Linux,非常建议您通过AUR来安装\n paru -S gamescope-session-steam-git ${NC}"
+        file_status="broken"
+    fi
+    if [ $file_status = "full" ]; then
         # 修改 Display Manager显示内容
         sudo sed -i "s/^Name=.*/Name=SteamOS/" "$steam_session"
         sudo chmod +x $steam_session
         sudo sed -i "s/^Comment=.*/Comment=进入SteamDeck下的大屏幕模式/" "$steam_session"
         sudo sed -i "s|^Exec=.*|Exec=/usr/bin/gamescope-session-plus steam|" "$steam_session"
         # 重载服务
-        systemctl --user daemon-reload
+        sudo systemctl --user daemon-reload
         # 删除符号链接
         sudo rm /usr/share/wayland-sessions/gamescope-session.desktop &>/dev/null
 
         echo -e "${GREEN}安装完毕了!${NC}"
         echo -e "${BLUE}注销后在会话管理中即可进入SteamOS${NC}"
     else
-        echo -e "${RED}1.安装失败,请手动将~/gamescope/${dir_scope}复制到/usr${NC}"
-        echo -e "${RED}2.安装失败,请手动将~/gamescope/${dir_steam}复制到/usr${NC}"
+        echo -e "${RED}\n文件缺失,未成功安装${NC}"
     fi
 }
 # 清理工作目录
 function cleanDir {
-    echo -ne "${YELLOW}需要执行清理吗?(y/n)${NC}" && is_clean=""
+    echo -ne "${YELLOW}\n需要清理安装残留文件吗?(y/n)${NC}" && is_clean=""
     is_clean=$(get_user_input "")
     if [ "$is_clean" = "y" ]; then
         rm -rf ~/gamescope
