@@ -3,9 +3,7 @@
     transition: 0.5s;
 }
 
-#body {
-    background-color: #000;
-}
+#body {}
 
 .main-button {
     position: absolute;
@@ -35,7 +33,7 @@
 
 .sec-button {
     position: absolute;
-    top: 40%;
+    top: 30%;
     left: 50%;
     width: 150px;
     height: 40px;
@@ -61,7 +59,7 @@
 
 .trd-button {
     position: absolute;
-    top: 60%;
+    top: 40%;
     left: 50%;
     width: 150px;
     height: 40px;
@@ -79,6 +77,32 @@
 }
 
 .trd-button:hover {
+    color: #000;
+    background-color: #fff;
+    border: #000 solid 1px;
+    box-shadow: 0px 1px 3px #000;
+}
+
+.fth-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid #000;
+    border-radius: 25px;
+    box-shadow: 0px 0px 2px #555;
+    transform: translateY(20px) translateX(-75px);
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    transition: 0.5s;
+}
+
+.fth-button:hover {
     color: #000;
     background-color: #fff;
     border: #000 solid 1px;

@@ -15,8 +15,40 @@
 		Hiragino Sans GB,
 		Microsoft YaHei,
 		sans-serif;
+	overflow-x: hidden;
+	transition: 0.3s;
 }
 
+/* 自定义滚动条样式 */
+.inlinecode>div::-webkit-scrollbar {
+	height: 12px;
+
+	/* 滚动条的高度 */
+}
+
+.inlinecode>div::-webkit-scrollbar-track {
+	background: #333;
+	/* 滚动条背景 */
+	border-radius: 10px;
+
+	/* 圆角 */
+}
+
+.inlinecode>div::-webkit-scrollbar-thumb {
+	background: #888;
+	/* 滚动条滑块的颜色 */
+	border-radius: 10px;
+	transition: 0.3s;
+
+	/* 滑块圆角 */
+}
+
+.inlinecode>div::-webkit-scrollbar-thumb:hover {
+	background: #555;
+	/* 滑块悬停时的颜色 */
+	transition: 0.3s;
+
+}
 
 
 body {
@@ -58,15 +90,32 @@ li {
 	line-height: 50px;
 	width: 100%;
 	color: #fff;
-	background-color: #000;
+	background-color: #111;
 	border-bottom: #333 1px solid;
 	padding: 0px 2px;
 }
 
 .navtext {
-	color: #fff;
-	margin: 0px 5px;
 	text-decoration: none;
+}
+
+.navtext:hover {
+	background-color: #666 !important;
+}
+
+.navleft {
+	position: absolute;
+	left: 12px;
+	top: 5px;
+}
+
+.navright {
+	position: absolute;
+	right: 12px;
+	top: 10px;
+	height: 32px;
+	line-height: 30px;
+	padding: 0px;
 }
 
 /*logo*/
@@ -167,22 +216,63 @@ li {
 }
 
 .text-card {
-	background: #eee;
+	background-color: #eee;
 	background-size: 400%;
-	padding: 5px 10px 5px 10px;
-	margin: 3%;
+	padding: 5px 10px;
 	max-width: 640px;
 	border-radius: 15px;
-	border: 1px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 	transition-duration: 0.3s;
 	text-decoration: none;
-	font-size: 0.8rem;
+	font-size: 1rem;
 	color: #222;
-
 }
 
 
+.inlinecode {
+	max-width: 480px;
+	margin: 10px auto;
+	padding: 10px;
+	height: 64px;
+	/* 右侧留出空间给按钮 */
+	border-radius: 15px;
+	color: #eee;
+	background-color: #282828;
+	box-sizing: border-box;
+	overflow-x: hidden;
+	white-space: nowrap;
+	position: relative;
+	/* 使按钮相对定位基于此容器 */
+
+}
+
+.inlinecode>div {
+	overflow-x: auto;
+	white-space: nowrap;
+	padding-bottom: 12px;
+	transform: translateY(0);
+}
+
+.copy-button {
+	position: relative;
+	float: right;
+	margin-left: 10px;
+	transform: translateY(6px);
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	width: 52px;
+	border: none;
+	border-radius: 1115px;
+	background-color: rgb(56, 56, 56);
+	color: white;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.copy-button:hover {
+	background-color: #979797;
+}
 
 /*兼容PC*/
 .pcs {

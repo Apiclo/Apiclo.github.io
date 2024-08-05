@@ -6,8 +6,24 @@
     <meta charset="utf-8">
     <title>安装须知</title>
     <style>
+        body {
+            background-color: #202020;
+        }
+
+        .text-card {
+            background-color: #303030;
+            color: #dedede;
+            margin: 10px;
+        }
+
+        a {
+            color: #abbbff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
         td {
-            color: #fff;
+            color: #dedede;
             font-family: 'Courier New', 'Ubuntu Mono', Courier, monospace !important;
             padding: 0.5rem 5px;
             text-align: left;
@@ -40,10 +56,15 @@
 
 <body>
     <div class="navbar">
-        <a href="#t1" class="navtext href-card">安装流程</a>
-        <a href="#t2" class="navtext href-card">故障排除</a>
-        <a href="#t3" class="navtext href-card">须知</a>
-        <a href="https://github.com/Apiclo/Apiclo.github.io/tree/master/shells" class="navtext href-card">github托管地址</a>
+        <div class="navleft"><img src="../img/favicon.png" width="40" height="40"></div>
+    </div>
+    <div class="navright">
+        <a href="#t1" class="navtext text-card">安装流程</a>
+        <a href="#t2" class="navtext text-card">故障排除</a>
+        <a href="#t3" class="navtext text-card">须知</a>
+        <a href="#t4" class="navtext text-card">安装脚本</a>
+        <a href="https://github.com/Apiclo/Apiclo.github.io/tree/master/shells" class="navtext text-card">github托管地址</a>
+    </div>
     </div>
     <div class="text-card">
         <h1 id="t1">安装流程</h1>
@@ -176,13 +197,42 @@
         <p>它的实现方式是如果全屏窗口分辨率低于显示器分辨率,FSR会决定窗口的每个像素点应该对应屏幕的哪个像素点,使显示效果不像线性缩放那样模糊.</p>
         <p>而且大部分游戏需要在游戏中设置为无边框窗口,且游戏窗口分辨率低于物理分辨率,全局FSR才会介入.</p>
         <p>如果某些游戏中选择的独占全屏,就算游戏窗口分辨率低于物理分辨率,FSR也不会起作用.游戏实际输出还是独占的steam客户端中为游戏设置的分辨率.</p>
+        <h1 id="t4">安装脚本</h1>
+        <div class="inlinecode">
+
+            <button class="copy-button" onclick="copyToClipboard()">复制</button>
+            <div>
+                <span style="color: rgb(193, 255, 255);font-weight: 600">curl</span>
+                <span style="color: rgb(255, 214, 209);">-Ls</span>
+                <span
+                    style="color: rgb(218, 218, 255);">https://raw.githubusercontent.com/Apiclo/Apiclo.github.io/master/shells/steamos.sh</span>
+                <span style="color: rgb(255, 214, 209);">-o</span>
+                <span style="color: rgb(218, 218, 255);"> steam-session.sh </span>
+                <span> && </span>
+                <span style="color: rgb(193, 255, 255);font-weight: 600">/bin/bash</span>
+                <span style="color: rgb(218, 218, 255);">steam-session.sh</span>
+            </div>
+        </div>
         <br><br><br><br><br><br><br><br><br>
     </div>
 
     <br><br><br><br><br><br><br><br><br>
     <br><br><br><br><br><br><br><br><br>
     <br><br><br><br><br><br><br><br><br>
+    <script>
+        function copyToClipboard() {
+            // 获取代码内容
+            const codeContent = document.querySelector('.inlinecode > div').innerText;
 
+            // 创建一个临时文本区域来复制内容
+            const textArea = document.createElement('textarea');
+            textArea.value = codeContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        }
+    </script>
 </body>
 
 </html>
