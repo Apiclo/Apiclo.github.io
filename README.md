@@ -7,6 +7,9 @@
 
 
 # 最近更新  
+
+## 2024年8月6日
+[steam-session安装说明](https://apiclo.github.io/shells/steam-session.md)
 ## 2024年7月25日  
 [全屏时钟(适合大部分设备)](https://apiclo.github.io/FullscreenTime.html)  
 
