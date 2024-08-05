@@ -7,18 +7,32 @@
     <title>安装须知</title>
     <style>
         td {
-            color: #eee;
+            color: #fff;
             font-family: 'Courier New', 'Ubuntu Mono', Courier, monospace !important;
-            padding: 0rem 5px;
-            text-align: center;
+            padding: 0.5rem 5px;
+            text-align: left;
+            border: 1px solid #555;
         }
 
         table {
             background-color: #282828;
             padding: 1rem;
-            border-radius: 15px;
-            margin: 5px auto;
+            border-collapse: collapse;
+            width: 450px;
+        }
 
+        .tablewrapper {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            align-content: center;
+            flex-direction: column;
+            flex-wrap: wrap;
+            margin: 10px auto;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #282828;
+            width: 450px;
         }
 
     </style>
@@ -87,71 +101,72 @@
             <strong>原因2:gamescope缺少依赖</strong>
         </h3>
         <p>这是aur中gamescope的PKGBUILD提到的必要依赖,逐个检查,看看缺少哪一个</p>
-        <table>
-            <tbody>
-                <tr class="tr">
-                    <td>gcc-libs</td>
-                    <td>glibc</td>
-                    <td>libavif</td>
-                </tr>
-                <tr class="tr">
-                    <td>seatd</td>
-                    <td>libcap</td>
-                    <td>libdecor</td>
-                </tr>
-                <tr class="tr">
-                    <td>libdrm</td>
-                    <td>vulkan-icd-loader</td>
-                    <td>libinput</td>
-                </tr>
-                <tr class="tr">
-                    <td>libpipewire</td>
-                    <td>libx11</td>
-                    <td>wayland</td>
-                </tr>
-                <tr class="tr">
-                    <td>libxtst</td>
-                    <td>libxxf86vm</td>
-                    <td>sdl2</td>
-                </tr>
-                <tr class="tr">
-                    <td>xcb-util-errors</td>
-                    <td>libxcb</td>
-                    <td>libxcomposite</td>
-                </tr>
-                <tr class="tr">
-                    <td>libxdamage</td>
-                    <td>xcb-util-wm</td>
-                    <td>libxext</td>
-                </tr>
-                <tr class="tr">
-                    <td>libxfixes</td>
-                    <td>libxkbcommon</td>
-                    <td>xorg-server-xwayland</td>
-                </tr>
-                <tr class="tr">
-                    <td>libxmu</td>
-                    <td>libxrender</td>
-                    <td>libxres</td>
-                </tr>
-                <tr class="tr">
-                    <td>benchmark</td>
-                    <td>cmake</td>
-                    <td>git</td>
-                </tr>
-                <tr class="tr">
-                    <td>glslang</td>
-                    <td>meson</td>
-                    <td>ninja</td>
-                </tr>
-                <tr class="tr">
-                    <td>vulkan-headers</td>
-                    <td>wayland-protocols</td>
-                    <td>mangohud</td>
-                </tr>
-            </tbody>
-        </table>
-
+        <div class="tablewrapper">
+            <table>
+                <tbody>
+                    <tr class="tr">
+                        <td>gcc-libs</td>
+                        <td>glibc</td>
+                        <td>libavif</td>
+                    </tr>
+                    <tr class="tr">
+                        <td>seatd</td>
+                        <td>libcap</td>
+                        <td>libdecor</td>
+                    </tr>
+                    <tr class="tr">
+                        <td>libdrm</td>
+                        <td>vulkan-icd-loader</td>
+                        <td>libinput</td>
+                    </tr>
+                    <tr class="tr">
+                        <td>libpipewire</td>
+                        <td>libx11</td>
+                        <td>wayland</td>
+                    </tr>
+                    <tr class="tr">
+                        <td>libxtst</td>
+                        <td>libxxf86vm</td>
+                        <td>sdl2</td>
+                    </tr>
+                    <tr class="tr">
+                        <td>xcb-util-errors</td>
+                        <td>libxcb</td>
+                        <td>libxcomposite</td>
+                    </tr>
+                    <tr class="tr">
+                        <td>libxdamage</td>
+                        <td>xcb-util-wm</td>
+                        <td>libxext</td>
+                    </tr>
+                    <tr class="tr">
+                        <td>libxfixes</td>
+                        <td>libxkbcommon</td>
+                        <td>xorg-server-xwayland</td>
+                    </tr>
+                    <tr class="tr">
+                        <td>libxmu</td>
+                        <td>libxrender</td>
+                        <td>libxres</td>
+                    </tr>
+                    <tr class="tr">
+                        <td>benchmark</td>
+                        <td>cmake</td>
+                        <td>git</td>
+                    </tr>
+                    <tr class="tr">
+                        <td>glslang</td>
+                        <td>meson</td>
+                        <td>ninja</td>
+                    </tr>
+                    <tr class="tr">
+                        <td>vulkan-headers</td>
+                        <td>wayland-protocols</td>
+                        <td>mangohud</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <h2>2.性能监控面板不显示</h2>
         <h3>原因:缺少mangohud</h3>
         <p>解决办法:安装mongohud软件包</p>
