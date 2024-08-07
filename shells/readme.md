@@ -42,6 +42,7 @@ https://github.com/ValveSoftware/gamescope
 
 https://github.com/ChimeraOS/gamescope
 
+ValveSoftware或ChimeraOS二选一,各自有不同的特性
 ## 3.安装gamescope-session
 
 gamescope-session-plus(ChimeraOS)
@@ -95,6 +96,5 @@ gamescope的全局FSR不会主动将你的画面进行低分辨率处理和上�
 而且大部分游戏需要在游戏中设置为无边框窗口,且游戏窗口分辨率低于物理分辨率,全局FSR才会介入.
 
 如果某些游戏中选择的独占全屏,就算游戏窗口分辨率低于物理分辨率,FSR也不会起作用.游戏实际输出还是独占的steam客户端中为游戏设置的分辨率.
-
 
 详见
