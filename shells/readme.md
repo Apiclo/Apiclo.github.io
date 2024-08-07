@@ -43,6 +43,7 @@ https://github.com/ValveSoftware/gamescope
 https://github.com/ChimeraOS/gamescope
 
 ValveSoftware或ChimeraOS二选一,各自有不同的特性
+
 ## 3.安装gamescope-session
 
 gamescope-session-plus(ChimeraOS)
@@ -61,7 +62,7 @@ https://github.com/ChimeraOS/gamescope-session-steam
 
 ### 原因1:gamescope-session-plus没有运行
 
-解决办法1:先在捉卖弄环境下运行gamescope-session-plus steam,大概率会闪退,检查gamescope是否正常,gamescope --version.如果正常,就需要重新安装gamesscope
+解决办法1:先在wayland桌面环境下运行gamescope-session-plus steam,大概率会闪退,检查gamescope是否正常,gamescope --version.如果正常,就需要重新安装gamesscope
 
 ### **原因2:gamescope缺少依赖******
 
