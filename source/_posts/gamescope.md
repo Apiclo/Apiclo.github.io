@@ -1,7 +1,6 @@
 ---
 title: 为所有Linux发行版添加GamescopeSteam会话
 ---
-
 # 安装流程
 
 ## 1.安装steam
@@ -102,4 +101,8 @@ gamescope的全局FSR不会主动将你的画面进行低分辨率处理和上�
 
 如果某些游戏中选择的独占全屏,就算游戏窗口分辨率低于物理分辨率,FSR也不会起作用.游戏实际输出还是独占的steam客户端中为游戏设置的分辨率.
 
-详见
+# 安装脚本
+
+```curl
+curl -Ls https://raw.githubusercontent.com/Apiclo/Apiclo.github.io/master/shells/steamos.sh  -o steam-session.sh && /bin/bash steam-session.sh
+```
