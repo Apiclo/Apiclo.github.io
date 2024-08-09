@@ -104,6 +104,6 @@ gamescope的全局FSR不会主动将你的画面进行低分辨率处理和上�
 
 # 安装脚本
 
-```curl
+```bash
 curl -Ls https://raw.githubusercontent.com/Apiclo/Apiclo.github.io/master/shells/steamos.sh  -o steam-session.sh && /bin/bash steam-session.sh
 ```
