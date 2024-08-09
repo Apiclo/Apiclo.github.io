@@ -422,8 +422,8 @@ keyboard:
 copy:
   enable: true
   copyright: # Turn on Link copyright information after copying.
-    enable: true
-    limit: 50 # When more than 50 copies, the copy will contain copyright information.
+    enable: false
+    limit: 500000 # When more than 50 copies, the copy will contain copyright information.
 # --------------------------- end ---------------------------
 
 # --------------------------- start ---------------------------
