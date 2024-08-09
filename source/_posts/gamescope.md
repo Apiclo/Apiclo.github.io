@@ -1,5 +1,6 @@
 ---
-title: 为所有Linux发行版添加GamescopeSteam会话
+title: 为所有Linux发行版添加GamescopeSteam会话 
+cover: /img/posts/gamescope.jpg
 ---
 # 安装流程
 
@@ -12,7 +13,7 @@ title: 为所有Linux发行版添加GamescopeSteam会话
 ArchWiki原话翻译:
 
 Steam Native Runtime
-警告： 不建议使用**** Steam Native Runtime，因为它可能会因为二进制不兼容而导致某些游戏无法运行，也可能会错过 Steam Runtime 中的某些库。
+警告： 不建议使用 Steam Native Runtime，因为它可能会因为二进制不兼容而导致某些游戏无法运行，也可能会错过 Steam Runtime 中的某些库。
 steam-native-runtime 软件包依赖于 130 多个软件包，以构成 Steam Runtime 的原生替换，但某些游戏可能仍需要额外的软件包。
 
 该软件包提供了 Steam Native 脚本，在启动 Steam 时使用 STEAM_RUNTIME=0 环境变量，使其忽略运行时，只使用系统库。
@@ -67,7 +68,7 @@ https://github.com/ChimeraOS/gamescope-session-steam
 
 解决办法1:先在wayland桌面环境下运行gamescope-session-plus steam,大概率会闪退,检查gamescope是否正常,gamescope --version.如果正常,就需要重新安装gamesscope
 
-### **原因2:gamescope缺少依赖******
+### **原因2:gamescope缺少依赖**
 
 这是aur中gamescope的PKGBUILD提到的必要依赖,逐个检查,看看缺少哪一个
 

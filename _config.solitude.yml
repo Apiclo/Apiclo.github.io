@@ -1,0 +1,17 @@
+# 站点设置
+# Site settings
+site:
+  # Logo
+  name:
+    # 显示类型 （i_class/text/img）
+    # Display type (i_class/text/img)
+    class: img
+    # 具体内容 例如：solitude st-logo / Efu / /img/logo.png
+    # Specific content, for example: solitude st-logo / Efu / /img/logo.png
+    custom: /img/site/favicon.png
+  # 网页 Icon
+  # Web icon
+  siteIcon: /img/site/favicon.png
+  # 页脚的Logo、加载动画默认的logo
+  # Logo in the footer, default logo for loading animation
+  icon: /img/site/favicon.png
