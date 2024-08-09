@@ -1,0 +1,732 @@
+# ---------------------------
+# Hexo Theme Solitude
+# Author: EverFu
+# Github: https://github.com/everfu/hexo-theme-solitude
+#
+# Guide: https://solitude.js.org
+# You can get more detailed help from the guide
+#
+# sponsor: https://www.patreon.com/everfu
+# ---------------------------
+
+# --------------------------- start ---------------------------
+# Site information
+site:
+  name:
+    class: text # text / i_class / img
+    custom: Solitude # Solitude / fas fa-ghost / /img/pwa/favicon.ico
+  siteIcon: /img/pwa/favicon.ico # Site icon
+  icon: /img/pwa/favicon.ico
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+nav:
+  group:
+  #  project: # name
+  #    Solitude: https://github.com/everfu/hexo-theme-solitude || /img/pwa/favicon.ico # name: url || icon
+  menu:
+    # Home: / # name: link
+    # Article: # name
+    #   Archives: /archives/ || fas fa-folder-closed # item name: link || icon
+    #   Categories: /categories/ || fas fa-clone
+    #   Tags: /tags/ || fas fa-tags
+    # Friends:
+    #   Moments: /moments/ || fas fa-wifi
+    #   Links: /links/ || fas fa-user-group
+    #   Treasure: javascript:travelling() || fas fa-gift
+    # Myself:
+    #   Equipment: /equipment/ || fas fa-laptop
+    #   Toobox: /tlink/ || fas fa-toolbox
+    #   Music: /music/ || fas fa-music
+    # About: /about/
+  right: # right button
+    random: false # Random article
+    custom:
+    #  - name: Start # name
+    #    url: https://www.travellings.cn/go.html # Jump link
+    #    icon: fas fa-train # Icon
+    #    onclick: # Click event
+    #    id: travellings_button # id
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+hometop:
+  enable: false
+  banner:
+    title: Tranquility <br>and love life
+    url: Hexo Theme Solitude
+    icon:
+      # HTML: # name
+      #   img: https://i.postimg.cc/vBWVnY8q/html.png # url
+      #   color: "#e9572b" # color
+      # JS:
+      #   img: https://i.postimg.cc/3N10Ltv2/js.png
+      #   color: "#f7cb4f"
+      # Docker:
+      #   img: https://i.postimg.cc/8Pk6Fg24/docker.png
+      #   color: "#57b6e6"
+      # Flutter:
+      #   img: https://i.postimg.cc/hPC7T3gB/flutter.png
+      #   color: "#ffffff"
+      # WebPack:
+      #   img: https://i.postimg.cc/dVLZBmtT/webpack.png
+      #   color: "#2e3a41"
+      # Git:
+      #   img: https://i.postimg.cc/nhgjwjCS/git.png
+      #   color: "#df5b40"
+  group:
+    # Fire: /tags/Fire/ || fas fa-fire || linear-gradient(to right,#f65,#ffbf37)
+    # Course: /tags/Course/ || fas fa-book || linear-gradient(to right,#358bff,#15c6ff)
+    # Curation: /tags/Curation/ || fas fa-star || linear-gradient(to right,#18e7ae,#1eebeb)
+  recommendList:
+    sup: Top
+    title: Solitude Documentation
+    url: https://solitude.js.org/
+    img: /img/default.avif
+    color: "none"
+carousel: false
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+aside:
+  # Values: about (info card), newestPost (latest article), allInfo (website information), flip (official account QR code), newest_comment (latest comment)
+  home: # on the homepage
+    noSticky: "about"
+    Sticky: "allInfo"
+  post: # on the article page
+    noSticky: "about"
+    Sticky: "newestPost"
+  page: # on the page
+    noSticky: "about"
+    Sticky: "newestPost,allInfo"
+  position: 1 # Sidebar positioning(0: left 1: right)
+
+  # --------------------------- start ---------------------------
+  # Information card
+  card:
+    style: 0 # 0: default 1: style 1 2: style 2
+    author:
+      img: /img/avatar.avif # url (avatar)
+      sticker: # url (sticker), 24x24
+    url: /about/ # Click name to jump to address
+    background: # https://s3.qjqq.cn/47/663af296b85f4.webp!color # Background image(Invalid if style is 0)
+    content: Here is my personal blog # Introduction (Invalid if style is 1)
+    content2: I believe you can find knowledge and tutorials here that will be useful to you. # Introduction (Invalid if style is 1)
+    sayhello: # Style 2 is invalid
+      morning: ✨ Good morning. It's a new day
+      noon: It's time for a midday break
+      afternoon: Tea time. 🍵
+      night: early bedtime
+      goodnight: Good night 😴
+    sayhello2: # Style 2 is invalid, Triggered when sayhello is clicked.
+      # - You'll make it.
+      # - You're gonna make it.
+      # - Good luck, stranger.
+    information:
+    #  Github: https://github.com/everfu || fab fa-github # Name: link || icon
+    #  Bilibili: https://space.bilibili.com/1329819902 || fab fa-bilibili
+  # --------------------------- end ---------------------------
+
+  # --------------------------- start ---------------------------
+  # Sidebar QR code component
+  flip:
+    favicon: # url (favicon)
+    face: # url (QR code)
+    backface: # url (QR code)
+    backcolor: "var(--efu-blue)" # Background color
+  # --------------------------- end ---------------------------
+
+  # --------------------------- start ---------------------------
+  # recent comments(⚠️ Comments need to be configured first.)
+  newest_comment:
+    enable: true
+    storage: .5 # 缓存时间 1: 1天 / .5 : 半天 / Cache time 1: 1 day .5 : half a day
+    limit: 5 # 评论数 / Number of comments
+  # --------------------------- end ---------------------------
+
+  # --------------------------- start ---------------------------
+  # article table of contents
+  toc:
+    post: true
+    page: false
+    vague: true
+  # --------------------------- end ---------------------------
+
+  # --------------------------- start ---------------------------
+  # Tags
+  tags:
+    enable: false
+    limit: 20 # Number of tags displayed
+    highlight_list: # Highlighted tags
+      # - Hexo
+  # --------------------------- end ---------------------------
+
+  # --------------------------- start ---------------------------
+  # Archive
+  archive:
+    enable: false
+    type: "month" # month: by month / year: by year
+  # --------------------------- end ---------------------------
+
+  # --------------------------- start ---------------------------
+  siteinfo:
+    postcount: true # Number of articles
+    wordcount: false # Total number of words
+    pv: true # PV
+    uv: true # UV
+    updatetime: true # Last update date
+    runtimeenable: true # Website creation time
+    runtime: "2023-04-20 00:00:00" # Format: yyyy-MM-dd hh-mm-ss
+  # --------------------------- end ---------------------------
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Home page article configuration information
+index_post_list:
+  direction: column # row / column
+  column: 2 # 2: 2 columns 3: 3 columns
+  content: false # 1: post.description / 2: Automatically get descriptions or screenshots / 3: Use only interception / false: No content is displayed
+  length: 500 # The length of the screenshot content
+  cover: both # left: on the left : left / right: on the right : right / both: both sides : both
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Page default settings
+page:
+  error: true # 404 page
+  tags: true # Tags page
+  categories: true # Categories page
+  archives: 0 # list: Sort List / 1: Follow HomeList
+  default: # Default value
+    cover:
+      # - /img/default.png # 默认图片 / default cover
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Post default settings
+post:
+  default:
+    top_cover: true # Article information that displays a wave effect at the top of the article when opened.
+    cover: # Default image when no cover is set
+      # -  # 默认图片 / default cover
+    locate: China # Location
+    copyright: # Copyright
+      enable: true
+      author:
+        url: /about/ # Author link
+        img: # Default site_icon is not filled in
+      license: CC BY-NC-SA 4.0 # License
+      licenurl: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh # License link
+  meta: # Article meta information
+    date: false # Release date
+    updated: false # Update date
+    locate: false # Location
+    wordcount: false # Number of words
+    readtime: false # uv
+    pv: false # pv
+    comment: false # Comment count
+  award: # Reward
+    enable: false
+    appreciators: /about/ # Reward page
+    title: Thanks for your appreciation.
+    desc: Because of your support, I realize the value of writing articles.
+    list:
+      # - name: Github Sponsor
+      #   qcode: https://s3.qjqq.cn/47/661ba900c4bc1.webp!color
+      #   url: https://github.com/sponsors/everfu
+      #   color: var(--efu-black)
+  share: # Share icon
+    enable: false
+    list:
+      #  - qq
+      #  - weibo
+      #  - twitter
+      #  - facebook
+      #  - telegram
+      #  - whatsapp
+      #  - linkedin
+      #  - link
+      #  - qrcode
+  rss: # /atom.xml
+  covercolor: # After opening, the main color of the cover image will be used as the background color.
+    enable: false
+    mode: local # local: local color / api: img2color color
+    api: https://api.qjqq.cn/api/Imgcolor?img= # api address
+    time: 43200000 # api color interval (milliseconds), default is 12 hours
+  footer:
+    enable: true
+    desc: Articles from Ever Fu. # description
+    button: # Button
+      enable: true
+      name: Learn more
+      url: /about/
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Custom Theme Color
+theme_color:
+  dark: "#ffc848" # Dark mode
+  dark_op: "#f2b94b23" # Dark mode transparent
+  dark_op_deep: "#f2b94bdd" # Dark mode transparent dark
+  dark_none: "#f2b94b00" # Dark mode transparent colorless
+  light: "#425AEF" # Light mode
+  light_op: "#4259ef23" # Light mode transparent
+  light_op_deep: "#4259efdd" # Light mode transparent dark
+  light_none: "#4259ef01" # Light mode transparent colorless
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# dark mode
+display_mode:
+  type: auto # auto: automatic switching / dark: dark mode / light: light mode
+  universe: true # After opening, the dark mode will display the starry sky background
+# auto: Recognize the current theme mode of the device
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Related articles
+related_post:
+  enable: false
+  limit: 2
+  date_type: created # created: release date / updated: update date
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Footer
+footer:
+  information:
+    author: false # enable site_icon in footer
+    left:
+      # Github: https://github.com/efuo || fab fa-github # Name: link || icon
+      # Mail: mailto:o@efu.me || fab fa-envelope
+    right:
+      # Bilibili: https://space.bilibili.com/1329819902 || fab fa-bilibili
+      # Douyin: https://v.douyin.com/iJsLc8jt/ || fab fa-tiktok
+  group:
+    # Navgation:
+    #   Archives: /archives/
+    #   Categories: /categories/
+    #   Tags: /tags/
+    # Server:
+    #   Aliyun: https://aliyun.com/
+    #   51la: https://v6.51.la/
+    # Arrangement:
+    #   Cookies: /cookies/
+    #   Privacy: /privacy/
+    #   Copyright: /copyright/
+
+  randomlink: false # Random link
+  privacy: # /privacy/ # Privacy policy
+  license: # https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh # License
+  links:
+    - name: Theme
+      url: https://github.com/everfu/hexo-theme-solitude
+    # - name: RSS
+    #   url: /atom.xml
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# error page
+errorpage:
+  img: /img/404.avif
+  text: =awa= Page NotFound # Text
+  recommendList: true
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Says Page
+says:
+  enable: false
+  home_mini: false
+  page: '/essay/'
+  style: 1
+  strip: 30
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Recent comments Page
+recent_comments:
+  enable: false
+  limit: 50 # ⚠️waline 仅支持最大50条评论 / ⚠️waline only supports a maximum of 50 comments
+  cache: 0.2 # 1 = 1天 / 1 = 1 day
+  page: /recentcomments/ # 最近评论页面 / recent comments page
+  img: /img/recent_c.avif # 中控台显示图片（不填不显示） / image displayed in the console
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Danmaku Page
+envelope:
+  enable: false
+  line: 10 # 显示行数
+  speed: 20 # 播放速度
+  hover: true # 鼠标悬停暂停
+  loop: true # 循环播放
+  page: /message/ # 留言板页面 / message board page
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# This part of the content uses metingjs,
+# can only use NetEase Cloud Music, QQ Music and other music platforms supported by the mainland China region,
+# the subsequent consideration of the use of JSON files to store music information and customize the implementation of the third-party API does not depend on the.
+# Music Page
+meting_api: "https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r" # Custom API
+music:
+  enable: false
+  id: 1994908354
+  server: netease
+  type: playlist
+  volume: 0.8
+  mutex: true
+# Capsule music
+capsule:
+  enable: false
+  id: 8407304077
+  server: netease
+  type: playlist
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Quick Menu
+# Open with shift + ?
+keyboard:
+  enable: false
+  list:
+    # - name: Close Keyboard
+    #   key: K
+    #   func: keyboard
+    # - name: Open Console
+    #   key: A
+    #   sco: showConsole
+    # - name: Play/Pause Music
+    #   key: M
+    #   sco: musicToggle
+    # - name: Open Links
+    #   key: L
+    #   url: /links/
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Copy
+copy:
+  enable: true
+  copyright: # Turn on Link copyright information after copying.
+    enable: true
+    limit: 50 # When more than 50 copies, the copy will contain copyright information.
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Lazyload
+lazyload:
+  enable: false
+  field: site # post, site
+  placeholder: /img/loading.avif
+  errorimg: /img/error_load.avif
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Loading
+loading:
+  fullpage: false # Full screen loading
+  pace: true # Pace loading
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Highlight
+highlight:
+  enable: true
+  limit: 200 # Code line limit
+  copy: true # Whether to enable the copy button
+  expand: true # Whether to expand by default
+  theme: mac # default: default / mac : apple terminal
+  color: default # default / solidity / dracula
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Lightbox
+lightbox: false
+# warning: Please select any one, but cannot be turned on at the same time.
+fancybox: false # fancybox
+mediumZoom: false # mediumZoom
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Mermaid
+mermaid: false
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# OpenGraph
+OpenGraph:
+  enable: false
+  options:
+    # twitter_card:
+    # twitter_image:
+    # twitter_id:
+    # twitter_site:
+    # google_plus:
+    # fb_admins:
+    # fb_app_id:
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Wordcount
+# warning: Please install the hexo-wordcount plugin first.
+wordcount: false
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Busuanzi
+busuanzi: false
+busuanzi_use: 0 # 0: original / 1: qingjiao (other: other custom busuanzi platform)
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Search
+search:
+  enable: false
+  type: local # local / algolia
+  tags:
+    # - Solitude
+    # - Hexo
+  algolia:
+    # hits:
+    #   per_page: 6
+  local:
+    preload: false
+    CDN: # url: search.xml
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# This part is only supported in mainland China, and we will consider supporting ChatGPT Key in the future.
+tianli_talk:
+  enable: false
+  title: 智能客服与搜索 # title
+  key: # key
+  option:
+post_ai:
+  enable: false
+  modelName: GPT 4
+  key:
+  talk: # 我是 Efu 开发的摘要生成助理EfuGPT，EfuGPT在静态部署时进行摘要的撰写，并且在访客访问时通过EfuCorrection转译后的文本摘要实现工具。我在这里只负责已经生成的摘要显示，你无法与我直接沟通，但我可以回答一些预设的问题。
+  randomPost: false
+  report: https://efu.me/
+  tips: # 此内容根据文章生成，并经过人工审核，仅用于文章内容的解释与总结
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Katex
+katex:
+  enable: false
+  per_page: false # Whether to load on each page
+  copytex: false # Whether to enable copy formula
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+comment:
+  use: # waline, twikoo, valine, artalk, giscus # Up to two comment systems can be turned on at the same time
+  commentBarrage: false # Hot comment switch
+  lazyload: false # Lazy load
+  count: false # Whether to use the comment count
+  pv: false # Whether to use the page view count
+  avatar: https://gravatar.com/avatar # Avatar
+  hot_tip: # Hot comment tips
+    enable: false
+    count: 3 # Display when more than 3 comments
+twikoo: # https://twikoo.js.org/
+  envId: # url: https://twikoo.sondy.top/
+  region: # Environment locale, default is ap-shanghai, Tencent cloud environment fill ap-shanghai or ap-guangzhou; Vercel environment do not fill the.
+  style: true # Use custom styles when turned on
+  accessToken: # AccessToken
+  option: # twikoo option
+waline: # https://waline.js.org/
+  envId: # url: https://waline.wzsco.top
+  pageview: false # Whether to enable page access statistics
+  option: # waline configuration item
+valine:
+  appId: # leancloud application app id
+  appKey: # leancloud application app key
+  serverURLs: # This configuration is suitable for domestic custom domain name users, overseas version will be automatically detected (no need to manually fill in)
+  avatar: # https://valine.js.org/avatar.html
+  visitor: false
+  style: true # Use custom styles when turned on
+  option: # options list
+artalk:
+  server: # server url
+  site: # site name
+  option: # options
+giscus:
+  repo: # GitHub repository name
+  repo_id: # GitHub repository ID
+  category_id: # GitHub repository category ID
+  theme:
+    light: light
+    dark: dark
+  option:
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Console
+console:
+  enable: false
+  recentComment: # Recent comments
+    enable: false
+    storage: .2 # Cache time 1: 1 day / .5 : half a day
+  card:
+    tags: true # Tags
+    archive: true # Archive
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# verification
+verify_site:
+  # - name: google-site-verification
+  #   content: xxxxxx
+  # - name: baidu-site-verification
+  #   content: xxxxxxx
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# CSS Prefix
+# When turned on, it will automatically prefix the CSS (to get better browser support), but this will increase the size of the CSS file.
+css_prefix: false
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Font
+font:
+  font-size: 16px
+  code-font-size: 16px
+  font-family: "PingFang SC, Hiragino Sans GB, Microsoft YaHei"
+  code-font-family: '"monospace", monospace'
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Extend
+extends:
+  head:
+  # Insert in head
+  #  - <script src="https://cdn.bootcdn.net/ajax/libs/pace/1.2.4/pace.min.js"></script>
+  body:
+  # Insert in body
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# PWA
+pwa:
+  enable: false
+  manifest: /manifest.json # manifest.json
+  theme_color: "#006a73" # Theme color
+  mask_icon: /img/pwa/favicon.png # Mask icon
+  apple_touch_icon: /img/pwa/favicon.png # Apple touch icon
+  bookmark_icon: /img/pwa/favicon.png # Bookmark icon
+  favicon_32_32: /img/pwa/favicon_32.png # 32x32 icon
+  favicon_16_16: /img/pwa/favicon_16.png # 16x16 icon
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Google Adsense
+google_adsense:
+  enable: false
+  auto_ads: false # After auto ads are turned off, it is manual ads
+  enable_page_level_ads: true # Page-level ads
+  aside_card: true # Sidebar card ads
+  post_card: true # Post card ads
+  post_content: true # Post content ads
+  js: https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js # Google Adsense js
+  client: # ca-pub-XXXXXXXXXXXXXX
+  slot: # 4236388782
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Custom right menu
+right_menu:
+  enable: false
+  commentBarrage: false # Whether to display the hot comment switch.
+  translate: # Simplified and Traditional Chinese translation.
+    enable: false
+    defaultEncoding: 2 # 1: 默认繁体 2: 默认简体
+    translateDelay: 0 # 首次加载翻译迟疑时间
+  custom_list: # Custom list
+    # - name: Random
+    #   click: toRandomPost()
+    #   id: menu-randomPost
+    #   class:
+    #   icon: fas fa-tower-broadcast
+    # - name: Categories
+    #   click: pjax.loadUrl('/categories/') # External links with window.open, pjax can not request cross-domain content.
+    #   id:
+    #   class:
+    #   icon: fas fa-clone
+    # - name: Tags
+    #   click: pjax.loadUrl('/tags/')
+    #   id:
+    #   class:
+    #   icon: fas fa-tags
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Memorial
+# Turn the entire site gray on memorable days.
+memorial:
+  enable: false
+  date:
+  #  - 7-7 # 卢沟桥事变
+  #  - 9-18 # 九一八事变
+  #  - 12-13 # 南京大屠杀国家公祭日
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Lure
+# When the user exits the page, modify the title
+lure:
+  enable: false
+  jump: 404 Not Found
+  back: ヾ(≧∇≦*)ゝHey, hey, you fell for it.
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Article expiration
+expire:
+  enable: false
+  time: 30 # days
+  position: top # top / bottom
+  text_prev: 'This article expired '
+  text_next: ' day ago, if the content does not match, please contact the webmaster to update it.'
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+# Background
+background:
+  enable: false
+  opacity: .2
+  dark: https://i.pinimg.com/originals/d8/b3/9d/d8b39d12b653810db452c437211aeb2e.png
+  light: https://i.pinimg.com/originals/93/57/38/935738ed9657b296c2ef0ebd2151eb66.jpg
+# --------------------------- end ---------------------------
+
+# --------------------------- start ---------------------------
+CDN:
+  internal: local # local / cdnjs / jsdelivr / unpkg / custom
+  third_party: cdnjs # cdnjs / jsdelivr / unpkg / custom
+  version: true # Whether to use the version number
+  custom_format: //open.lightxi.com/cdnjs/ajax/libs/${cdnjs_name}/${version}/${min_cdnjs_file} # Custom format
+  # Directly override the default CDN link (highest priority)
+  option:
+    busuanzi_qj_js: https://pv.lemonso.com/js
+    # algolia_search:
+    # instantsearch:
+    # pjax:
+    # twikoo:
+    # waline_js:
+    # waline_css:
+    # katex:
+    # katex_copytex:
+    # lazyload:
+    # aplayer_css:
+    # aplayer_js:
+    # meting_js:
+    # pace_js:
+    # swiper_css:
+    # swiper_js:
+    # busuanzi_js:
+    # snackbar_js:
+# --------------------------- end ---------------------------
