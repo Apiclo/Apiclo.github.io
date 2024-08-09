@@ -1,0 +1,261 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>为所有Linux发行版添加GamescopeSteam会话 | Siralop</title><noscript>Please enable JavaScript to view the site</noscript><link rel="icon" href="/img/pwa/favicon.ico"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=2.0.7"><!-- inject head--><link rel="canonical" href="http://127.0.0.1:4000/gamescope/"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"><!-- aplayer--><!-- swiper--><!-- fancybox ui--><!-- katex--><!-- Open Graph--><meta name="description" content="安装流程1.安装steam(1).steam-runtime(建议)(2)steam-native(不建议)ArchWiki原话翻译: Steam Native Runtime警告： 不建议使用**** Steam Native Runtime，因为它可能会因为二进制不兼容而导致某些游戏无法运行，也"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="Siralop"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/pwa/favicon.ico"><link rel="apple-touch-icon" href="/img/pwa/favicon.ico" sizes="180x180"><script>console.log(' %c Solitude %c ' + '2.0.7' + ' %c https://github.com/everfu/hexo-theme-solitude',
+    'background:#35495e ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff',
+    'background:#ff9a9a ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff',
+    'background:unset ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff')
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: undefined,
+    runtime: '2023-04-20 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.avif'
+    },
+    copyright: {"limit":50,"author":"Author: siralop","link":"Link: ","source":"Source: Siralop","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source."},
+    highlight: {"limit":200,"expand":true,"copy":true,"syntax":"highlight.js"},
+    randomlink: false,
+    lang: {"theme":{"dark":"Dark","light":"Light"},"copy":{"success":"Copied","error":"Copy failed"},"backtop":"Back to top","time":{"day":" days ago","hour":" hours ago","just":"just","min":" minutes ago","month":" months ago"},"day":" days","f12":"Developer mode is turned on, please follow the GPL.","totalk":"You don't need to delete blank lines, just type in your comments."},
+    aside: {
+        sayhello: {
+            morning: "✨ Good morning. It's a new day",
+            noon: "It's time for a midday break",
+            afternoon: "Tea time. 🍵",
+            night: "early bedtime",
+            goodnight: "Good night 😴",
+        },
+        sayhello2: [],
+        sayhello3: {
+            prefix: 'Long time no see, ',
+            back: 'Welcome back again,',
+        },
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+    lure: false,
+    expire: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body id="body"><!-- universe--><canvas id="universe"></canvas><!-- background img--><!-- loading--><!-- console--><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Archives</div><div class="length-num">1</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a></div></div></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude fa-solid fa-circle-half-stroke"></i><span>Display mode</span></span></div><span class="sidebar-menu-item-title">Tags</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><a id="site-name" href="/" title="Back to home"><span class="title">Solitude</span><i class="solitude fa-solid fa-home"></i></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">为所有Linux发行版添加GamescopeSteam会话</a></div></div><div id="menus"></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude fa-solid fa-arrow-up"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude fa-solid fa-bars"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="/img/default.avif" alt="为所有Linux发行版添加GamescopeSteam会话"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="This article is a Original article, pay attention to the copyright.">Original</a><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">为所有Linux发行版添加GamescopeSteam会话</h1><div id="post-meta"><div class="meta-secondline"></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="安装流程"><a href="#安装流程" class="headerlink" title="安装流程"></a>安装流程</h1><h2 id="1-安装steam"><a href="#1-安装steam" class="headerlink" title="1.安装steam"></a>1.安装steam</h2><h3 id="1-steam-runtime-建议"><a href="#1-steam-runtime-建议" class="headerlink" title="(1).steam-runtime(建议)"></a>(1).steam-runtime(建议)</h3><h3 id="2-steam-native-不建议"><a href="#2-steam-native-不建议" class="headerlink" title="(2)steam-native(不建议)"></a>(2)steam-native(不建议)</h3><p>ArchWiki原话翻译:</p>
+<p>Steam Native Runtime<br>警告： 不建议使用**** Steam Native Runtime，因为它可能会因为二进制不兼容而导致某些游戏无法运行，也可能会错过 Steam Runtime 中的某些库。<br>steam-native-runtime 软件包依赖于 130 多个软件包，以构成 Steam Runtime 的原生替换，但某些游戏可能仍需要额外的软件包。</p>
+<p>该软件包提供了 Steam Native 脚本，在启动 Steam 时使用 STEAM_RUNTIME&#x3D;0 环境变量，使其忽略运行时，只使用系统库。</p>
+<p>您也可以只手动安装所需的软件包，在不安装 steam-native-runtime 的情况下使用 Steam 原生运行时。</p>
+<h2 id="2-安装gamescope"><a href="#2-安装gamescope" class="headerlink" title="2.安装gamescope"></a>2.安装gamescope</h2><h3 id="ArchWiki介绍"><a href="#ArchWiki介绍" class="headerlink" title="ArchWiki介绍"></a>ArchWiki介绍</h3><p><a target="_blank" rel="noopener" href="https://github.com/ValveSoftware/gamescope">Gamescope</a> 是来自 Valve 并用于 <a target="_blank" rel="noopener" href="https://wiki.archlinuxcn.org/wzh/index.php?title=Steam_Deck&action=edit&redlink=1" title="Steam Deck（页面不存在）">Steam Deck</a> 的 <a target="_blank" rel="noopener" href="https://wiki.archlinuxcn.org/wiki/Wayland#Compositors" title="Wayland">微混成器</a>. 其目标是提供一种针对游戏量身定制的独立合成器，并支持许多以游戏为中心的功能，例如:</p>
+<ul>
+<li>分辨率伪装.</li>
+<li>使用 AMD FidelityFX™ Super Resolution (FSR)或 NVIDIA Image Scaling (NIS)进行图像上采样.</li>
+<li>限制帧率.</li>
+</ul>
+<p>作为一个微混成器，它被设计为在现有桌面环境之上作为嵌套会话运行，尽管也可以将其用作嵌入式混成器。</p>
+<h3 id="驱动要求"><a href="#驱动要求" class="headerlink" title="驱动要求"></a>驱动要求</h3><ul>
+<li>AMD: Mesa 20.3 或更高</li>
+<li>Intel: Mesa 21.2 或更高</li>
+<li>NVIDIA: 专有驱动 515.43.04 或更高，以及 <code>nvidia-drm.modeset=1</code> <a target="_blank" rel="noopener" href="https://wiki.archlinuxcn.org/wiki/Kernel_parameter" title="Kernel parameter">内核参数</a></li>
+</ul>
+<h3 id="1-gamescope-ValveSoftware"><a href="#1-gamescope-ValveSoftware" class="headerlink" title="(1)gamescope(ValveSoftware)"></a>(1)gamescope(ValveSoftware)</h3><p><a target="_blank" rel="noopener" href="https://github.com/ValveSoftware/gamescope">https://github.com/ValveSoftware/gamescope</a></p>
+<h3 id="2-gamescope-plus-ChimeraOS"><a href="#2-gamescope-plus-ChimeraOS" class="headerlink" title="(2)gamescope-plus(ChimeraOS)"></a>(2)gamescope-plus(ChimeraOS)</h3><p><a target="_blank" rel="noopener" href="https://github.com/ChimeraOS/gamescope">https://github.com/ChimeraOS/gamescope</a></p>
+<p>ValveSoftware或ChimeraOS二选一,各自有不同的特性</p>
+<h2 id="3-安装gamescope-session"><a href="#3-安装gamescope-session" class="headerlink" title="3.安装gamescope-session"></a>3.安装gamescope-session</h2><p>gamescope-session-plus(ChimeraOS)</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ChimeraOS/gamescope-session">https://github.com/ChimeraOS/gamescope-session</a></p>
+<h2 id="4-安装gamescope-session-steam"><a href="#4-安装gamescope-session-steam" class="headerlink" title="4.安装gamescope-session-steam"></a>4.安装gamescope-session-steam</h2><p><a target="_blank" rel="noopener" href="https://github.com/ChimeraOS/gamescope-session-steam">https://github.com/ChimeraOS/gamescope-session-steam</a></p>
+<h2 id="5-显示管理器切换会话"><a href="#5-显示管理器切换会话" class="headerlink" title="5.显示管理器切换会话"></a>5.显示管理器切换会话</h2><h1 id="故障排除"><a href="#故障排除" class="headerlink" title="故障排除:"></a>故障排除:</h1><h2 id="1-启动steam会话黑屏闪退"><a href="#1-启动steam会话黑屏闪退" class="headerlink" title="1.启动steam会话黑屏闪退"></a>1.启动steam会话黑屏闪退</h2><h3 id="原因1-gamescope-session-plus没有运行"><a href="#原因1-gamescope-session-plus没有运行" class="headerlink" title="原因1:gamescope-session-plus没有运行"></a>原因1:gamescope-session-plus没有运行</h3><p>解决办法1:先在wayland桌面环境下运行gamescope-session-plus steam,大概率会闪退,检查gamescope是否正常,gamescope –version.如果正常,就需要重新安装gamesscope</p>
+<h3 id="原因2-gamescope缺少依赖"><a href="#原因2-gamescope缺少依赖" class="headerlink" title="原因2:gamescope缺少依赖****"></a><strong>原因2:gamescope缺少依赖</strong>****</h3><p>这是aur中gamescope的PKGBUILD提到的必要依赖,逐个检查,看看缺少哪一个</p>
+<table>
+<thead>
+<tr>
+<th>gcc-libs</th>
+<th>glibc</th>
+<th>libavif</th>
+<th>seatd</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>libcap</td>
+<td>libdecor</td>
+<td>libdrm</td>
+<td>vulkan-icd-loader</td>
+</tr>
+<tr>
+<td>libinput</td>
+<td>libpipewire</td>
+<td>libx11</td>
+<td>wayland</td>
+</tr>
+<tr>
+<td>libxtst</td>
+<td>libxxf86vm</td>
+<td>sdl2</td>
+<td>xcb-util-errors</td>
+</tr>
+<tr>
+<td>libxcb</td>
+<td>libxcomposite</td>
+<td>libxdamage</td>
+<td>xcb-util-wm</td>
+</tr>
+<tr>
+<td>libxext</td>
+<td>libxfixes</td>
+<td>libxkbcommon</td>
+<td>xorg-server-xwayland</td>
+</tr>
+<tr>
+<td>libxmu</td>
+<td>libxrender</td>
+<td>libxres</td>
+<td>benchmark</td>
+</tr>
+<tr>
+<td>cmake</td>
+<td>git</td>
+<td>glslang</td>
+<td>meson</td>
+</tr>
+<tr>
+<td>ninja</td>
+<td>vulkan-headers</td>
+<td>wayland-protocols</td>
+<td>mangohud</td>
+</tr>
+</tbody></table>
+<h2 id="2-性能监控面板不显示"><a href="#2-性能监控面板不显示" class="headerlink" title="2.性能监控面板不显示"></a>2.性能监控面板不显示</h2><h3 id="原因-缺少mangohud"><a href="#原因-缺少mangohud" class="headerlink" title="原因:缺少mangohud"></a>原因:缺少mangohud</h3><p>解决办法:安装mongohud软件包</p>
+<h1 id="须知"><a href="#须知" class="headerlink" title="须知:"></a>须知:</h1><p>gamescope的全局FSR不会主动将你的画面进行低分辨率处理和上采样,如果你的窗口分辨率与物理分辨率相同,FSR是不会任何作用的.</p>
+<p>你需要手动将你的窗口分辨率降低后使用Steam的菜单将窗口缩放选择为”适应”</p>
+<p>它的实现方式是如果全屏窗口分辨率低于显示器分辨率,FSR会决定窗口的每个像素点应该对应屏幕的哪个像素点,使显示效果不像线性缩放那样模糊.</p>
+<p>而且大部分游戏需要在游戏中设置为无边框窗口,且游戏窗口分辨率低于物理分辨率,全局FSR才会介入.</p>
+<p>如果某些游戏中选择的独占全屏,就算游戏窗口分辨率低于物理分辨率,FSR也不会起作用.游戏实际输出还是独占的steam客户端中为游戏设置的分辨率.</p>
+<p>详见</p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="/img/pwa/favicon.ico"></a><div class="post-copyright__author_name">Siralop</div><div class="post-copyright__author_desc"></div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">This piece of writing is an original article, utilizing the<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>Agreement. For complete reproduction, please acknowledge the source as Courtesy of<a href="/">Siralop</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="Avatar" src="/img/avatar.avif"></div><div class="author-info__description_group"><div class="author-info__description">Here is my personal blog</div><div class="author-info__description2">I believe you can find knowledge and tutorials here that will be useful to you.</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">siralop</div><div class="author-info__desc"></div></a><div class="card-info-social-icons is-center"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude fa-solid fa-bars"></i><span>Table of contents</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%B5%81%E7%A8%8B"><span class="toc-text">安装流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85steam"><span class="toc-text">1.安装steam</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-steam-runtime-%E5%BB%BA%E8%AE%AE"><span class="toc-text">(1).steam-runtime(建议)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-steam-native-%E4%B8%8D%E5%BB%BA%E8%AE%AE"><span class="toc-text">(2)steam-native(不建议)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85gamescope"><span class="toc-text">2.安装gamescope</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ArchWiki%E4%BB%8B%E7%BB%8D"><span class="toc-text">ArchWiki介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8%E8%A6%81%E6%B1%82"><span class="toc-text">驱动要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-gamescope-ValveSoftware"><span class="toc-text">(1)gamescope(ValveSoftware)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-gamescope-plus-ChimeraOS"><span class="toc-text">(2)gamescope-plus(ChimeraOS)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85gamescope-session"><span class="toc-text">3.安装gamescope-session</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%89%E8%A3%85gamescope-session-steam"><span class="toc-text">4.安装gamescope-session-steam</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%98%BE%E7%A4%BA%E7%AE%A1%E7%90%86%E5%99%A8%E5%88%87%E6%8D%A2%E4%BC%9A%E8%AF%9D"><span class="toc-text">5.显示管理器切换会话</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4"><span class="toc-text">故障排除:</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%90%AF%E5%8A%A8steam%E4%BC%9A%E8%AF%9D%E9%BB%91%E5%B1%8F%E9%97%AA%E9%80%80"><span class="toc-text">1.启动steam会话黑屏闪退</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9B%A01-gamescope-session-plus%E6%B2%A1%E6%9C%89%E8%BF%90%E8%A1%8C"><span class="toc-text">原因1:gamescope-session-plus没有运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9B%A02-gamescope%E7%BC%BA%E5%B0%91%E4%BE%9D%E8%B5%96"><span class="toc-text">原因2:gamescope缺少依赖****</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7%E9%9D%A2%E6%9D%BF%E4%B8%8D%E6%98%BE%E7%A4%BA"><span class="toc-text">2.性能监控面板不显示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9B%A0-%E7%BC%BA%E5%B0%91mangohud"><span class="toc-text">原因:缺少mangohud</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%BB%E7%9F%A5"><span class="toc-text">须知:</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude fa-solid fa-map"></i><span>New posts</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/gamescope/" title="为所有Linux发行版添加GamescopeSteam会话"><img alt="为所有Linux发行版添加GamescopeSteam会话" src="/img/default.avif"></a><div class="content"><span class="title" href="/gamescope/" title="为所有Linux发行版添加GamescopeSteam会话">为所有Linux发行版添加GamescopeSteam会话</span></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>Solitude</span></div><div class="footer-bar-description">Articles from Ever Fu.</div><a class="footer-bar-link" href="/about/">Learn more</a></div><div id="footer_deal"></div><div id="st-footer"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2023 - 2024 By&nbsp;<a class="footer-bar-link" href="/">siralop</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/everfu/hexo-theme-solitude" alt="Theme">Theme</a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=2.0.7"></script><script src="/js/main.js?v=2.0.7"></script><script src="/js/third_party/waterfall.min.js?v=2.0.7"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/js/third_party/universe.min.js?v=2.0.7"></script><script>dark()
+</script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"></div></div><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    typeof rm === 'object' && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["gamescope/"];function toRandomPost(){ pjax.loadUrl(GLOBAL_CONFIG.root+posts[Math.floor(Math.random()*posts.length)]); }</script>
