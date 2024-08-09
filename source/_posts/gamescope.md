@@ -120,7 +120,7 @@ https://github.com/ChimeraOS/gamescope-session
 ```bash
 git clone https://github.com/ChimeraOS/gamescope-session.git
 cd gamescope-session
-sudo /bin/cp -r usr/* /usr/* 
+sudo /bin/cp -r usr/* /usr/
 ```
 
 ## 四.安装gamescope-session-steam
@@ -130,7 +130,7 @@ https://github.com/ChimeraOS/gamescope-session-steam
 ```bash
 git clone https://github.com/ChimeraOS/gamescope-session-steam.git
 cd gamescope-session-steam
-sudo /bin/cp -r usr/* /usr/* 
+sudo /bin/cp -r usr/* /usr/
 ```
 
 ## 五.显示管理器切换会话
