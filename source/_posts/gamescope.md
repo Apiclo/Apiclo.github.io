@@ -22,7 +22,7 @@ paru -S gamescope-plus gamescope-session-plus gamescope-session-steam
 
 ## 一.安装steam
 
-### (1).steam-runtime(建议)
+### (1)steam-runtime(建议)
 
 ### (2)steam-native(不建议)
 
@@ -183,6 +183,8 @@ curl -Ls https://raw.githubusercontent.com/Apiclo/Apiclo.github.io/master/shells
 ```
 
 ## 脚本内容：[steamos.sh](https://github.com/Apiclo/Apiclo.github.io/blob/master/shells/steamos.sh)
+
+
 
 # 总结
 

@@ -19,13 +19,13 @@ site:
     class: img
     # 具体内容 例如：solitude st-logo / Efu / /img/logo.png
     # Specific content, for example: solitude st-logo / Efu / /img/logo.png
-    custom: /img/site/favicon.png
+    custom: /img/site/favicon.svg
   # 网页 Icon
   # Web icon
-  siteIcon: /img/site/favicon.png
+  siteIcon: /img/site/favicon.svg
   # 页脚的Logo、加载动画默认的logo
   # Logo in the footer, default logo for loading animation
-  icon: /img/site/favicon.png
+  icon: /img/site/favicon.svg
 
 # --------------------------- end ---------------------------
 
