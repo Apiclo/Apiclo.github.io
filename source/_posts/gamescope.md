@@ -204,7 +204,7 @@ sudo touch ~/.local/share/applications/decky.desktop && sudo chmod +x ~/.local/s
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Name=Decky Installer
-Name[zh_CN]Decky安装器
+Name[zh_CN]=Decky安装器
 Exec=sh -c 'rm -f /tmp/user_install_script.sh; if curl -S -s -L -O --output-dir /tmp/ --connect-timeout 60 https://github.com/SteamDeckHomebrew/decky-installer/releases/latest/download/user_install_script.sh; then bash /tmp/user_install_script.sh; else echo "Something went wrong, please report this if it is a bug"; read; fi'
 Icon=steam
 Terminal=true
