@@ -193,7 +193,7 @@ curl -Ls https://raw.githubusercontent.com/Apiclo/Apiclo.github.io/master/shells
 ## 使用Desktop文件安装(不推荐)
 首先需要创建一个.desktop文件并赋予执行权限
 ```bash
-sudo touch ~/deckey.desktop && sudo chmod +x ~/deckey.desktop
+sudo touch ~/decky.desktop && sudo chmod +x ~/decky.desktop
 ```
 
 然后输入以下内容：
