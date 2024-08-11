@@ -1,5 +1,8 @@
 title: 为所有Linux发行版添加GamescopeSteam会话
 cover: /img/posts/gamescope.jpg
+date: 2024-08-7 23:40:00
+categories: [Linux]
+tags: [Steam,Games,Gamescope]
 -------------------------------
 
 # 前言
@@ -185,7 +188,33 @@ curl -Ls https://raw.githubusercontent.com/Apiclo/Apiclo.github.io/master/shells
 ## 脚本内容：[steamos.sh](https://github.com/Apiclo/Apiclo.github.io/blob/master/shells/steamos.sh)
 
 
+# 题外话：安装deckey插件商店
 
+## 使用Desktop文件安装(不推荐)
+首先需要创建一个.desktop文件并赋予执行权限
+```bash
+sudo touch ~/deckey.desktop && sudo chmod +x ~/deckey.desktop
+```
+
+然后输入以下内容：
+```plaintext
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Install Decky
+Exec=sh -c 'rm -f /tmp/user_install_script.sh; if curl -S -s -L -O --output-dir /tmp/ --connect-timeout 60 https://github.com/SteamDeckHomebrew/decky-installer/releases/latest/download/user_install_script.sh; then bash /tmp/user_install_script.sh; else echo "Something went wrong, please report this if it is a bug"; read; fi'
+Icon=steamdeck-gaming-return
+Terminal=true
+Type=Application
+StartupNotify=false
+```
+
+保存并退出后，你就可以在应用程序菜单中找到Deckey了。
+## 或者将上面的Exec内容简化一下，复制到命令行安装（推荐）
+```bash
+curl -sSL https://github.com/SteamDeckHomebrew/decky-installer/releases/latest/download/user_install_script.sh -o decky.sh && bash decky.sh
+```
+两个安装方式都是会弹出一个图形化的窗口，所以更推荐使用命令行安装，可以省下一个步骤。
+安装时会提示不是在deck上进行安装，可以忽略，如果介意的话，可以将用户名改为deck，然后重新安装。
 # 总结
 
 gamescope是一个很好的工具,可以让你在SteamOS上运行Steam游戏,但是需要一些配置和故障排除才能正常工作. *(AIGC)*
