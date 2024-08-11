@@ -197,7 +197,7 @@ sudo touch ~/deckey.desktop && sudo chmod +x ~/deckey.desktop
 ```
 
 然后输入以下内容：
-```plaintext
+```
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Name=Install Decky
