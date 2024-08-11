@@ -188,6 +188,8 @@ curl -Ls https://raw.githubusercontent.com/Apiclo/Apiclo.github.io/master/shells
 ## 脚本内容：[steamos.sh](https://github.com/Apiclo/Apiclo.github.io/blob/master/shells/steamos.sh)
 
 
+
+
 # 题外话：安装deckey插件商店
 
 ## 使用Desktop文件安装(不推荐)
@@ -208,7 +210,7 @@ Type=Application
 StartupNotify=false
 ```
 
-保存并退出后，你就可以在应用程序菜单中找到Deckey了。
+保存并退出后，你就可以在用户目录找到Decky了。
 ## 或者将上面的Exec内容简化一下，复制到命令行安装（推荐）
 ```bash
 curl -sSL https://github.com/SteamDeckHomebrew/decky-installer/releases/latest/download/user_install_script.sh -o decky.sh && bash decky.sh
