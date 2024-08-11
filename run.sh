@@ -1,4 +1,5 @@
 sudo echo "start"
+hexo clean
 rm -rf public/*
 npm install
 npm run build

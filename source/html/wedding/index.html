@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>我们结婚啦</title>
+    <meta charset="UTF-8">
+    <!-- 拉宽到真实宽度 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <!-- 采用H5 css动画组件: https://daneden.github.io/animate.css/ (可在此处了解各种动画效果)-->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <style>
+        * {
+            font-family: 微软雅黑;
+        }
+
+        HTML {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: auto;
+            scrollbar-3dlight-color: #718da6;
+            scrollbar-arrow-color: #000;
+            scrollbar-base-color: #718da6;
+            scrollbar-darkshadow-color: #fff;
+            scrollbar-face-color: #f2f7fc;
+            scrollbar-highlight-color: #fbfdfc;
+            scrollbar-shadow-color: #718da6;
+        }
+
+        BODY {
+            margin: 0;
+            padding: 0;
+            margin: auto;
+            overflow: auto;
+            color: #000;
+            background: #fff;
+            font-family: Verdana, Arial;
+            display: flex;
+            /*Flex布局*/
+            display: -webkit-flex;
+            /* Safari */
+            align-items: center;
+            /* 垂直居中 */
+            /* 水平居中 子项需要设置 margin: auto*/
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        SELECT {
+            font-family: 微软雅黑;
+            font-size: .4rem;
+        }
+
+        IMG {
+            border: none;
+        }
+
+        /* 让music开关旋转起来 start*/
+        .rotate {
+            -webkit-animation: rotate 3s linear infinite;
+            -moz-animation: rotate 3s linear infinite;
+            -o-animation: rotate 3s linear infinite;
+            animation: rotate 3s linear infinite;
+        }
+
+        @-webkit-keyframes rotate {
+            from {
+                -webkit-transform: rotate(0deg)
+            }
+
+            to {
+                -webkit-transform: rotate(360deg)
+            }
+        }
+
+        @-moz-keyframes rotate {
+            from {
+                -moz-transform: rotate(0deg)
+            }
+
+            to {
+                -moz-transform: rotate(359deg)
+            }
+        }
+
+        @-o-keyframes rotate {
+            from {
+                -o-transform: rotate(0deg)
+            }
+
+            to {
+                -o-transform: rotate(359deg)
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg)
+            }
+
+            to {
+                transform: rotate(359deg)
+            }
+        }
+
+        /* 让music开关旋转起来 end*/
+        /* 通用的深色主（第一）背景 */
+        #bg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            margin: auto;
+            padding: 0;
+            text-align: center;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-image: url(images/bgbg.jpg);
+        }
+
+        /* 通用的红色主（第二）背景 */
+        #bg-1 {
+            list-style: none;
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            height: 94%;
+            width: 90%;
+            top: 3%;
+            left: 5%;
+            background-image: url(images/bg.jpg);
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: none;
+        }
+
+        /* 场景顶层样式，relative属性值让内部的div层都基于此层进行absolute位置设定 */
+        .page {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            margin: auto;
+            padding: 0;
+            text-align: center;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        /* 以iphone SE 作为适配屏幕，固定显示区域 宽度<=320px 的背景和主显示区域都要固定到320，支持滚动显示*/
+        @media screen and (max-width:320px) {
+
+            BODY,
+            .page {
+                width: 320px;
+            }
+        }
+
+        /* 以iphone SE 作为适配屏幕，固定显示区域 高度<=568px 的背景和主显示区域都要固定到320，支持滚动显示*/
+        @media screen and (max-height:568px) {
+
+            BODY,
+            .page {
+                height: 568px;
+            }
+        }
+
+        /* 以iphone SE 作为适配屏幕，固定显示区域 宽度>=320px 的主背景依旧全屏，固定动画显示区域*/
+        @media screen and (min-width:320px) {
+            .page {
+                width: 320px;
+            }
+        }
+
+        /* 以iphone SE 作为适配屏幕，固定显示区域 宽度>=568px 的主背景依旧全屏，固定动画显示区域*/
+        @media screen and (min-height:568px) {
+            .page {
+                height: 568px;
+            }
+        }
+
+        /* 动画列表顶层，relative属性值让内部的div层都基于此层进行absolute位置设定 */
+        ul {
+            /* 去掉列表前的点 */
+            list-style: none;
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            height: 94%;
+            width: 90%;
+            top: 3%;
+            left: 5%;
+        }
+
+        /* 每个动画都用一个独立的li，方便设置动画的显隐 */
+        li {
+            position: absolute;
+            display: none;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* 自定义箭头标签*/
+        arrow {
+            position: absolute;
+            z-index: 10;
+            bottom: 2rem;
+            left: 8rem;
+        }
+
+    </style>
+</head>
+
+<body class="body0">
+    <div id="music" style="position: fixed;z-index: 10;right: 1rem;top: 1rem;">
+        <img id="musicOn" src="images/onMusic.png" style="display: block;" class="rotate" />
+        <img id="musicOff" src="images/offMusic.png" style="display: none;" />
+        <audio id="myaudio" loop="loop" preload="auto" autoplay="autoplay" src="music/mymusic.mp3">
+            <source src="music/mymusic.mp3" type="audio/ogg" />
+            <source src="music/mymusic.mp3" type="audio/mp3" />
+        </audio>
+    </div>
+    <div id="bg">
+        <div id="bg-1"></div>
+    </div>
+    <div id="dcommon" class="page" style="display: none;position:absolute;left:50%;margin-left:-160px;">
+        <ul>
+            <li id="dcommon-1">
+                <div style="width:1.0rem;height:100%;position:absolute;background-image:url(images/kuang2.jpg);"></div>
+                <div
+                    style="width:1.0rem;height:100%;right:0;position:absolute;background-image:url(images/kuang2.jpg);">
+                </div>
+                <div style="height:1.0rem;width:100%;position:absolute;background-image:url(images/kuangTop.jpg);">
+                </div>
+                <div
+                    style="height:1.0rem;width:100%;bottom:0;position:absolute;background-image:url(images/kuangTop.jpg);">
+                </div>
+            </li>
+        </ul>
+        <arrow id="dcommon-arrow">
+            <img id="arrowOn" src="images/arrow.png" />
+        </arrow>
+    </div>
+    <div id="d1" class="page" style="display: none;">
+        <ul>
+            <li id="d1-2" style="background-size:90%;background-image:url(images/kuang.jpg);">
+            </li>
+            <li id="d1-3" style="background-size:60%;left:-7%;background-image:url(images/bigXi.jpg);">
+            </li>
+            <li id="d1-4"
+                style="background-size:4rem;bottom: 2rem;right: 1.5rem;background-image:url(images/cloud.jpg);background-position:100% 100%;">
+            </li>
+            <li id="d1-5"
+                style="background-size:4rem;top: 10.4rem;left: 1.5rem;background-image:url(images/cloud.jpg);background-position:0 0;">
+            </li>
+            <li id="d1-6"
+                style="background-size:32%;bottom: 1rem;left: 1rem;background-image:url(images/boy3.jpg);background-position:0 100%;">
+            </li>
+            <li id="d1-7"
+                style="background-size:30%;top: 2.6rem;right: 1rem;background-image:url(images/bigGirl.jpg);background-position:100% 0">
+            </li>
+            <li id="d1-8"
+                style="background-size:32%;top:1.0rem;left:1.0rem;background-image:url(images/san.jpg);background-position:0 0;">
+            </li>
+            <li id="d1-9"
+                style="background-size:7.2rem;bottom: 5rem;background-image:url(images/xi.jpg);background-position:center 100%;">
+            </li>
+            <li id="d1-10" style="bottom:3rem;left:0rem;">
+                <!-- display:flex;display: -webkit-flex;align-items:baseline; 垂直居中-->
+                <!-- 包一层的目的是方便子层的元素方便绝对定位-->
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:100%;text-align:center;position: absolute;bottom:0;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 0.8rem">
+                        肯 德 基 & 星 期 四
+                    </div>
+                </div>
+            </li>
+            <li id="d1-11" style="bottom:2rem;left:0rem;">
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:100%;text-align:center;position: absolute;bottom:0;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 0.6rem">
+                        2024.13.32 周四
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="d2" class="page" style="display: none;">
+        <ul>
+            <li id="d2-2"
+                style="background-size:80%;top:1rem;background-image:url(images/header.jpg);background-position: center 0;">
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:100%;text-align:center;position: absolute;top:1.6rem;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 1rem">
+                        诚挚邀请
+                    </div>
+                </div>
+            </li>
+            <li id="d2-3"
+                style="background-size:14%;bottom: 1rem;left: 1rem;background-image:url(images/boy3.jpg);background-position:0 100%;">
+            </li>
+            <li id="d2-4"
+                style="background-size:14%;bottom: 1rem;right: 1rem;background-image:url(images/girl3.jpg);background-position:100% 100%;">
+            </li>
+            <li id="d2-5"
+                style="background-size:100%;top: 3.2rem;background-image:url(images/toper.jpg);background-position:center 0;">
+            </li>
+            <li id="d2-6" style="top: 3.2rem;">
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:100%;text-align:center;position: absolute;top:4.2rem;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 0.8rem;line-height: 1.2;">
+                        <p>最美好的季节</p>
+                        <p>我们找到彼此的幸福</p>
+                        <p>我们将幸福无限延伸</p>
+                        <p>诚邀亲爱的你</p>
+                        <p>参与我们的婚礼</p>
+                        <p>共同见证这幸福的时刻</p>
+                        <p>------------------</p>
+                        <p>2023.10.12 11:28</p>
+                        <p>河南·郑州</p>
+                        <p>肯德基惠济万达店</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="d3" class="page" style="display: none;">
+        <ul>
+            <li id="d3-2"
+                style="background-size:20%;top:2rem;right:2rem;background-image:url(images/righer2.jpg);background-position: right 0;">
+            </li>
+            <li id="d3-3" style="top:2rem;right:2rem;">
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:1.2rem;text-align:right;position: absolute;top:3rem;right: 1.2rem;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 1.2rem">
+                        新郎&#12288;肯德基
+                    </div>
+                </div>
+            </li>
+            <li id="d3-4"
+                style="background-size:63%;top:5.5rem;left:1rem;background-image:url(images2/a25.jpg);background-position:left top;">
+            </li>
+            <li id="d3-5"
+                style="background-size:38%;bottom:3rem;left:1rem;background-image:url(images/boy2.jpg);background-position:left bottom;">
+            </li>
+            <li id="d3-6" style="bottom:5rem;left:2.8rem;">
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:100%;text-align:center;position: absolute;bottom:0;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 0.8rem">
+                        <p>感谢大家对我祝福</p>
+                        <p>愿我此刻的幸福能传递给你</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="d4" class="page" style="display: none;">
+        <ul>
+            <li id="d4-2"
+                style="background-size:20%;top:2rem;left:2rem;background-image:url(images/righer2.jpg);background-position: left 0;">
+            </li>
+            <li id="d4-3" style="top:2rem;left:2rem;">
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:1.2rem;text-align:right;position: absolute;top:3rem;left: 1.2rem;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 1.2rem">
+                        新娘&#12288;疯狂星期四
+                    </div>
+                </div>
+            </li>
+            <li id="d4-4"
+                style="background-size:63%;top:4.5rem;right:1.2rem;background-image:url(images2/a23.jpg);background-position:right top;">
+            </li>
+            <li id="d4-5"
+                style="background-size:38%;bottom:3rem;right:1rem;background-image:url(images/bigGirl.jpg);background-position:right bottom;">
+            </li>
+            <li id="d4-6" style="bottom:5rem;right:2.8rem;">
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:100%;text-align:center;position: absolute;bottom:0;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 0.8rem">
+                        <p>感谢大家V我50</p>
+                        <p>愿我此刻的香辣鸡腿煲能传递给你</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="d5" class="page" style="display: none;">
+        <ul>
+            <li id="d5-2"
+                style="background-size:89%;top:1rem;background-image:url(images2/a28.jpg);background-position:center top;">
+            </li>
+            <li id="d5-3" style="bottom:3rem;">
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:100%;text-align:center;position: absolute;bottom:0;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 0.8rem">
+                        <p>往后的人生</p>
+                        <p>我们携手前行，不离不弃！</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="d6" class="page" style="display: none;">
+        <ul>
+            <li id="d6-2"
+                style="background-size:89%;top:1rem;background-image:url(images2/b46.jpg);background-position:center top;">
+            </li>
+            <li id="d6-3">
+                <div style="width: 100%;height: 100%;display:flex;display:-webkit-flex;align-items:baseline;">
+                    <div style="width:100%;text-align:center;margin: auto;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 0.8rem">
+                        <p>春·暖的花开带走肯德基的感伤</p>
+                        <p>微风吹来炸薯条的气息</p>
+                    </div>
+                </div>
+            </li>
+            <li id="d6-4"
+                style="background-size:89%;bottom:1rem;background-image:url(images2/b49.jpg);background-position:center bottom;">
+            </li>
+        </ul>
+    </div>
+    <div id="d7" class="page" style="display: none;">
+        <ul>
+            <li id="d7-3">
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:100%;text-align:center;position: absolute;top:3rem;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 0.8rem">
+                        <p>夏·鸟儿的高歌拉近我们距离</p>
+                        <p>我就在此刻想吃肯德基</p>
+                    </div>
+                </div>
+            </li>
+            <li id="d7-4"
+                style="background-size:89%;bottom:1rem;background-image:url(images2/d45.jpg);background-position:center bottom;">
+            </li>
+        </ul>
+    </div>
+    <div id="d8" class="page" style="display: none;">
+        <ul>
+            <li id="d8-2" style="">
+                <div style="width: 100%;height: 100%;display:flex;display:-webkit-flex;align-items:baseline;">
+                    <div style="width:100%;text-align:center;margin: auto;
+                                word-wrap:break-word;color:#fff;font-size: 0.8rem">
+                        <p>秋·听我说</p>
+                        <p>手牵手 跟我一起走</p>
+                        <p>创造疯狂星期四</p>
+                    </div>
+                </div>
+            </li>
+            <li id="d8-3"
+                style="background-size:89%;top:1rem;background-image:url(images2/c21.jpg);background-position:center top;">
+            </li>
+            <li id="d8-4"
+                style="background-size:89%;background-image:url(images2/c12.jpg);background-position:center center;">
+            </li>
+            <li id="d8-5"
+                style="background-size:89%;bottom:1rem;background-image:url(images2/c29.jpg);background-position:center bottom;">
+            </li>
+        </ul>
+    </div>
+    <div id="d9" class="page" style="display: none;">
+        <ul>
+            <li id="d9-2"
+                style="background-size:89%;top:1rem;background-image:url(images2/a46.jpg);background-position:center top;">
+            </li>
+            <li id="d9-3">
+                <div style="width: 100%;height: 100%;display:flex;display:-webkit-flex;align-items:baseline;">
+                    <div style="width:100%;text-align:center;margin: auto;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 0.8rem">
+                        <p>冬·今天嫁给我好吗</p>
+                    </div>
+                </div>
+            </li>
+            <li id="d9-4"
+                style="background-size:89%;bottom:1rem;background-image:url(images2/a7-16.jpg);background-position:center bottom;">
+            </li>
+        </ul>
+    </div>
+    <div id="d10" class="page" style="display: none;">
+        <ul>
+            <li id="d10-2"
+                style="background-size:80%;top:1rem;background-image:url(images/header.jpg);background-position: center 0;">
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:100%;text-align:center;position: absolute;top:1.6rem;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 1rem">
+                        联系我们
+                    </div>
+                </div>
+            </li>
+            <li id="d10-3"
+                style="background-size:14%;bottom: 1rem;left: 1rem;background-image:url(images/boy3.jpg);background-position:0 100%;">
+            </li>
+            <li id="d10-4"
+                style="background-size:14%;bottom: 1rem;right: 1rem;background-image:url(images/girl3.jpg);background-position:100% 100%;">
+            </li>
+            <li id="d10-5" style="top: 6rem;">
+                <!-- 谷歌和安卓都能正常显示 -->
+                <iframe id="ifram" width='240' height='280' frameborder='0' scrolling='no' marginheight='0'
+                    marginwidth='0'
+                    src='https://lbs.amap.com/console/show/map/?0_300_400_113.638246_34.868349&=肯德基（惠济万达店）&=肯德基（惠济万达）&=&=&='></iframe>
+            </li>
+            <!-- 113.64_34.87 -->
+            <li id="d10-6" style="top: 23rem;">
+                <div style="width: 100%;height: 100%;position: relative;">
+                    <div style="width:100%;text-align:center;position: absolute;top:4.2rem;
+                            word-wrap:break-word;color: rgb(255, 255, 255);font-size: 0.8rem;line-height: 1.2;">
+                        <p>Tel + 微信(新郎):0371 5528 7597</p>
+                        <p>Tel + 微信(新娘):还没找到</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="js/jquery-1.10.2.min.js"></script>
+<script>
+    function initDoc() {
+        var audio = document.getElementById('myaudio');
+        $.ajax({
+            url: 'js/jquery-1.10.2.min.js',
+            async: false,
+            success: function () {
+                audio.play(); // audio will play in iOS before 4.2.1
+            }
+        });
+        // audio will play in iOS after 4.2.1
+        document.addEventListener('touchstart', function () {
+            audio.play();
+        }, false);
+        // controll music swtich
+        $("#music").bind('click', function () {
+            if ($("#musicOn").is(":hidden")) {
+                $("#musicOn").show();
+                $("#musicOff").hide();
+                audio.play();
+            }
+            else {
+                $("#musicOff").show();
+                $("#musicOn").hide();
+                audio.pause();
+            }
+        });
+        //显示翻页箭头
+        arrow0();
+        // touchstart 
+        $("arrow").bind('click', function () {
+            isHand = true;
+            nextPage();
+        });
+    }
+    //翻页提示箭头
+    function arrow0() {
+        $('#dcommon-arrow').show();
+        //循环动画
+        anim($('#dcommon-arrow'), 'fadeOutUp', arrow0);
+    }
+    //隐藏某个编号层及其下的li
+    function hideIndex(index) {
+        $("#d" + index).hide();
+        $("#d" + index).find("li").hide();
+    }
+    function hideBg() {
+        $('#bg-1').hide();
+        $('#dcommon').hide();
+    }
+    function showBg(nextShow) {
+        //显示红色背景
+        $('#bg-1').show();
+        //展示红色动画效果后再展示公共元素，最后展示场景动画
+        anim($('#bg-1'), 'zoomIn', showCommon, nextShow);
+    }
+    function showCommon(nextShow) {
+        $('#dcommon').show();
+        //显示公共动画  飞框
+        $('#dcommon-1').show();
+        anim($('#dcommon-1'), 'fadeInLeft', nextShow);
+    }
+    //翻页全局变量
+    var nowEl = null;
+    function nextPage(nowDiv) {
+        //支持初始化
+        if (null != nowDiv) {
+            nowEl = nowDiv;
+        }
+        var nowId = nowEl.attr("id");
+        var pageIndex = parseInt(nowId.replace("d", ""));
+        var nextEl = nowEl.next();
+        //若到了最后一个div，则下一个div从d1开始
+        if (null == nextEl || null == nextEl.attr("id")) {
+            nextEl = $("#d1");
+        }
+        var nextId = nextEl.attr("id");
+        var pageIndexNext = parseInt(nextId.replace("d", ""));
+        //隐藏当前场景及其子动画元素
+        hideIndex(pageIndex);
+        hideIndex(pageIndexNext);
+        //隐藏背景及公共元素
+        hideBg();
+        //显示下一个场景
+        nextEl.show();
+        //显示背景,当背景动画完全执行完毕后显示场景动画
+        showBg("show" + pageIndexNext);
+        nowEl = nextEl;
+    }
+    window.onload = function () {
+        //等jquery完全加载后才执行
+        $(function () {
+            initDoc();
+            nextPage($("#d10"));
+        });
+    };
+    //动画公共类
+    function anim(el, x, nextAction, nextActionParam) {
+        el.removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            $(this).removeClass();
+            //执行完当前动作后如果有下一个动作就继续执行下一个动作  动态函数执行方式
+            if (null != nextAction) {
+                //console.log(nextAction);
+                //console.log("nextActionParam:" + nextActionParam);
+                if (typeof (nextAction) == "function") {
+                    if (null != nextActionParam) {
+                        nextAction(nextActionParam);
+                    }
+                    else {
+                        nextAction();
+                    }
+                }
+                else if (typeof (eval(nextAction)) == "function") {
+                    if (null != nextActionParam) {
+                        eval(nextAction + "(" + nextActionParam + ");");
+                    }
+                    else {
+                        eval(nextAction + "();");
+                    }
+                }
+            }
+        });
+    };
+    var isHand = false;
+    function autoNextPage(delayTime) {
+        //规避多页同时显示的问题：手动点击一次之后不再自动往下走
+        if (!isHand) {
+            setTimeout(function () {
+                if (!isHand) {
+                    nextPage();
+                }
+            }, delayTime);
+        }
+    }
+    //第一页动画  动画命名规则：show + 当前div的 id 编号
+    function show1() {
+        $('#d1-2').show();
+        anim($('#d1-2'), 'flipInY', show1_2);
+    }
+    function show1_2() {
+        $('#d1-3').show();
+        anim($('#d1-3'), 'flipInY', show1_3);
+    }
+    function show1_3() {
+        $('#d1-4').show();
+        anim($('#d1-4'), 'slideInLeft');
+        $('#d1-5').show();
+        anim($('#d1-5'), 'slideInLeft', show1_4);;
+    }
+    function show1_4() {
+        $('#d1-6').show();
+        anim($('#d1-6'), 'slideInLeft');
+        $('#d1-7').show();
+        anim($('#d1-7'), 'slideInRight', show1_5);
+    }
+    function show1_5() {
+        $('#d1-8').show();
+        anim($('#d1-8'), 'slideInLeft', show1_6);
+    }
+    function show1_6() {
+        $('#d1-9').show();
+        anim($('#d1-9'), 'zoomIn', show1_7);
+    }
+    function show1_7() {
+        $('#d1-10').show();
+        anim($('#d1-10'), 'zoomIn');
+        $('#d1-11').show();
+        anim($('#d1-11'), 'zoomIn', autoNextPage, 3000);
+    }
+    //第二页动画
+    function show2() {
+        $('#d2-2').show();
+        anim($('#d2-2'), 'fadeInDown', show2_3);
+    }
+    function show2_3() {
+        $('#d2-3').show();
+        anim($('#d2-3'), 'fadeInRight');
+        $('#d2-4').show();
+        anim($('#d2-4'), 'fadeInLeft', show2_4);
+    }
+    function show2_4() {
+        $('#d2-5').show();
+        anim($('#d2-5'), 'flipInY', show2_5);
+    }
+    function show2_5() {
+        $('#d2-6').show();
+        anim($('#d2-6'), 'bounce', autoNextPage, 6000);
+    }
+    //第三页动画
+    function show3() {
+        $('#d3-2').show();
+        anim($('#d3-2'), 'flipInY', show3_3);
+    }
+    function show3_3() {
+        $('#d3-3').show();
+        anim($('#d3-3'), 'bounce', show3_4);
+    }
+    function show3_4() {
+        $('#d3-4').show();
+        anim($('#d3-4'), 'flipInX', show3_5);
+    }
+    function show3_5() {
+        $('#d3-5').show();
+        anim($('#d3-5'), 'fadeInLeft', show3_6);
+    }
+    function show3_6() {
+        $('#d3-6').show();
+        anim($('#d3-6'), 'fadeInRight', autoNextPage, 3000);
+    }
+    //第四页动画
+    function show4() {
+        $('#d4-2').show();
+        anim($('#d4-2'), 'flipInY', show4_3);
+    }
+    function show4_3() {
+        $('#d4-3').show();
+        anim($('#d4-3'), 'bounce', show4_4);
+    }
+    function show4_4() {
+        $('#d4-4').show();
+        anim($('#d4-4'), 'flipInX', show4_5);
+    }
+    function show4_5() {
+        $('#d4-5').show();
+        anim($('#d4-5'), 'fadeInRight', show4_6);
+    }
+    function show4_6() {
+        $('#d4-6').show();
+        anim($('#d4-6'), 'fadeInLeft', autoNextPage, 3000);
+    }
+    //第五页动画
+    function show5() {
+        $('#d5-2').show();
+        anim($('#d5-2'), 'fadeInDown', show5_3);
+    }
+    function show5_3() {
+        $('#d5-3').show();
+        anim($('#d5-3'), 'bounce', autoNextPage, 3000);
+    }
+    //第六页动画
+    function show6() {
+        $('#d6-2').show();
+        anim($('#d6-2'), 'fadeInDown', show6_3);
+    }
+    function show6_3() {
+        $('#d6-4').show();
+        anim($('#d6-4'), 'fadeInUp', show6_4);
+    }
+    function show6_4() {
+        $('#d6-3').show();
+        anim($('#d6-3'), 'swing', autoNextPage, 3000);
+    }
+    //第七页动画
+    function show7() {
+        $('#d7-3').show();
+        anim($('#d7-3'), 'slideInDown', show7_3);
+    }
+    function show7_3() {
+        $('#d7-4').show();
+        anim($('#d7-4'), 'fadeInUp', autoNextPage, 3000);
+    }
+    //第八页动画
+    function show8() {
+        $('#d8-2').show();
+        anim($('#d8-2'), 'slideInDown', delay3);
+    }
+    function delay3() {
+        setTimeout(function () { show8_3(); }, 2000)
+    }
+    function show8_3() {
+        $('#d8-3').show();
+        anim($('#d8-3'), 'slideInLeft');
+        $('#d8-5').show();
+        anim($('#d8-5'), 'slideInRight', show8_4);
+    }
+    function show8_4() {
+        $('#d8-4').show();
+        anim($('#d8-4'), 'zoomIn', autoNextPage, 3000);
+    }
+    //第九页动画
+    function show9() {
+        $('#d9-2').show();
+        anim($('#d9-2'), 'rubberBand', show9_3);
+    }
+    function show9_3() {
+        $('#d9-4').show();
+        anim($('#d9-4'), 'lightSpeedIn', show9_4);
+    }
+    function show9_4() {
+        $('#d9-3').show();
+        anim($('#d9-3'), 'swing', autoNextPage, 3000);
+    }
+    //第十页动画
+    function show10() {
+        $('#d10-2').show();
+        anim($('#d10-2'), 'fadeInDown', show10_3);
+    }
+    function show10_3() {
+        $('#d10-3').show();
+        anim($('#d10-3'), 'fadeInRight');
+        $('#d10-4').show();
+        anim($('#d10-4'), 'fadeInLeft', show10_4);
+    }
+    function show10_4() {
+        $('#d10-5').show();
+        anim($('#d10-5'), 'flipInY', show10_5);
+    }
+    function show10_5() {
+        $('#d10-6').show();
+        anim($('#d10-6'), 'bounce');
+    }
+</script>
+
+</html>

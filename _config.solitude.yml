@@ -216,7 +216,7 @@ page:
 # Post default settings
 post:
   default:
-    top_cover: true # Article information that displays a wave effect at the top of the article when opened.
+    top_cover: false # Article information that displays a wave effect at the top of the article when opened.
     cover: # Default image when no cover is set
       # -  # 默认图片 / default cover
     locate: China # Location
@@ -228,7 +228,7 @@ post:
       license: CC BY-NC-SA 4.0 # License
       licenurl: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh # License link
   meta: # Article meta information
-    date: false # Release date
+    date: true # Release date
     updated: false # Update date
     locate: false # Location
     wordcount: false # Number of words

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>全屏时钟</title>
+    <link rel="stylesheet" href="../ccss/time.css">
+</head>
+
+<body id="body">
+    <h1 id="text"></h1>
+    <div class="control-panel">
+        <button id="full-screen-btn">进入全屏</button>
+        <br />
+        <div>
+            <button id="font-weight-minus">细</button>
+            <button id="font-weight-plus">粗</button>
+        </div>
+        <br />
+        <button id="font-color-switch">下一个颜色</button>
+        <table cellspacing="0" border="0" class="table">
+            <tr>
+                <td align="center">
+                    <div class="round-button body-bg1" onclick="body.className='body-bg1';"></div>
+                </td>
+                <td align="center">
+                    <div class="round-button body-bg2" onclick="body.className='body-bg2';"></div>
+                </td>
+                <td align="center">
+                    <div class="round-button body-bg3" onclick="body.className='body-bg3';"></div>
+                </td>
+                <td align="center">
+                    <div class="round-button body-bg4" onclick="body.className='body-bg4';"></div>
+                </td>
+                <td align="center">
+                    <div class="round-button body-bg5" onclick="body.className='body-bg5';"></div>
+                </td>
+            </tr>
+        </table>
+        <div style="position:absolute;top:500px;">&nbsp;</div>
+    </div>
+    <script src="../cjs/time.js"></script>
+</body>
+
+</html>
