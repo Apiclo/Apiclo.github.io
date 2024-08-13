@@ -192,31 +192,44 @@ curl -Ls https://raw.githubusercontent.com/Apiclo/Apiclo.github.io/master/shells
 
 # 题外话：安装deckey插件商店
 
-## 使用Desktop文件安装(不推荐)
+## 使用Desktop文件安装
+
 首先需要创建一个.desktop文件并赋予执行权限
 ```bash
-sudo touch ~/decky.desktop && sudo chmod +x ~/decky.desktop
+sudo touch ~/.local/share/applications/decky.desktop && sudo chmod +x ~/.local/share/applications/decky.desktop
 ```
 
 然后输入以下内容：
 ```
 #!/usr/bin/env xdg-open
 [Desktop Entry]
-Name=Install Decky
+Name=Decky Installer
+Name[zh_CN]=Decky安装器
 Exec=sh -c 'rm -f /tmp/user_install_script.sh; if curl -S -s -L -O --output-dir /tmp/ --connect-timeout 60 https://github.com/SteamDeckHomebrew/decky-installer/releases/latest/download/user_install_script.sh; then bash /tmp/user_install_script.sh; else echo "Something went wrong, please report this if it is a bug"; read; fi'
-Icon=steamdeck-gaming-return
+Icon=steam
 Terminal=true
 Type=Application
 StartupNotify=false
 ```
 
-保存并退出后，你就可以在用户目录找到Decky了。
-## 或者将上面的Exec内容简化一下，复制到命令行安装（推荐）
+保存并退出后，你就可以在软件列表找到Decky安装器了，打开就可以看到一个终端和输入sudo密码的窗口，输入完成即可开始安装。
+这个是模仿decky作者使用的方法，他是提供了一个.desktop文件，为了达到下载后可以双击打开的效果。这样的好处是如果decky挂了或者需要更新可以直接在应用列表打开decky安装器进行安装，坏处是会比命令行安装多一步编辑文件的步骤。
+
+
+
+## 命令行安装
+在终运行这条命令
 ```bash
 curl -sSL https://github.com/SteamDeckHomebrew/decky-installer/releases/latest/download/user_install_script.sh -o decky.sh && bash decky.sh
 ```
-两个安装方式都是会弹出一个图形化的窗口，所以更推荐使用命令行安装，可以省下一个步骤。
-安装时会提示不是在deck上进行安装，可以忽略，如果介意的话，可以将用户名改为deck，然后重新安装。
+命令行安装是将decky作者提供的.desktop文件中的Exec进行简化后的命令，这样的好处是可以省下一个用编辑器复制粘贴的步骤，坏处是如果decky挂了或者需要更新需要重新运行这个脚本。
+同时说句题外话的题外话，不建议更新的时候直接执行先前的~/decky.sh，这可能不会达到理想的结果，非常建议重新运行上面的curl命令重新获取最新的安装脚本。
+
+两个安装方式都是会弹出一个图形化的窗口，安装时会提示不是在deck上进行安装，可以忽略，如果介意的话，可以将用户名改为deck，然后重新安装。
+## 关于decky占用8080端口
+decky的运行需要用到steam开发者选项中提到的CEF远程调试，即如果关掉CEF远程调试，decky就会失效，可能需要重新安装才可以解决。同时CEF远程调试会占用8080端口，如果你有业务在后台跑在8080端口，可能会导致decky失效，同样的，安装了decky的steam即使在桌面模式下后台运行也会导致8080被占用。
+
+
 # 总结
 
 gamescope是一个很好的工具,可以让你在SteamOS上运行Steam游戏,但是需要一些配置和故障排除才能正常工作. *(AIGC)*
