@@ -73,7 +73,7 @@ function checkOS() {
     else
         echo -e "${GREEN}You are using an Intel GPU or Dual GPUs or Virtual GPU${NC}"
     fi
-    if [os_release != "ubuntu"]; then
+    if [ os_release != "ubuntu" ]; then
         echo -e "${RED}This shell script only works on Ubuntu GNU/Linux${NC}"
         exit 1
     fi
