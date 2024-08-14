@@ -31,10 +31,7 @@ paru -S gamescope-plus gamescope-session-plus gamescope-session-steam
 
 ArchWiki原话翻译:
 [Steam native runtime](https://wiki.archlinux.org/title/Steam/Troubleshooting#Steam_native_runtime)
-警告： 不建议使用 Steam Native Runtime，因为它可能会因为二进制不兼容而导致某些游戏无法运行，也可能会错过 Steam Runtime 中的某些库。
-steam-native-runtime 软件包依赖于 130 多个软件包，以构成 Steam Runtime 的原生替换，但某些游戏可能仍需要额外的软件包。
-该软件包提供了 Steam Native 脚本，在启动 Steam 时使用 STEAM_RUNTIME=0 环境变量，使其忽略运行时，只使用系统库。
-您也可以只手动安装所需的软件包，在不安装 steam-native-runtime 的情况下使用 Steam 原生运行时。
+警告： 不建议使用 Steam Native Runtime，因为它可能会因为二进制不兼容而导致某些游戏无法运行，也可能会错过 Steam Runtime 中的某些库。steam-native-runtime 软件包依赖于 130 多个软件包，以构成 Steam Runtime 的原生替换，但某些游戏可能仍需要额外的软件包。
 
 ## 二.安装gamescope
 
@@ -55,10 +52,12 @@ steam-native-runtime 软件包依赖于 130 多个软件包，以构成 Steam Ru
 * NVIDIA: 专有驱动 515.43.04 或更高，以及 `nvidia-drm.modeset=1` [内核参数](https://wiki.archlinuxcn.org/wiki/Kernel_parameter "Kernel parameter")
 
 ### 安装方式
-
+gamescope可以用两种方式安装，一种是编译安装，另一种是使用包管理器安装。 在两种安装方式中任选其一。
 #### 包管理器安装
 
-一些发行版提供了 gamescope 软件包，这样安装的好处是可以通过包管理器补全依赖,可以在这里查一下有没有你在用的发行版
+一些发行版提供了 gamescope 软件包，这样安装的好处是可以通过包管理器补全依赖,可以在这里查一下有没有你在用的发行版，当然，包管理器安装的是ValveSoftware的版本，不是ChimeraOS的版本。
+
+#### 编译安装
 [gamescope package versions - Repology](https://repology.org/project/gamescope/versions)
 
 #### 编译安装
@@ -78,7 +77,7 @@ steam-native-runtime 软件包依赖于 130 多个软件包，以构成 Steam Ru
 | cmake    | git            | glslang           | meson                |
 | ninja    | vulkan-headers | wayland-protocols | mangohud             |
 
-确保依赖完整后就可以开始编译了,gamescope目前有两个比较流行的分支版本,一个是Valve官方的版本,一个是ChimeraOS的版本,具体区别其实我也不太清楚,我使用的是ChimeraOS的版本.
+确保依赖完整后就可以开始编译了,gamescope目前有两个比较流行的分支版本,一个是Valve官方的版本,一个是ChimeraOS的版本,也是二选其一。具体区别其实我也不太清楚,我使用的是ChimeraOS的版本.
 
 * (1)gamescope(ValveSoftware)
 
@@ -112,31 +111,33 @@ build/gamescope -- <game>
 meson install -C build/ --skip-subprojects
 ```
 
-ValveSoftware或ChimeraOS二选一,各自有不同的特性
 
-## 三.安装gamescope-session
 
-gamescope-session-plus(ChimeraOS)
+## 三.安装gamescope-session-steam
 
-https://github.com/ChimeraOS/gamescope-session
+#### 首先需要安装[gamescope-session-plus](https://github.com/ChimeraOS/gamescope-session)
 
 ```bash
 git clone https://github.com/ChimeraOS/gamescope-session.git
-cd gamescope-session
-sudo /bin/cp -r usr/* /usr/
+sudo /bin/cp -r gamescope-session/usr/* /usr/
 ```
 
-## 四.安装gamescope-session-steam
-
-https://github.com/ChimeraOS/gamescope-session-steam
+#### 安装之后紧接着安装[gamescope-session-steam](https://github.com/ChimeraOS/gamescope-session-steam)
 
 ```bash
 git clone https://github.com/ChimeraOS/gamescope-session-steam.git
-cd gamescope-session-steam
-sudo /bin/cp -r usr/* /usr/
+sudo /bin/cp -r gamescope-session-steam/usr/* /usr/
 ```
-
-## 五.显示管理器切换会话
+这里的安装实际只是复制文件，详细信息可以参考上面链接中的readme.md
+## 四.显示管理器切换会话
+全部安装完毕后就可以注销当前桌面会话，在登录界面选择Steam Big Picture会话登录，就可以实现与SteamDeck同样的Steam界面，仔细观察会发现会有很多与桌面上大屏幕模式Steam的不同之处。
+正常运行之后就可以删除掉上面步骤在～/克隆过的源代码了,你的～/会有以下文件夹。
+```
+~/
+  |- gamescope/ #步骤二通过编译安装才会有的文件夹
+  |- gamescope-session/
+  |- gamescope-session-steam/
+```
 
 # 故障排除:
 
@@ -180,7 +181,7 @@ gamescope的全局FSR不会主动将你的画面进行低分辨率处理和上�
 如果某些游戏中选择的独占全屏,就算游戏窗口分辨率低于物理分辨率,FSR也不会起作用.游戏实际输出还是独占的steam客户端中为游戏设置的分辨率.
 
 # 安装脚本
-
+安装脚本会帮你实现上面写到的安装流程中的一部分工作,但是作用有限,如果脚本安装失败,请参考上面的安装流程进行手动安装.
 ```bash
 curl -Ls https://raw.githubusercontent.com/Apiclo/Apiclo.github.io/master/shells/steamos.sh  -o steam-session.sh && /bin/bash steam-session.sh
 ```
