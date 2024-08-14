@@ -196,7 +196,7 @@ curl -Ls https://raw.githubusercontent.com/Apiclo/Apiclo.github.io/master/shells
 
 首先需要创建一个.desktop文件并赋予执行权限
 ```bash
-sudo touch ~/.local/share/applications/decky.desktop && sudo chmod +x ~/.local/share/applications/decky.desktop
+touch ~/.local/share/applications/decky.desktop && chmod +x ~/.local/share/applications/decky.desktop
 ```
 
 然后输入以下内容：
