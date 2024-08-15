@@ -11,6 +11,8 @@ Gamescope是一个微混成器，它既可以在现有桌面环境之上作为�
 这样做相比在桌面上直接运行Steam的好处是，可以更方便地使用Steam Deck的分辨率伪装功能，可以实现TDP调整。可以更方便地使用AMD FidelityFX™ Super Resolution (FSR)或 NVIDIA Image Scaling (NIS)进行图像上采样。而且可以减少桌面环境带来的不必要的性能开销，可以一定程度上提游戏帧数。 *(AIGC)*
 而且在Proton的加持下，很多Windows游戏都可以在Linux上运行，而且性能表现不错。
 如果你愿意的话，可以配置一下自动登录策略，这样就可以开机启动SteamOS的大屏模式，实现与SteamDeck的操作系统几乎相同的体验（如果是为了打造纯游戏系统，非常建议将用户名改为deck）。
+非常感谢Valve和ChimeraOS的开发者，感谢他们的开源项目，让Linux的游戏环境和生态有了更多可能。如果您愿意支持他们，可以在Steam平台购买游戏、软件或硬件来表示对Valve的支持，[点击这里了解如何为ChimeraOS作出一点贡献](https://chimeraos.org/contribute/)，或者您也可以前往[ChimeraOS](https://github.com/ChimeraOS/chimeraos)和[Gamescope](https://github.com/ValveSoftware/gamescope)的GitHub页面点一下Star。
+
 
 # 安装流程
 
@@ -56,8 +58,6 @@ gamescope可以用两种方式安装，一种是编译安装，另一种是使�
 #### 包管理器安装
 
 一些发行版提供了 gamescope 软件包，这样安装的好处是可以通过包管理器补全依赖,可以在这里查一下有没有你在用的发行版，当然，包管理器安装的是ValveSoftware的版本，不是ChimeraOS的版本。
-
-#### 编译安装
 [gamescope package versions - Repology](https://repology.org/project/gamescope/versions)
 
 #### 编译安装
