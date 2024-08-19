@@ -20,4 +20,9 @@ tags: [Tools,FrontEnd,HTML]
 
 ### 3. 疯狂星期四整活
 
-[与肯德基疯狂星期四结婚](/html/wedding)
+[与肯德基疯狂星期四结婚](/html/wedding/)
+
+### 4.快速消耗资源
+
+[CPU & RAM Killer](/html/ram/)
+点进去后有5秒时间返回,5秒后会开始进行无意义计算和填充空白内存块进内存.
