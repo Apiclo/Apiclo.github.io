@@ -1,7 +1,7 @@
 title: KDE Plasma美化思路指南
 cover: /img/posts/plasma_tweak.jpg
 date: 2024-8-10 23:00:00
-tags: [KDE,Plasma]
+tags: [KDE,Plasma,Linux]
 categories: [Linux]
 -------------------
 

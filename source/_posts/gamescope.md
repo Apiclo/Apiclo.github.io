@@ -2,7 +2,7 @@ title: 为所有Linux发行版添加GamescopeSteam会话
 cover: /img/posts/gamescope.jpg
 date: 2024-08-7 23:40:00
 categories: [Linux]
-tags: [Steam,Games,Shell]
+tags: [Steam,Games,Linux]
 -------------------------------
 
 # 前言
