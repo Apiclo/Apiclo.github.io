@@ -4,7 +4,6 @@ GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[1;34m'
 NC='\033[0m'
-reset_terminal=$(tput sgr0)
 clear
 # 英文且只供ubuntu使用
 # 因为在尝试只在Ubuntu Server 22.04 LTS 中使用，中文无法显示
@@ -103,7 +102,7 @@ function checkEnviroment {
     echo -e "${BLUE}\n Checking OS Environment...${NC}"
     gamescope_status='not_installed'
     env_status='broken'
-    if gamescope --version &>/dev/null; then
+    if gamescope --help &>/dev/null; then
         echo -e "${GREEN}gamescope has already installed!${NC}" && gamescope_status='installed'
     else
         echo -e "${RED}gamescope did not installed!${NC}"
@@ -116,32 +115,22 @@ function checkEnviroment {
         echo -e "${YELLOW}you need to run agin after dependices installed!${NC}"
         # 安装Gamescope
         function installGamescope() {
-            selected_url=""
-            # 选择安装源
-            function chooseSource() {
-                echo -e "${BLUE}There are 2 versions of gamescope package\n${NC}"
-                echo -e "${BLUE}ValveSoftware:${NC} \n      https://github.com/ValveSoftware/gamescope"
-                echo -e "${BLUE}ChimeraOS:${NC}\n      https://github.com/ChimeraOS/gamescope"
-                echo -ne "${BLUE}\n Choose a gamescope version:${NC} \n (1:ValveSoftware, 2:ChimeraOS)"
-                gs_source=""
-                gs_source=$(get_user_input)
-                if [ "$gs_sources" = "y" ]; then
-                    echo -e "${BLUE}You have choosen ValveSoftware version${NC}"
-                    selected_url='https://github.com/ValveSoftware/gamescope.git'
-                else
-                    echo -e "${BLUE}You have choosen ChimeraOS version${NC}"
-                    selected_url='https://github.com/ChimeraOS/gamescope.git'
-                fi
-            }
-            echo -e "${BLUE}Install gamescope${NC}"
-            chooseSource
-            cd ~/gamescope/git
-            git clone ${selected_url}
-            cd gamescope
-            git submodule update --init
-            meson build/
-            ninja -C build/
-            meson install -C build/ --skip-subprojects
+            #     gamescope_git_url='https://github.com/ValveSoftware/gamescope.git'
+            #     # 选择安装源
+            #     echo -e "${BLUE}Install gamescope${NC}"
+            #     chooseSource
+            #     cd ~/gamescope/git
+            #     git clone ${gamescope_git_url}
+            #     cd gamescope
+            #     git reset 5e8fddf --hard
+            #     git clean -fxd
+            #     git submodule update --init --force --recursive
+            #     # git submodule update --init
+            #     meson build/
+            #     ninja -C build/
+            #     meson install -C build/ --skip-subprojects
+            wget https://github.com/akdor1154/gamescope-pkg/releases/download/v3.12.5-2/gamescope_3.12.5-2_amd64.deb
+            sudo dpkg -i gamescope_3.12.5-2_amd64.deb
             if [ $? -eq 0 ]; then
                 echo -e "${BLUE}Install gamescope complete!${NC}"
                 cd ~/gamescope
@@ -155,7 +144,7 @@ function checkEnviroment {
             fi
         }
         # 确认依赖安装情况
-        pkgs="lightgdm mangohud meson ninja-build libavif-bin  libevdev-dev libgudev-1.0-dev libmtdev-dev libseat1 libstb0 libwacom-dev libxcb-ewmh2 libxcb-shape0-dev libxcb-xfixes0-dev libxmu-headers libyuv0 libx11-xcb-dev libxres-dev libxmu-dev libseat-dev libinput-dev libxcb-composite0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-res0-dev libcap-dev"
+        pkgs="base cmake hwdata mangohud meson ninja-build libavif-bin libdisplay-info1 libevdev-dev libgav1-1 libgudev-1.0-dev libmtdev-dev libseat1 libstb0 libwacom-dev libxcb-ewmh2 libxcb-shape0-dev libxcb-xfixes0-dev libxmu-headers libyuv0 libx11-xcb-dev libxres-dev  libxmu-dev libseat-dev libinput-dev libxcb-composite0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-res0-dev libcap-dev wayland-protocols libvulkan-dev libwayland-dev libx11-dev cmake pkg-config meson libxdamage-dev libxcomposite-dev libxcursor-dev libxxf86vm-dev libxtst-dev libxkbcommon-dev libdrm-dev libpixman-1-dev libdecor-0-dev glslang-tools libbenchmark-dev libsdl2-dev libglm-dev libeis-dev libavif-dev"
         function confirm {
             if [ ${dependencies} = 'full' ]; then
                 echo -e "${GREEN}Seems dependencies  have installed correctly!${NC}"

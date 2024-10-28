@@ -16,22 +16,23 @@ Portal认证一般指客户端连接某个网络时通过一个网页认证系�
 # 必要条件
 * 一台可以使用SSH客户端的设备
 * 一个可以作为SSH服务器和执行Bash脚本的路由器（建议OpenWrt）
-# 脚本介绍
+# 脚本功能介绍
 
 1. 根据网络连接状态判断是否执行登陆认证操作
 2. 每两分钟识别一次网络状态
 3. 自动记录日志，可在ssh内输入cat captive.log来查看日志
 4. 每个月1号会自动删除日志，不必担心日志文件过大，经过计算，最大只会达到1.63MiB
+5. 欠费自动停止
 # 食用方法：
 1. 准备openwrt路由器，使用ssh连接路由器:在powershell中输入以下内容:ssh root@192.168.n.n(具体数字是路由器的IP)或安卓JuiceSSH连接路由器的SSH，出现[yes/no]时输入yes,要求密码时输入路由器后台管理密码。
-2. 在路由器安装bash:opkg update && opkg install bash
+2. 在路由器安装bash:`opkg update && opkg install bash`
 3. 先创建一个文件：`echo -e "#!/bin/ash\nbash captive.sh" >loader.sh && chmod a+x loader.sh`
 4. 使用vi编辑另一个文件:操作方式是先复制整个脚本，按以下按键(以|隔开)`vi captive.sh|i|粘贴|esc|:|wq|chmod a+x captive.sh`，关于粘贴快捷键:(powershell是鼠标右键，手机长按屏幕后在菜单选择粘贴)，[vi编辑器具体使用方法](https://www.runoob.com/linux/linux-vim.html)
 5. 修改脚本内容，将`server_ip`改为Portal服务器的IP，`userid`改为你的学号，`password`改为你的密码。
 6. 最后在路由器设置面板的crontab(aka:计划任务)写下这些:`*/2 * * * * /root/loader.sh`
 # 脚本内容
 
-````bash
+```bash
 #!/bin/bash
 server_ip=12.23.34.45
 log="captive.log"
@@ -101,6 +102,6 @@ function Run {
 }
 Run
 
-````
+```
 
 如果你对shell(bash方言)语法并不了解，请尽量不要更改注释,学号和密码以外的内容
