@@ -3,6 +3,7 @@ cover: /img/posts/crontab.jpg
 date: 2024-09-17 21:40:00 
 categories: [Linux] 
 tags: [Linux,Shell] 
+-------------------------------
 
 `crontab` 的时间格式由五个字段组成，每个字段用空格分隔，分别代表了执行任务的时间设置。格式如下：
 
