@@ -1,19 +1,29 @@
 function showCopySuccess() {
-    const successDiv = document.getElementById("copy-success");
-    successDiv.className = "copy-success-show"; // 显示提示框
+    const notionDiv = document.getElementById("copy-success");
+    notionDiv.innerText = "复制成功"
+    notionDiv.className = "copy-success-show"; // 显示提示框
 
     // 1秒后自动隐藏
     setTimeout(() => {
-        successDiv.className = "copy-success-hidden";
+        notionDiv.className = "copy-success-hidden";
+    }, 1000);
+}
+function showCopyFailed() {
+    const notionDiv = document.getElementById("copy-failed");
+    notionDiv.innerText = "复制失败"
+    notionDiv.className = "copy-failed-show"; // 显示提示框
+    // 1秒后自动隐藏
+    setTimeout(() => {
+        notionDiv.className = "copy-failed-hidden";
     }, 1000);
 }
 //生成从minNum到maxNum的随机数
 function copyText(elementId) {
     const copyText = document.getElementById(elementId).innerText;
-    Navigator.Clipboard.writeText(copyText).then(() => {
+    navigator.clipboard.writeText(copyText).then(() => {
         showCopySuccess(); // 显示复制成功提示
     }).catch(err => {
-        console.error("复制失败: ", err);
+        showCopyFailed();
     });
 }
 function randomNum(minNum = 0, maxNum = 100) {

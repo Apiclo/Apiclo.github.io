@@ -54,6 +54,29 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
+        .copy-failed-hidden {
+            visibility: hidden;
+            font-size: 1rem;
+            background-color: #333333;
+            color: #333333;
+            border-radius: 5px;
+            padding: 2px 5px;
+            margin-left: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0);
+
+        }
+
+        .copy-failed-show {
+            visibility: visible;
+            background-color: #9a2424;
+            color: #eeeeee;
+            font-size: 1rem;
+            border-radius: 5px;
+            padding: 2px 5px;
+            margin-left: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
         .number-container {
             text-align: left;
             font-size: 20px;
