@@ -9,7 +9,7 @@ tags: [Tools,FrontEnd,HTML]
 
 ### 5.随机数生成器
 
-》》》[CPU & RAM Killer](/html/random/)
+》》》[Random seed generator](/html/random/)
 立即生成随机数
 
 ### 4.快速消耗资源

@@ -10,7 +10,7 @@ function showCopySuccess() {
 //生成从minNum到maxNum的随机数
 function copyText(elementId) {
     const copyText = document.getElementById(elementId).innerText;
-    navigator.clipboard.writeText(copyText).then(() => {
+    Navigator.Clipboard.writeText(copyText).then(() => {
         showCopySuccess(); // 显示复制成功提示
     }).catch(err => {
         console.error("复制失败: ", err);
