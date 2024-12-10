@@ -10,7 +10,7 @@ url="http://${server_ip}/eportal/InterFace.do?method=login"
 timemark=$(date +"%Y年%m月%d日 %H:%M:%S")
 function ConnectionCheck {
     captiveresp=$(curl -Ls --connect-timeout 10 http://captive.apple.com)
-    if [[ ${captiveresp} == *"<BODY>Success</BODY>"* ]]; then
+    if [[ ${captiveresp} == *"Success"* ]]; then
         connection="1"
     else
         connection="0"
@@ -40,7 +40,7 @@ function Logger {
 
         elif [[ ${portalresp} == *'"result":"success","message":""'* ]]; then
             result="认证成功"
-        elif [[ ${portalresp} == *'欠费'* ]]; then
+        elif [[ ${portalresp} == *'欠费'* ]] || [[ ${portalresp} == *'缴费'* ]]; then
             result="账户已欠费,脚本停止\n若需要重新运行，请手动将loader.sh中# bash /root/captive.sh前的#删除\n并删除整行exit 0"
             echo -e '#!/bin/bash\nexit0\n# bash captive.sh' >loader.sh
 

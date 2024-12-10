@@ -429,7 +429,7 @@ copy:
 # --------------------------- start ---------------------------
 # Lazyload
 lazyload:
-  enable: false
+  enable: true
   field: site # post, site
   placeholder: /img/loading.avif
   errorimg: /img/error_load.avif
