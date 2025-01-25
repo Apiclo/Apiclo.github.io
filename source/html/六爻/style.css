@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.hexagram-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.hexagram-item {
+    width: 80px;
+    height: 80px;
+    color: #007bff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+    cursor: pointer;
+    font-size: 32px;
+    font-weight: bold;
+    user-select: none;
+}
+
+.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.unselected {
+    background-color: #fff;
+    color: #007bff;
+}
+
+.result-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.result-item {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.explanation-container {
+    margin-top: 40px;
+    text-align: center;
+}

@@ -7,14 +7,19 @@ tags: [Tools,FrontEnd,HTML]
 
 ## 一些之前的纯html小工具
 
+### 5.六爻卦象生成器
+
+》》》[六爻](/html/六爻/)
+立即生成随机数
+
 ### 5.随机数生成器
 
-》》》[Random seed generator](/html/random/)
+》》》[随机种子生成器](/html/random/)
 立即生成随机数
 
 ### 4.快速消耗资源
 
-》》》[CPU & RAM Killer](/html/ram/)
+》》》[CPU内存杀手](/html/ram/)
 点进去后有5秒时间返回,5秒后会开始进行无意义计算和填充空白内存块进内存.
 
 ### 3. 疯狂星期四整活
