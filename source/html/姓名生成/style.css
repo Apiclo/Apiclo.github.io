@@ -1,0 +1,172 @@
+/* 通用的全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    transition: all 0.3s ease;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f3f4f6;
+    text-align: center;
+    transition: background-color 1s ease;
+}
+
+h1.title {
+    font-size: 3rem;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* 按钮样式 */
+button.starter {
+    background-color: #007BFF;
+    color: white;
+    font-size: 3rem;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+.shieldBtn {
+    background-color: #007BFF;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    z-index: 999;
+    border: none;
+    border-radius: 0px;
+    font-size: 1.5rem;
+    color: white;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+button.starter:hover {
+    background-color: #0056b3;
+    transform: scale(5);
+}
+
+button.starter:focus {
+    outline: none;
+}
+
+/* 表格样式 */
+table.table {
+    margin-top: 80px;
+    width: 100%;
+    max-width: 400px;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table.table th,
+table.table td {
+    padding: 12px auto;
+    border: 1px solid #dddddd64;
+    text-align: center;
+}
+
+table.table th {
+    background-color: #f8f9fa64;
+    font-weight: bold;
+}
+
+table.table td {
+    background-color: #ffffff64;
+    color: #020202;
+}
+
+/* 警告框样式 */
+div.warning {
+    margin: 20px auto;
+    font-size: 1.2rem;
+    color: #444;
+    width: 20em;
+}
+
+div.warning a {
+    color: #007BFF;
+    text-decoration: none;
+
+}
+
+div.warning a:hover {
+    text-decoration: underline;
+}
+
+.warn-content {
+    text-align: left;
+}
+
+/* 巨大的“开”字样式 */
+.big-text {
+    font-size: 80vh;
+    color: rgba(0, 123, 255, 0.2);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    display: none;
+    z-index: -1;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+    h1.title {
+        font-size: 2.5rem;
+    }
+
+    button.starter {
+        width: 180px;
+        font-size: 1.3rem;
+    }
+
+    table.table {
+        width: 90%;
+    }
+
+    div.warning {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1.title {
+        font-size: 2rem;
+    }
+
+    table.table {
+        width: 80%;
+    }
+
+    table.table td {
+        font-size: 0.8em;
+    }
+
+    button.starter {
+        width: 150px;
+        font-size: 1.2rem;
+    }
+
+    div.warning {
+        font-size: 0.9rem;
+    }
+}
