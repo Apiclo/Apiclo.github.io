@@ -12,10 +12,11 @@ Portal认证一般指客户端连接某个网络时通过一个网页认证系�
 # 环境介绍
 路由器型号：Xiaomi Redmi AC2100(RM2100)
 路由器操作系统：OpenWrt 21.02-SNAPSHOT
-网络环境：路由器WAN侧接入校园网RJ45面板，路由器LAN侧发射AP信号
+网络环境：路由器WAN侧接入校园网RJ45面板，路由器LAN侧发射AP信号，校园网是
 # 必要条件
-* 一台可以使用SSH客户端的设备
-* 一个可以作为SSH服务器和执行Bash脚本的路由器（建议OpenWrt）
+* 一台可以作为SSH客户端的设备
+* 一台可以运行OpenWrt的路由器
+* ua2f防检测插件
 # 脚本功能介绍
 
 1. 根据网络连接状态判断是否执行登陆认证操作
@@ -103,16 +104,17 @@ function Run {
 Run
 
 ```
-另: 我的一台R2S路由器LAN口与WAN口互换了,WAN口是USB,LAN口是PHY,现在WAN口总是会挂掉,只有重启才能解决,所以现在借用以上脚本实现自动重启路由器.
+另: 我的一台R2S路由器LAN口与WAN口互换了,WAN口是USB,LAN口是PHY,现在WAN口总是会挂掉,只有重启才能解决,所以现在借用以上脚本实现没网自动重启路由器.
 
 ```bash
 #!/bin/bash
-log="err.log"
+log="netstat.log"
 touch ${log}
-timemark=$(date +"%Y年%m月%d日 %H:%M:%S")
+timemark=$(date +"%Y/%m/%d %H:%M:%S")
 function ConnectionCheck {
-    captiveresp=$(curl -Ls --connect-timeout 10 https://apiclo.github.io/services/captive/)
-    if [[ ${captiveresp} == *"<!--Connected-->"* ]]; then
+    sleep 60s
+    captiveresp=$(curl -Ls --connect-timeout 30 https://captive.apple.com/)
+    if [[ ${captiveresp} == *"Success"* ]]; then
         connection="1"
     else
         connection="0"
@@ -121,31 +123,31 @@ function ConnectionCheck {
 
 function Logger {
     if [[ ${connection} == "1" ]]; then
-        result="网络正常"
-        echo -e "--------------------------------\n检测时间:${timemark}\n网络状态:${result}\n\n" >>${log}
+        result="ok"
+        echo -e "--------------------\n${timemark}\n${result}\n" >>${log}
     else
-        result="网络异常"
-        echo -e "--------------------------------\n检测时间:${timemark}\n网络状态:${result}\n\n" >>${log}
+        result="bad,system reboot"
+        echo -e "---------------------\n${timemark}\n${result}\n" >>${log}
     fi
 
 }
 function Clog {
-    if [[ $(date +"%m") -eq "01" ]]; then
-        if [[ $(date +"%d") -eq "01" ]]; then
-            if [[ $(date +"%H") -eq "00" ]]; then
-                if [[ $(date +"%M") -eq "00" ]]; then
-                    echo -e "日志已经在${timemark}刷新\n" >${log}
-                fi
+    if [[ $(date +"%d") -eq "01" ]]; then
+        if [[ $(date +"%H") -eq "00" ]]; then
+            if [[ $(date +"%M") -eq "00" ]]; then
+                echo -e "日志已经在${timemark}刷新\n" >${log}
             fi
         fi
     fi
+    
 }
 function Run {
     ConnectionCheck
-    Logger
     Clog
+    Logger
     cat ${log}
     if [[ ${connection} == "0" ]]; then
+        sleep 10s
         reboot
     fi
     exit 0
