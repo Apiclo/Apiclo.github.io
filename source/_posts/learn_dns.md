@@ -43,7 +43,30 @@ options {
         recursing-file  "/var/named/data/named.recursing";
         secroots-file   "/var/named/data/named.secroots";
         allow-query     { any; };
-...
+        recursion yes;
+        dnssec-enable yes;
+        dnssec-validation yes;
+        bindkeys-file "/etc/named.root.key";
+        managed-keys-directory "/var/named/dynamic";
+        pid-file "/run/named/named.pid";
+        session-keyfile "/run/named/session.key";
+};
+
+logging {
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
+};
+
+zone "." IN {
+        type hint;
+        file "named.ca";
+};
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
+
 ```
 ## 配置区域文件
 sudo vim /etc/named.rfc1912.zones
