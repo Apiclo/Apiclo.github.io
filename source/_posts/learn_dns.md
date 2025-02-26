@@ -207,3 +207,18 @@ sudo named-checkzone 56.168.192.in-addr.arpa /var/named/56.168.192.zone # 检查
 sudo systemctl restart named
 ```
 
+# 测试机需要做的事情
+1. **修改解析文件**：
+```bash
+sudo vim/etc/resolv.conf
+```
+```plaintext
+nameserver 192.168.56.200
+```
+
+2. **测试解析**：
+```bash
+nslookup test1.k3k5.com
+nslookup test2.k3k5.com
+nslookup testc.k3k5.com
+```
