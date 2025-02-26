@@ -15,6 +15,8 @@ sudo sed -i.bak \
   -e 's|^#baseurl=http://mirror.centos.org/centos|baseurl=https://mirrors.ustc.edu.cn/centos-vault/centos|g' \
   /etc/yum.repos.d/CentOS-Base.repo
 ```
+chmod +x repo.sh
+./repo.sh
 sudo yum makecache
 sudo yum update
 ## 安装DNS必要软件包
