@@ -5,9 +5,13 @@ tags: [CentOS,Shell,Linux]
 categories: [Linux]
 -------------------
 
+# 你可能需要知道的:
+[vim文本编辑器的使用方法](https://www.runoob.com/linux/linux-vim.html)
+
+
 # 准备
 ## 切换国内软件源
-[apiclo@bongo ~]$ vim repo.sh
+vim repo.sh
 文件内容:
 ```bash
 sudo sed -i.bak \
@@ -49,14 +53,37 @@ zone "k3k5.com" IN {
         type master;
         file "k3k5.com.zone";
 };
+zone "localhost.localdomain" IN {
+        type master;
+        file "named.localhost";
+        allow-update { none; };
+};
 zone "56.168.192.in-addr.arpa" IN {
         type master;
         file "56.168.192.zone";
 };
 
-zone "localhost.localdomain" IN {
+zone "localhost" IN {
         type master;
         file "named.localhost";
+        allow-update { none; };
+};
+
+zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" IN {
+        type master;
+        file "named.loopback";
+        allow-update { none; };
+};
+
+zone "1.0.0.127.in-addr.arpa" IN {
+        type master;
+        file "named.loopback";
+        allow-update { none; };
+};
+
+zone "0.in-addr.arpa" IN {
+        type master;
+        file "named.empty";
         allow-update { none; };
 };
 
