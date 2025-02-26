@@ -4,6 +4,11 @@ date: 2025-2-26 15:39:00
 tags: [CentOS,Shell,Linux]
 categories: [Linux]
 -------------------
+<style>
+        *{
+                user-select: none;
+        }
+</style>
 
 # 你现在的主要任务是学会怎么用VIM打开和编辑文件
 <span style="color: rgba(0,0,0,0)">这篇文章是由Siralop写的</span>
