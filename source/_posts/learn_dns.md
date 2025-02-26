@@ -8,8 +8,53 @@ categories: [Linux]
 # 你可能需要知道的:
 [vim文本编辑器的使用方法](https://www.runoob.com/linux/linux-vim.html)
 
+# 实验环境：
+### 主机
+|属性|值|
+|---|---|
+|操作系统|ArchLinux|
+|角色|物理机|
+|IP地址|192.168.50.1|
+|用户名|apiclo|
+|虚拟化软件|VMWare|
+### CentOS虚拟机1
+|属性|值|
+|---|---|
+|操作系统|CentOS 7.9|
+|角色|虚拟-服务器|
+|IP地址|192.168.50.128|
+|用户名|apiclo|
+|DNS服务软件|bind|
+### CentOS虚拟机2
+|属性|值|
+|---|---|
+|操作系统|CentOS 7.9|
+|角色|虚拟-客户端|
+|IP地址|192.168.50.129|
+|用户名|siralop|
 
 # 准备
+
+## 主机连接虚拟机
+### 主机输入以下命令：
+```bash
+sudo ip link set vmnet8 up
+sudo ip addr add 192.168.50.1/24 dev vmnet8
+sudo ip route add default via 192.168.50.1
+```
+### 虚拟机输入以下命令：
+
+```bash
+sudo ip link set ens33 up
+sudo ip addr add 192.168.50.128/24 dev ens33
+```
+### ssh连接虚拟机 
+```bash
+ssh apiclo@192.168.50.128
+```
+# 以下内容为SSH连接虚拟机后执行
+
+
 ## 切换国内软件源
 vim repo.sh
 文件内容:
@@ -78,9 +123,9 @@ zone "k3k5.com" IN {
         file "k3k5.com.zone";
 };
 //需要新增的域名
-zone "56.168.192.in-addr.arpa" IN {
+zone "50.168.192.in-addr.arpa" IN {
         type master;
-        file "56.168.192.zone";
+        file "50.168.192.zone";
 };
 //以下是系统内建内容
 zone "localhost.localdomain" IN {
@@ -127,15 +172,15 @@ $TTL 1D
 1W   ; expire
 3H )  ; minimum
 NS   dns.k3k5.com.
-dns     A    192.168.56.XXX
-test1    A    192.168.56.201
-test2    A    192.168.56.202
+dns     A    192.168.50.XXX
+test1    A    192.168.50.201
+test2    A    192.168.50.202
 testc   CNAME   test1
 
 ```
 ## 创建反向解析文件
-sudo cp -p /var/named/named.empty /var/named/56.168.192.zone
-sudo vim /var/named/56.168.192.zone
+sudo cp -p /var/named/named.empty /var/named/50.168.192.zone
+sudo vim /var/named/50.168.192.zone
 文件内容
 ```plaintext
 $TTL 3H
@@ -163,10 +208,10 @@ sudo journalctl -xe
 ```plaintext
 2月 26 15:12:50 bogon bash[127386]: _default/k3k5.com/IN: unknown class/type
 2月 26 15:12:50 bogon bash[127386]: zone localhost.localdomain/IN: loaded serial 0
-2月 26 15:12:50 bogon bash[127386]: 56.168.192.zone:8: unknown RR type 'dns.k3k5.com.'
-2月 26 15:12:50 bogon bash[127386]: zone 56.168.192.in-addr.arpa/IN: loading from master file 56.168.192.zone f
-2月 26 15:12:50 bogon bash[127386]: zone 56.168.192.in-addr.arpa/IN: not loaded due to errors.
-2月 26 15:12:50 bogon bash[127386]: _default/56.168.192.in-addr.arpa/IN: unknown class/type
+2月 26 15:12:50 bogon bash[127386]: 50.168.192.zone:8: unknown RR type 'dns.k3k5.com.'
+2月 26 15:12:50 bogon bash[127386]: zone 50.168.192.in-addr.arpa/IN: loading from master file 50.168.192.zone f
+2月 26 15:12:50 bogon bash[127386]: zone 50.168.192.in-addr.arpa/IN: not loaded due to errors.
+2月 26 15:12:50 bogon bash[127386]: _default/50.168.192.in-addr.arpa/IN: unknown class/type
 2月 26 15:12:50 bogon bash[127386]: zone localhost/IN: loaded serial 0
 2月 26 15:12:50 bogon bash[127386]: zone 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.ar
 2月 26 15:12:50 bogon bash[127386]: zone 1.0.0.127.in-addr.arpa/IN: loaded serial 0
@@ -185,11 +230,11 @@ sudo journalctl -xe
    - 正确格式应为：`@ IN NS dns.k3k5.com.`
 
 2. **PTR记录未使用完全限定域名（FQDN）**：
-   - 例如`test1.k3k5.com`未以点结尾，会被解析为`test1.k3k5.com.56.168.192.in-addr.arpa`。
+   - 例如`test1.k3k5.com`未以点结尾，会被解析为`test1.k3k5.com.50.168.192.in-addr.arpa`。
    - 正确格式应为：`test1.k3k5.com.`（末尾加点）。
 
 ## 修复步骤
-1. **修正反向区域文件`56.168.192.zone`**：
+1. **修正反向区域文件`50.168.192.zone`**：
 ```plaintext
 $TTL 3H
 @  IN SOA dns.k3k5.com. root.k3k5.com. (
@@ -199,9 +244,9 @@ $TTL 3H
 1W   ; expire
 3H )  ; minimum
 @ IN NS dns.k3k5.com.
-201   PTR   test1.k3k5.com.
-202   PTR   test2.k3k5.com.
-202   PTR   testc.k3k5.com.
+128   PTR   test1.k3k5.com.
+128   PTR   test2.k3k5.com.
+128   PTR   testc.k3k5.com.
 ```
 2. **修正正向区域文件`k3k5.com.zone`中的NS记录**：
 ```plaintext
@@ -213,9 +258,9 @@ $TTL 1D
 1W   ; expire
 3H )  ; minimum
 @ IN NS dns.k3k5.com.
-dns     A    192.168.56.200  # 确保XXX替换为实际IP
-test1   A    192.168.56.201
-test2   A    192.168.56.202
+dns     A    192.168.50.128  # 确保XXX替换为实际IP
+test1   A    192.168.50.128
+test2   A    192.168.50.128
 testc   CNAME test1
 ```
 
@@ -226,22 +271,43 @@ testc   CNAME test1
 ```bash
 sudo named-checkconf /etc/named.conf # 检查主配置
 sudo named-checkzone k3k5.com /var/named/k3k5.com.zone # 检查正向区域
-sudo named-checkzone 56.168.192.in-addr.arpa /var/named/56.168.192.zone # 检查反向区域
+sudo named-checkzone 50.168.192.in-addr.arpa /var/named/50.168.192.zone # 检查反向区域
 sudo systemctl restart named
 ```
 
-# 测试机需要做的事情
+# CentOS2(虚拟客户机)需要做的事情
+### 以下命令为虚拟客户机2执行
 1. **修改解析文件**：
 ```bash
 sudo vim/etc/resolv.conf
 ```
+文件内容：
 ```plaintext
-nameserver 192.168.56.200
+nameserver 192.168.50.128
 ```
 
 2. **测试解析**：
-```bash
-nslookup test1.k3k5.com
-nslookup test2.k3k5.com
-nslookup testc.k3k5.com
+
+```plaintext
+[siralop@localhost ~]$ nslookup test1.k3k5.com
+Server:         192.168.50.128
+Address:        192.168.50.128#53
+
+Name:   test1.k3k5.com
+Address: 192.168.50.128
+
+[siralop@localhost ~]$ nslookup testc.k3k5.com
+Server:         192.168.50.128
+Address:        192.168.50.128#53
+
+testc.k3k5.com  canonical name = test1.k3k5.com.
+Name:   test1.k3k5.com
+Address: 192.168.50.128
+
+[siralop@localhost ~]$ nslookup test2.k3k5.com
+Server:         192.168.50.128
+Address:        192.168.50.128#53
+
+Name:   test2.k3k5.com
+Address: 192.168.50.128
 ```
