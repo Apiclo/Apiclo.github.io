@@ -49,20 +49,22 @@ options {
 sudo vim /etc/named.rfc1912.zones
 文件内容
 ```plaintext
+//需要新增的域名
 zone "k3k5.com" IN {
         type master;
         file "k3k5.com.zone";
 };
+//需要新增的域名
+zone "56.168.192.in-addr.arpa" IN {
+        type master;
+        file "56.168.192.zone";
+};
+//以下是系统内建内容
 zone "localhost.localdomain" IN {
         type master;
         file "named.localhost";
         allow-update { none; };
 };
-zone "56.168.192.in-addr.arpa" IN {
-        type master;
-        file "56.168.192.zone";
-};
-
 zone "localhost" IN {
         type master;
         file "named.localhost";
@@ -127,11 +129,13 @@ NS   dns.k3k5.com.
 ```
 ## 重启DNS服务
 sudo systemctl restart named.service
-出现错误,开始排错
+出现以下错误信息
 ```plaintext
 Job for named.service failed because the control process exited with error code. See "systemctl status named.service" and "journalctl -xe" for details.
 
 ```
+查看日志,开始排错
+sudo journalctl -xe
 
 ```plaintext
 2月 26 15:12:50 bogon bash[127386]: _default/k3k5.com/IN: unknown class/type
