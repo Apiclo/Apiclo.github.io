@@ -116,7 +116,7 @@ aside:
   card:
     style: 0 # 0: default 1: style 1 2: style 2
     author:
-      img: /img/site/ava.jpg # url (avatar)
+      img: htttps://apiclo.github.io/img/site/ava.jpg # url (avatar)
       sticker: # url (sticker), 24x24
     url: /about/ # Click name to jump to address
     background: # https://s3.qjqq.cn/47/663af296b85f4.webp!color # Background image(Invalid if style is 0)
@@ -331,8 +331,8 @@ footer:
   privacy: # /privacy/ # Privacy policy
   license: # https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh # License
   links:
-    - name: 主题：solitude
-      url: https://github.com/everfu/hexo-theme-solitude
+    - name: 采用Hexo引擎
+      url: https://hexo.io/
     # - name: RSS
     #   url: /atom.xml
 # --------------------------- end ---------------------------
