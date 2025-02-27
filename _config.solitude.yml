@@ -224,7 +224,7 @@ post:
       enable: true
       author:
         url: /about/ # Author link
-        img: /img/site/ava.jpg
+        img: https://apiclo.github.io/img/site/ava.jpg
       license: CC BY-NC-SA 4.0 # License
       licenurl: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh # License link
   meta: # Article meta information
@@ -608,7 +608,7 @@ css_prefix: false
 font:
   font-size: 16px
   code-font-size: 16px
-  font-family: "PingFang SC, Hiragino Sans GB, Microsoft YaHei"
+  font-family: "PingFang SC, MiSans,Harmony Sans,OPPO Sans,Sans-serif,Google Sans,Noto Sans SC,Hiragino Sans GB, Microsoft YaHei"
   code-font-family: '"monospace", monospace'
 # --------------------------- end ---------------------------
 
