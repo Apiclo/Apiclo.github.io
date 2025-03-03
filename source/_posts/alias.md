@@ -73,7 +73,7 @@ ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_V
 ````
 
 某不知名软件配置规则
-```conf
+```yaml
 rules:
   - IP-CIDR,139.196.16.114/32,DIRECT
   - DOMAIN-SUFFIX,siralop.top,DIRECT
