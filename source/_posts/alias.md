@@ -71,3 +71,30 @@ alias caplog="ssh root@192.168.200.1 \"cat portal.log\""
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
 
 ````
+
+某不知名软件配置规则
+```conf
+rules:
+  - IP-CIDR,139.196.16.114/32,DIRECT
+  - DOMAIN-SUFFIX,siralop.top,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,172.0.0.0/8,DIRECT
+  - DOMAIN-KEYWORD,baidu,DIRECT
+  - DOMAIN-KEYWORD,douyin,DIRECT
+  - DOMAIN-KEYWORD,wexin,DIRECT
+  - DOMAIN-SUFFIX,edu.cn,DIRECT
+  - DOMAIN-SUFFIX,gov.cn,DIRECT
+  - DOMAIN-SUFFIX,dhh.lol,🚀 节点选择
+  - DOMAIN-SUFFIX,steamcommunity.com, 🚀 节点选择
+  - DOMAIN-SUFFIX,github.com, 🚀 节点选择
+  - DOMAIN-SUFFIX,github.io, 🚀 节点选择
+  - DOMAIN-SUFFIX,githubusercontent.com, 🚀 节点选择
+  - DOMAIN-SUFFIX,gitlab.com, 🚀 节点选择
+  - DOMAIN-SUFFIX,gitlab.io, 🚀 节点选择
+  - DOMAIN-SUFFIX,googleapis.cn, 🚀 节点选择
+  - DOMAIN-SUFFIX,googleapis.com, 🚀 节点选择
+  - DOMAIN-SUFFIX,googleapis.jp, 🚀 节点选择
+  - DOMAIN-SUFFIX,googleapis.tw, 🚀 节点选择
+  - DOMAIN-SUFFIX,googleapis.com.hk, 🚀 节点选择
+  - DOMAIN-SUFFIX,googleapis.com.sg, 🚀 节点选择
+```
