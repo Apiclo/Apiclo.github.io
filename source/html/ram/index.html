@@ -59,7 +59,7 @@
 
         async function run() {
             console.log("开始等待...");
-            await sleep(50); // 等待50毫秒
+            await sleep(1000); // 等待1秒
             for (let i = 114.514191981; i > 0; i++) {
                 while (true) {
                     console.log(i += 114.514191981)
@@ -82,7 +82,7 @@
         }
         async function sun() {
             console.log("开始等待...");
-            await sleep(50); // 等待50毫秒
+            await sleep(2000); // 等待2秒
             console.log("开始占用内存和CPU...");
 
             // 创建内存占用的Worker
