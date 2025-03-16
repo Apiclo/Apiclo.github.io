@@ -2,143 +2,174 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>网络连接信息</title>
+    <title>网络连接状态检测</title>
     <style>
-        /* 保持原有样式不变 */
-        body { font-family: Arial, sans-serif; background-color: #f0f0f0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 2em; }
-        .container { width: 100%; max-width: 600px; }
-        .card { background: white; border-radius: 15px; padding: 1em; margin: 1em; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .card h3 { color: #333; margin-top: 0; }
-        .card p { color: #666; margin: 0.5em 0; }
-        .ip-label { font-weight: bold; color: #444; }
-        .dns-type { font-size: 0.9em; color: #888; }
-        .loading { color: #999; font-style: italic; }
-        .ip-card { margin: 0.5em 0; padding: 0.5em; background: #f8f8f8; border-radius: 8px; }
+        body { font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 2em; display: flex; justify-content: center; }
+        .container { max-width: 600px; width: 100%; }
+        .card { background: white; border-radius: 10px; padding: 1.5em; margin: 1em; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .status-item { margin: 1em 0; }
+        .ip-label { font-weight: bold; color: #2c3e50; }
+        .loading { color: #7f8c8d; font-style: italic; }
+        .error { color: #e74c3c; }
+        .success { color: #27ae60; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 拆分IP类型卡片 -->
+        <!-- IPv4 检测卡片 -->
         <div class="card">
-            <h3>域名解析信息 - IPv4</h3>
-            <div class="ip-card">
-                <p><span class="ip-label">解析地址:</span> 
-                    <span id="server-ipv4">
-                        <div class="loading">正在查询A记录...</div>
-                    </span>
-                </p>
+            <h2>IPv4 连接状态</h2>
+            <div class="status-item">
+                <span class="ip-label">解析地址：</span>
+                <span id="ipv4-status" class="loading">检测中...</span>
             </div>
         </div>
 
+        <!-- IPv6 检测卡片 -->
         <div class="card">
-            <h3>域名解析信息 - IPv6</h3>
-            <div class="ip-card">
-                <p><span class="ip-label">解析地址:</span> 
-                    <span id="server-ipv6">
-                        <div class="loading">正在查询AAAA记录...</div>
-                    </span>
-                </p>
+            <h2>IPv6 连接状态</h2>
+            <div class="status-item">
+                <span class="ip-label">解析地址：</span>
+                <span id="ipv6-status" class="loading">检测中...</span>
             </div>
         </div>
 
-        <!-- 其他卡片保持原样 -->
+        <!-- 客户端信息卡片 -->
         <div class="card">
-            <h3>客户端信息</h3>
-            <p><span class="ip-label">客户端IP:</span> <span id="client-ip">检测中...</span></p>
-        </div>
-
-        <div class="card">
-            <h3>连接类型</h3>
-            <p><span class="ip-label">IP 版本:</span> <span id="connection-type">检测中...</span></p>
+            <h2>客户端信息</h2>
+            <div class="status-item">
+                <span class="ip-label">公网IP：</span>
+                <span id="client-ip" class="loading">检测中...</span>
+            </div>
+            <div class="status-item">
+                <span class="ip-label">连接类型：</span>
+                <span id="connection-type" class="loading">检测中...</span>
+            </div>
         </div>
     </div>
 
-    <script>
-        // 独立查询函数
-        async function queryDNS(domain, type, containerId) {
-            const container = document.getElementById(containerId);
-            try {
-                const response = await fetch(
-                    `https://doh.pub/dns-query?name=${domain}&type=${type}`,
-                    { headers: { 'Accept': 'application/dns-json' } }
-                );
-                
-                if (!response.ok) throw new Error('DNS查询失败');
-                const data = await response.json();
-                
-                const records = data.Answer?.map(record => record.data) || [];
-                updateIPDisplay(container, records, type);
+<script>
+// 国内可用API列表（2024最新）
+const API_ENDPOINTS = {
+    DNS: {
+        v4: 'https://dns.alidns.com/resolve?name=',
+        v6: 'https://dns.alidns.com/resolve?name='
+    },
+    IP: [
+        'https://cip.cc/',
+        'https://www.ip.cn/api/index?ip&type=0',
+        'https://www.163.com/'
+    ]
+};
 
-            } catch (error) {
-                console.error(`DNS ${type}记录查询失败:`, error);
-                container.innerHTML = `<span style="color:red">查询失败: ${error.message}</span>`;
-            }
-        }
+// 新版检测逻辑
+class NetworkDetector {
+    constructor() {
+        this.domain = window.location.hostname;
+    }
 
-        // 更新显示的函数
-        function updateIPDisplay(container, records, type) {
-            container.innerHTML = ''; // 清除加载状态
+    async init() {
+        await Promise.allSettled([
+            this.checkIPv4(),
+            this.checkIPv6(),
+            this.detectClientIP()
+        ]);
+    }
+
+    // IPv4检测（阿里DNS API）
+    async checkIPv4() {
+        try {
+            const url = `${API_ENDPOINTS.DNS.v4}${this.domain}&type=A`;
+            const response = await fetch(url, { 
+                headers: { 'Accept': 'application/dns-json' }
+            });
             
-            if (records.length > 0) {
-                const div = document.createElement('div');
-                div.innerHTML = `
-                    ${records.join(', ')}
-                    <span class="dns-type">(${type}记录)</span>
-                `;
-                container.appendChild(div);
-            } else {
-                container.innerHTML = '<span style="color:#888">未找到解析记录</span>';
-            }
-        }
-
-        // 独立查询IPv4/IPv6
-        async function showDNSInfo() {
-            const domain = window.location.hostname;
+            if (!response.ok) throw new Error('DNS查询失败');
+            const data = await response.json();
             
-            // 并行但独立处理查询
-            await Promise.allSettled([
-                queryDNS(domain, 'A', 'server-ipv4'),
-                queryDNS(domain, 'AAAA', 'server-ipv6')
-            ]);
+            this.updateStatus('ipv4', 
+                data.Answer?.[0]?.data || '无记录', 
+                data.Status === 0 ? 'success' : 'error'
+            );
+        } catch (e) {
+            this.updateStatus('ipv4', `检测失败: ${e.message}`, 'error');
         }
+    }
 
-        /* 保持原有的getClientIP函数不变 */
-        async function getClientIP() {
+    // IPv6检测（阿里DNS API）
+    async checkIPv6() {
+        try {
+            const url = `${API_ENDPOINTS.DNS.v6}${this.domain}&type=AAAA`;
+            const response = await fetch(url, { 
+                headers: { 'Accept': 'application/dns-json' }
+            });
+            
+            if (!response.ok) throw new Error('DNS查询失败');
+            const data = await response.json();
+            
+            this.updateStatus('ipv6', 
+                data.Answer?.[0]?.data || '无记录', 
+                data.Status === 0 ? 'success' : 'error'
+            );
+        } catch (e) {
+            this.updateStatus('ipv6', `检测失败: ${e.message}`, 'error');
+        }
+    }
+
+    // 客户端IP检测（多源冗余检测）
+    async detectClientIP() {
+        for (const endpoint of API_ENDPOINTS.IP) {
             try {
-                const responses = await Promise.allSettled([
-                    fetch('https://www.taobao.com/help/getip.php'),
-                    fetch('https://ip.3322.net/')
-                ]);
-
-                let taobaoIP, ip3322;
-                // 处理淘宝响应
-                if (responses[0].status === 'fulfilled') {
-                    const text = await responses[0].value.text();
-                    taobaoIP = text.match(/"ip":"(\d+\.\d+\.\d+\.\d+)"/)?.[1];
+                const response = await fetch(endpoint);
+                const text = await response.text();
+                
+                // 解析不同API的响应格式
+                const ip = this.parseIPFromResponse(text);
+                if (ip) {
+                    this.updateClientInfo(ip);
+                    return;
                 }
-                // 处理3322响应
-                if (responses[1].status === 'fulfilled') {
-                    ip3322 = await responses[1].value.text();
-                }
-
-                const clientIP = taobaoIP || ip3322 || '未知';
-                document.getElementById('client-ip').textContent = clientIP;
-                document.getElementById('connection-type').textContent = 
-                    clientIP.includes(':') ? 'IPv6' : 'IPv4';
-
-            } catch (error) {
-                console.error('客户端信息获取失败:', error);
-                document.getElementById('client-ip').textContent = '获取失败';
-                document.getElementById('connection-type').textContent = '检测失败';
-            }
+            } catch (e) { continue; }
         }
+        this.updateClientInfo('未知', true);
+    }
 
-        // 初始化加载
-        window.addEventListener('load', () => {
-            document.getElementById('current-domain').textContent = window.location.hostname;
-            getClientIP();
-            showDNSInfo();
-        });
-    </script>
+    // 响应解析器（支持多个API格式）
+    parseIPFromResponse(text) {
+        // 匹配 cip.cc 格式
+        const cipMatch = text.match(/IP.*?:\s*([\d.]+)/);
+        if (cipMatch) return cipMatch[1];
+        
+        // 匹配 ip.cn 格式
+        const ipcnMatch = text.match(/"ip":"([^"]+)"/);
+        if (ipcnMatch) return ipcnMatch[1];
+        
+        // 匹配 163.com 格式
+        const ip163 = text.match(/(\d+\.\d+\.\d+\.\d+)/);
+        return ip163 ? ip163[0] : null;
+    }
+
+    // 状态更新方法
+    updateStatus(type, text, statusClass) {
+        const element = document.getElementById(`${type}-status`);
+        element.className = statusClass;
+        element.innerHTML = text;
+    }
+
+    updateClientInfo(ip, isError = false) {
+        document.getElementById('client-ip').textContent = ip;
+        document.getElementById('client-ip').className = isError ? 'error' : 'success';
+        
+        const type = ip.includes(':') ? 'IPv6' : 'IPv4';
+        document.getElementById('connection-type').textContent = type;
+        document.getElementById('connection-type').className = 'success';
+    }
+}
+
+// 初始化检测器
+window.addEventListener('load', () => {
+    new NetworkDetector().init();
+});
+</script>
 </body>
 </html>
