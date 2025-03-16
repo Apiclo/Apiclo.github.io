@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>ifconfig</title>
+    <title>网络连接信息</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,51 +48,60 @@
     <div class="container">
         <div class="card">
             <h3>服务器信息</h3>
-            <p><span class="ip-label">服务器IP:</span> <span id="server-ip">xxxx</span></p>
+            <p><span class="ip-label">服务器IP:</span> <span id="server-ip">需后端提供</span></p>
         </div>
 
         <div class="card">
             <h3>客户端信息</h3>
-            <p><span class="ip-label">客户端IP:</span> <span id="client-ip">xxxx</span></p>
+            <p><span class="ip-label">客户端IP:</span> <span id="client-ip">检测中...</span></p>
         </div>
 
         <div class="card">
-            <h3>连接状态</h3>
-            <p><span class="ip-label">当前协议:</span> <span id="connection-type">检测中...</span></p>
+            <h3>连接类型</h3>
+            <p><span class="ip-label">IP 版本:</span> <span id="connection-type">检测中...</span></p>
         </div>
     </div>
 
     <script>
-        // 获取客户端IP
         async function getClientIP() {
             try {
-                // 获取IPv4地址
-                const response4 = await fetch('https://api.ipify.org?format=json');
-                const data4 = await response4.json();
+                const responses = await Promise.allSettled([
+                    fetch('https://api.ipify.org?format=json'),
+                    fetch('https://api64.ipify.org?format=json')
+                ]);
+
+                let ip4, ip6;
                 
-                // 获取IPv6地址
-                const response6 = await fetch('https://api64.ipify.org?format=json');
-                const data6 = await response6.json();
+                // 处理 IPv4 响应
+                if (responses[0].status === 'fulfilled' && responses[0].value.ok) {
+                    const data = await responses[0].value.json();
+                    ip4 = data.ip;
+                }
 
-                // 显示客户端IP
-                const clientIpElement = document.getElementById('client-ip');
-                clientIpElement.textContent = data6.ip || data4.ip;
+                // 处理 IPv6 响应
+                if (responses[1].status === 'fulfilled' && responses[1].value.ok) {
+                    const data = await responses[1].value.json();
+                    ip6 = data.ip;
+                }
 
-                // 检测连接类型
-                const connectionTypeElement = document.getElementById('connection-type');
-                connectionTypeElement.textContent = data6.ip.includes(':') ? 'IPv6' : 'IPv4';
+                const clientIP = ip6 || ip4 || '未知';
+                document.getElementById('client-ip').textContent = clientIP;
+
+                // 检测 IP 类型
+                let connectionType = '未知';
+                if (clientIP !== '未知') {
+                    connectionType = clientIP.includes(':') ? 'IPv6' : 'IPv4';
+                }
+                document.getElementById('connection-type').textContent = connectionType;
 
             } catch (error) {
-                console.error('获取IP失败:', error);
-                document.getElementById('client-ip').textContent = '未知';
+                console.error('检测失败:', error);
+                document.getElementById('client-ip').textContent = '获取失败';
                 document.getElementById('connection-type').textContent = '检测失败';
             }
         }
 
-        // 模拟服务器IP（实际使用时应从服务器获取）
-        document.getElementById('server-ip').textContent = window.location.hostname || '192.168.1.1';
-
-        // 页面加载时获取客户端信息
+        // 页面加载时获取信息
         window.addEventListener('load', getClientIP);
     </script>
 </body>
