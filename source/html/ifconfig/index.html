@@ -5,43 +5,14 @@
     <title>网络连接信息</title>
     <style>
         /* 保持原有样式不变 */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 2em;
-        }
-        .container {
-            width: 100%;
-            max-width: 600px;
-        }
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 1em;
-            margin: 1em;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .card h3 {
-            color: #333;
-            margin-top: 0;
-        }
-        .card p {
-            color: #666;
-            margin: 0.5em 0;
-        }
-        .ip-label {
-            font-weight: bold;
-            color: #444;
-        }
-        .dns-type {
-            font-size: 0.9em;
-            color: #888;
-        }
+        body { font-family: Arial, sans-serif; background-color: #f0f0f0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 2em; }
+        .container { width: 100%; max-width: 600px; }
+        .card { background: white; border-radius: 15px; padding: 1em; margin: 1em; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .card h3 { color: #333; margin-top: 0; }
+        .card p { color: #666; margin: 0.5em 0; }
+        .ip-label { font-weight: bold; color: #444; }
+        .dns-type { font-size: 0.9em; color: #888; }
+        .loading { color: #999; font-style: italic; }
     </style>
 </head>
 <body>
@@ -72,11 +43,11 @@
         const currentDomain = window.location.hostname;
         document.getElementById('current-domain').textContent = currentDomain;
 
-        // 使用Cloudflare的DNS-over-HTTPS API
+        // 使用国内DNS API（腾讯云DNSPod）
         async function getDNSRecords(domain, type = 'A') {
             try {
                 const response = await fetch(
-                    `https://cloudflare-dns.com/dns-query?name=${domain}&type=${type}`,
+                    `https://doh.pub/dns-query?name=${domain}&type=${type}`,
                     {
                         headers: {
                             'Accept': 'application/dns-json'
@@ -87,6 +58,7 @@
                 if (!response.ok) throw new Error('DNS查询失败');
                 const data = await response.json();
                 
+                // 解析DNSPod返回格式
                 return data.Answer ? data.Answer.map(record => record.data) : [];
             } catch (error) {
                 console.error(`DNS ${type}记录查询失败:`, error);
@@ -94,7 +66,7 @@
             }
         }
 
-        // 显示DNS解析结果
+        // 显示DNS解析结果（优化国内访问）
         async function showDNSInfo() {
             const ipContainer = document.getElementById('server-ip');
             ipContainer.innerHTML = '<div class="loading">正在查询DNS记录...</div>';
@@ -138,20 +110,31 @@
             }
         }
 
-        // 获取客户端IP（优化版）
+        // 使用国内IP检测服务
         async function getClientIP() {
             try {
+                // 同时使用多个国内IP检测服务
                 const responses = await Promise.allSettled([
-                    fetch('https://api.ipify.org?format=json'),
-                    fetch('https://api64.ipify.org?format=json')
+                    fetch('https://www.taobao.com/help/getip.php'),
+                    fetch('https://ip.3322.net/')
                 ]);
 
-                const ip4 = responses[0].status === 'fulfilled' && responses[0].value.ok 
-                    ? (await responses[0].value.json()).ip : null;
-                const ip6 = responses[1].status === 'fulfilled' && responses[1].value.ok 
-                    ? (await responses[1].value.json()).ip : null;
+                // 处理淘宝IP服务
+                let taobaoIP = null;
+                if (responses[0].status === 'fulfilled') {
+                    const text = await responses[0].value.text();
+                    const match = text.match(/"ip":"(\d+\.\d+\.\d+\.\d+)"/);
+                    taobaoIP = match ? match[1] : null;
+                }
 
-                const clientIP = ip6 || ip4 || '未知';
+                // 处理3322 IP服务
+                let ip3322 = null;
+                if (responses[1].status === 'fulfilled') {
+                    ip3322 = await responses[1].value.text();
+                }
+
+                // 优先显示淘宝IP，其次3322
+                const clientIP = taobaoIP || ip3322 || '未知';
                 document.getElementById('client-ip').textContent = clientIP;
 
                 // 检测IP类型
