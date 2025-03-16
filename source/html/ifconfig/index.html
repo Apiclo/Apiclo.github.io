@@ -26,22 +26,27 @@
             </div>
         </div>
 
-        <div class="card client-card">
-            <div class="card-header">
-                <h2>客户端信息</h2>
-                <span class="status-indicator loading" data-type="client"></span>
-            </div>
-            <div class="info-grid">
-                <div class="info-item">
-                    <label>IP 地址</label>
-                    <pre id="client-ip">-</pre>
-                </div>
-                <div class="info-item">
-                    <label>连接类型</label>
-                    <div id="connection-type" class="connection-badge">-</div>
-                </div>
-            </div>
+        <!-- 修改客户端信息部分的HTML结构 -->
+<div class="card client-card">
+    <div class="card-header">
+        <h2>客户端信息</h2>
+        <span class="status-indicator loading" data-type="client"></span>
+    </div>
+    <div class="info-grid">
+        <div class="info-item">
+            <label>IPv4 地址</label>
+            <pre id="client-ipv4">-</pre>
         </div>
+        <div class="info-item ipv6-item" style="display: none;">
+            <label>IPv6 地址</label>
+            <pre id="client-ipv6">-</pre>
+        </div>
+        <div class="info-item">
+            <label>连接类型</label>
+            <div id="connection-type" class="connection-badge">-</div>
+        </div>
+    </div>
+</div>
     </div>
     <script src="script.js"></script>
 </body>
