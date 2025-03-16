@@ -1,109 +1,109 @@
 
-    // 国内可用API列表
-    const DNS_APIS = [
-        'https://dns.alidns.com/resolve',
-        'https://doh.360.cn/resolve'
-    ];
-
-    const IP_APIS = [
-        'https://ip.seeing.cz/json',
-        'https://forge.speedtest.cn/api/location/ip',
-        'https://ip.useragentinfo.com/json'
-    ];
-
-    // 随机选择可用API
-    function getRandomAPI(apis) {
-        return apis[Math.floor(Math.random() * apis.length)];
-    }
-
-    // DNS查询方法（支持重试）
-    async function queryDNSWithRetry(domain, type, retries = 2) {
-        for (let i = 0; i < retries; i++) {
-            try {
-                const api = getRandomAPI(DNS_APIS);
-                const response = await fetch(`${api}?name=${domain}&type=${type}`, {
-                    headers: { 'Accept': 'application/dns-json' }
-                });
-                
-                if (!response.ok) throw new Error('DNS查询失败');
-                const data = await response.json();
-                
-                if (data.Status === 0 && data.Answer) {
-                    return data.Answer.map(record => record.data);
-                }
-            } catch (error) {
-                if (i === retries - 1) throw error;
-            }
-        }
-        return [];
-    }
-
-    // 更新卡片状态
-    function updateCardStatus(type, status) {
-        const indicator = document.querySelector(`#server-${type} ~ .status-indicator`);
-        indicator.className = `status-indicator ${status}`;
-    }
-
-    // 显示DNS信息（优化版）
-    async function showDNSInfo() {
-        const domain = window.location.hostname;
-        
+    // 获取当前访问域名
+    const currentDomain = window.location.hostname;
+    
+    // 国内DNS服务（腾讯云DNSPod）
+    async function getDNSRecords(domain, type = 'A') {
         try {
-            const [ipv4Records, ipv6Records] = await Promise.all([
-                queryDNSWithRetry(domain, 'A'),
-                queryDNSWithRetry(domain, 'AAAA')
+            const response = await fetch(
+                `https://doh.pub/dns-query?name=${domain}&type=${type}`,
+                {
+                    headers: { 'Accept': 'application/dns-json' }
+                }
+            );
+            
+            if (!response.ok) throw new Error('DNS查询失败');
+            const data = await response.json();
+            return data.Answer ? data.Answer.map(record => record.data) : [];
+        } catch (error) {
+            console.error(`DNS ${type}记录查询失败:`, error);
+            return [];
+        }
+    }
+
+    // 显示DNS信息到独立卡片
+    async function showDNSInfo() {
+        try {
+            // 获取卡片元素
+            const ipv4Card = document.getElementById('server-ipv4');
+            const ipv6Card = document.getElementById('server-ipv6');
+            const statusIPv4 = document.querySelector('#server-ipv4 ~ .status-indicator');
+            const statusIPv6 = document.querySelector('#server-ipv6 ~ .status-indicator');
+
+            // 显示加载状态
+            ipv4Card.textContent = '正在查询...';
+            ipv6Card.textContent = '正在查询...';
+            statusIPv4.className = 'status-indicator loading';
+            statusIPv6.className = 'status-indicator loading';
+
+            // 并行查询
+            const [ipv4List, ipv6List] = await Promise.all([
+                getDNSRecords(currentDomain, 'A'),
+                getDNSRecords(currentDomain, 'AAAA')
             ]);
 
-            // 处理IPv4结果
-            const ipv4Element = document.getElementById('server-ipv4');
-            if (ipv4Records.length > 0) {
-                ipv4Element.innerHTML = ipv4Records.join('<br>');
-                updateCardStatus('ipv4', 'success');
+            // 更新IPv4卡片
+            if (ipv4List.length > 0) {
+                ipv4Card.innerHTML = ipv4List.join('<br>');
+                statusIPv4.className = 'status-indicator success';
             } else {
-                ipv4Element.textContent = '未找到IPv4记录';
-                updateCardStatus('ipv4', 'error');
+                ipv4Card.textContent = '未找到IPv4记录';
+                statusIPv4.className = 'status-indicator error';
             }
 
-            // 处理IPv6结果
-            const ipv6Element = document.getElementById('server-ipv6');
-            if (ipv6Records.length > 0) {
-                ipv6Element.innerHTML = ipv6Records.join('<br>');
-                updateCardStatus('ipv6', 'success');
+            // 更新IPv6卡片
+            if (ipv6List.length > 0) {
+                ipv6Card.innerHTML = ipv6List.join('<br>');
+                statusIPv6.className = 'status-indicator success';
             } else {
-                ipv6Element.textContent = '未找到IPv6记录';
-                updateCardStatus('ipv6', 'error');
+                ipv6Card.textContent = '未找到IPv6记录';
+                statusIPv6.className = 'status-indicator error';
             }
+
         } catch (error) {
             console.error('DNS查询失败:', error);
             document.getElementById('server-ipv4').textContent = '查询失败';
             document.getElementById('server-ipv6').textContent = '查询失败';
-            updateCardStatus('ipv4', 'error');
-            updateCardStatus('ipv6', 'error');
+            document.querySelectorAll('.status-indicator').forEach(
+                el => el.className = 'status-indicator error'
+            );
         }
     }
 
     // 获取客户端IP（优化版）
     async function getClientIP() {
         try {
-            // 尝试多个API直到成功
-            for (const api of IP_APIS) {
+            // 尝试多个API
+            const apis = [
+                'https://www.taobao.com/help/getip.php',
+                'https://ip.3322.net/',
+                'https://v6.ip.zxinc.org/getip'
+            ];
+
+            for (const api of apis) {
                 try {
                     const response = await fetch(api);
-                    if (!response.ok) continue;
+                    const text = await response.text();
                     
-                    const data = await response.json();
-                    const ip = data.ip || data.data || data.ipaddress;
-                    if (ip) {
+                    // 处理不同API响应
+                    let ip = '';
+                    if (api.includes('taobao')) {
+                        const match = text.match(/"ip":"([^"]+)"/);
+                        ip = match ? match[1] : null;
+                    } else {
+                        ip = text.trim();
+                    }
+
+                    if (ip && /\d+\.\d+\.\d+\.\d+/.test(ip) || /:/.test(ip)) {
                         document.getElementById('client-ip').textContent = ip;
                         document.getElementById('connection-type').textContent = 
                             ip.includes(':') ? 'IPv6' : 'IPv4';
                         return;
                     }
-                } catch (e) {
-                    continue;
-                }
+                } catch (e) { continue; }
             }
-            throw new Error('所有IP API均失败');
+            throw new Error('所有API均失败');
+
         } catch (error) {
             console.error('客户端信息获取失败:', error);
             document.getElementById('client-ip').textContent = '获取失败';
@@ -111,7 +111,7 @@
         }
     }
 
-    // 页面加载初始化
+    // 初始化
     window.addEventListener('load', () => {
         showDNSInfo();
         getClientIP();
