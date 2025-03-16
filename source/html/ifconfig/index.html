@@ -49,127 +49,93 @@
     </div>
 
 <script>
-// 国内可用API列表（2024最新）
-const API_ENDPOINTS = {
-    DNS: {
-        v4: 'https://dns.alidns.com/resolve?name=',
-        v6: 'https://dns.alidns.com/resolve?name='
-    },
-    IP: [
-        'https://cip.cc/',
-        'https://www.ip.cn/api/index?ip&type=0',
-        'https://www.163.com/'
-    ]
-};
+// 更新客户端IP检测模块
+async function detectClientIP() {
+    const API_LIST = [
+        {
+            url: 'https://speed.neu6.edu.cn/getIP.php',
+            parser: text => text.match(/(\d+\.\d+\.\d+\.\d+)/)?.[0]
+        },
+        {
+            url: 'https://www.ipplus360.com/getIP',
+            parser: text => text.match(/((?:\d{1,3}\.){3}\d{1,3})/)?.[0]
+        },
+        {
+            url: 'https://www.cip.cc/',
+            parser: text => text.match(/IP\s+:\s+(\d+\.\d+\.\d+\.\d+)/)?.[1]
+        },
+        {
+            url: 'https://myip4.ipip.net',
+            parser: text => text.match(/(\d+\.\d+\.\d+\.\d+)/)?.[0]
+        }
+    ];
 
-// 新版检测逻辑
-class NetworkDetector {
-    constructor() {
-        this.domain = window.location.hostname;
-    }
+    // 新增WebRTC备选方案
+    const fallbackIP = await getLocalIP().catch(() => null);
 
-    async init() {
-        await Promise.allSettled([
-            this.checkIPv4(),
-            this.checkIPv6(),
-            this.detectClientIP()
-        ]);
-    }
-
-    // IPv4检测（阿里DNS API）
-    async checkIPv4() {
+    for (const api of API_LIST) {
         try {
-            const url = `${API_ENDPOINTS.DNS.v4}${this.domain}&type=A`;
-            const response = await fetch(url, { 
-                headers: { 'Accept': 'application/dns-json' }
+            const response = await fetch(api.url, {
+                mode: 'no-cors',
+                headers: { 'Cache-Control': 'no-cache' }
             });
             
-            if (!response.ok) throw new Error('DNS查询失败');
-            const data = await response.json();
+            if (!response.ok) continue;
+            const text = await response.text();
+            const ip = api.parser(text);
             
-            this.updateStatus('ipv4', 
-                data.Answer?.[0]?.data || '无记录', 
-                data.Status === 0 ? 'success' : 'error'
-            );
-        } catch (e) {
-            this.updateStatus('ipv4', `检测失败: ${e.message}`, 'error');
-        }
+            if (ip && this.validateIP(ip)) {
+                this.updateClientInfo(ip);
+                return;
+            }
+        } catch (e) { continue; }
     }
 
-    // IPv6检测（阿里DNS API）
-    async checkIPv6() {
-        try {
-            const url = `${API_ENDPOINTS.DNS.v6}${this.domain}&type=AAAA`;
-            const response = await fetch(url, { 
-                headers: { 'Accept': 'application/dns-json' }
-            });
-            
-            if (!response.ok) throw new Error('DNS查询失败');
-            const data = await response.json();
-            
-            this.updateStatus('ipv6', 
-                data.Answer?.[0]?.data || '无记录', 
-                data.Status === 0 ? 'success' : 'error'
-            );
-        } catch (e) {
-            this.updateStatus('ipv6', `检测失败: ${e.message}`, 'error');
-        }
-    }
-
-    // 客户端IP检测（多源冗余检测）
-    async detectClientIP() {
-        for (const endpoint of API_ENDPOINTS.IP) {
-            try {
-                const response = await fetch(endpoint);
-                const text = await response.text();
-                
-                // 解析不同API的响应格式
-                const ip = this.parseIPFromResponse(text);
-                if (ip) {
-                    this.updateClientInfo(ip);
-                    return;
-                }
-            } catch (e) { continue; }
-        }
-        this.updateClientInfo('未知', true);
-    }
-
-    // 响应解析器（支持多个API格式）
-    parseIPFromResponse(text) {
-        // 匹配 cip.cc 格式
-        const cipMatch = text.match(/IP.*?:\s*([\d.]+)/);
-        if (cipMatch) return cipMatch[1];
-        
-        // 匹配 ip.cn 格式
-        const ipcnMatch = text.match(/"ip":"([^"]+)"/);
-        if (ipcnMatch) return ipcnMatch[1];
-        
-        // 匹配 163.com 格式
-        const ip163 = text.match(/(\d+\.\d+\.\d+\.\d+)/);
-        return ip163 ? ip163[0] : null;
-    }
-
-    // 状态更新方法
-    updateStatus(type, text, statusClass) {
-        const element = document.getElementById(`${type}-status`);
-        element.className = statusClass;
-        element.innerHTML = text;
-    }
-
-    updateClientInfo(ip, isError = false) {
-        document.getElementById('client-ip').textContent = ip;
-        document.getElementById('client-ip').className = isError ? 'error' : 'success';
-        
-        const type = ip.includes(':') ? 'IPv6' : 'IPv4';
-        document.getElementById('connection-type').textContent = type;
-        document.getElementById('connection-type').className = 'success';
-    }
+    // 所有API失败时显示本地IP
+    this.updateClientInfo(fallbackIP || '未知', !!fallbackIP);
 }
 
-// 初始化检测器
-window.addEventListener('load', () => {
-    new NetworkDetector().init();
-});
+// IP格式验证
+validateIP(ip) {
+    return /^(?:\d{1,3}\.){3}\d{1,3}$/.test(ip) || 
+           /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/.test(ip);
+}
+
+// WebRTC获取本地IP
+async function getLocalIP() {
+    return new Promise((resolve, reject) => {
+        const pc = new RTCPeerConnection({ iceServers: [] });
+        pc.createDataChannel('');
+        pc.createOffer().then(sdp => pc.setLocalDescription(sdp));
+        
+        pc.onicecandidate = ice => {
+            if (!ice.candidate) return;
+            const ip = ice.candidate.address.match(/(\d+\.\d+\.\d+\.\d+)/)?.[0];
+            if (ip) resolve(ip);
+            pc.close();
+        };
+        
+        setTimeout(() => reject(new Error('Timeout')), 1000);
+    });
+}
+
+// 更新显示逻辑
+updateClientInfo(ip, isValid = false) {
+    const ipElement = document.getElementById('client-ip');
+    const typeElement = document.getElementById('connection-type');
+    
+    if (isValid) {
+        ipElement.textContent = ip;
+        ipElement.className = 'success';
+        typeElement.textContent = ip.includes(':') ? 'IPv6' : 'IPv4';
+        typeElement.className = 'success';
+    } else {
+        ipElement.textContent = '检测失败';
+        ipElement.className = 'error';
+        typeElement.textContent = '未知';
+        typeElement.className = 'error';
+    }
+}
 </script>
 </body>
 </html>
