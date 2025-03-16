@@ -2,91 +2,64 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>网络状态检测</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; max-width: 500px; margin: 0 auto; padding: 20px; }
-        .card { background: #fff; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .status { margin: 10px 0; }
-        .loading:after { content: '...'; animation: dots 1s infinite; }
-        @keyframes dots { 0%, 20% { content: '.'; } 40% { content: '..'; } 60% { content: '...'; } }
-    </style>
+    <title>网络连接信息</title>
+
+    <!-- 引入阿里图标 -->
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_2933086_3dhs5p9xq6k.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="card">
-        <h3>🌐 服务器解析</h3>
-        <div class="status">IPv4: <span id="ipv4">检测中<span class="loading"></span></span></div>
-        <div class="status">IPv6: <span id="ipv6">检测中<span class="loading"></span></span></div>
+    <div class="container">
+        <h1 style="color: #2d4059; text-align: center; margin-bottom: 30px;">网络连接信息</h1>
+        
+        <!-- 服务器信息组 -->
+        <div class="card-group">
+            <!-- IPv4 卡片 -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="iconfont icon-ipv4"></i>
+                    服务器IPv4地址
+                    <span class="status-indicator loading"></span>
+                </h3>
+                <div class="ip-address" id="server-ipv4">正在查询...</div>
+                <div class="protocol-tag ipv4-tag">IPv4 (A记录)</div>
+            </div>
+
+            <!-- IPv6 卡片 -->
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="iconfont icon-ipv6"></i>
+                    服务器IPv6地址
+                    <span class="status-indicator loading"></span>
+                </h3>
+                <div class="ip-address" id="server-ipv6">正在查询...</div>
+                <div class="protocol-tag ipv6-tag">IPv6 (AAAA记录)</div>
+            </div>
+        </div>
+
+        <!-- 客户端信息组 -->
+        <div class="card-group">
+            <div class="card">
+                <h3 class="card-title">
+                    <i class="iconfont icon-user"></i>
+                    您的连接信息
+                </h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <div style="color: #666; margin-bottom: 5px;">客户端IP</div>
+                        <div class="ip-address" id="client-ip">检测中...</div>
+                    </div>
+                    <div>
+                        <div style="color: #666; margin-bottom: 5px;">IP版本</div>
+                        <div class="ip-address" id="connection-type">检测中...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="card">
-        <h3>📱 客户端信息</h3>
-        <div class="status">IP地址: <span id="clientIp">检测中<span class="loading"></span></span></div>
-        <div class="status">协议类型: <span id="ipType">检测中<span class="loading"></span></span></div>
-    </div>
-
-<script>
-// 极简IP检测方案
-const detectIP = async () => {
-    // 主用API（清华大学镜像站）
-    try {
-        const res = await fetch('https://mirrors.tuna.tsinghua.edu.cn/ip', {signal: AbortSignal.timeout(2000)});
-        const ip = await res.text();
-        if(ip.match(/\d+\.\d+\.\d+\.\d+/) || ip.includes(':')) {
-            updateClient(ip.trim());
-            return;
-        }
-    } catch {}
-
-    // 备用方案1（中国科技网）
-    try {
-        const res = await fetch('https://www.ipv6.scu.edu.cn/getip.php');
-        const data = await res.json();
-        updateClient(data.ip);
-        return;
-    } catch {}
-
-    // 备用方案2（WebRTC回退）
-    try {
-        const ip = await new Promise((resolve) => {
-            const pc = new RTCPeerConnection({iceServers: []});
-            pc.createDataChannel('');
-            pc.createOffer().then(sdp => pc.setLocalDescription(sdp));
-            pc.onicecandidate = ice => ice.candidate && resolve(ice.candidate.address.match(/([\d.]+)/)?.[0]);
-        });
-        ip && updateClient(ip);
-    } catch {}
-};
-
-// DNS解析方案
-const checkDNS = async () => {
-    const domain = location.hostname;
-    const dnsCheck = async (type) => {
-        try {
-            const res = await fetch(`https://doh.pub/dns-query?name=${domain}&type=${type}`, {
-                headers: {Accept: 'application/dns-json'}
-            });
-            const data = await res.json();
-            return data.Answer?.[0]?.data || '无记录';
-        } catch {
-            return '查询失败';
-        }
-    };
-
-    document.getElementById('ipv4').textContent = await dnsCheck('A');
-    document.getElementById('ipv6').textContent = await dnsCheck('AAAA');
-};
-
-// 更新显示
-const updateClient = (ip) => {
-    document.getElementById('clientIp').textContent = ip;
-    document.getElementById('ipType').textContent = ip.includes(':') ? 'IPv6' : 'IPv4';
-};
-
-// 启动检测
-(async () => {
-    await Promise.allSettled([detectIP(), checkDNS()]);
-    document.querySelectorAll('.loading').forEach(e => e.remove());
-})();
-</script>
+    <script src="script.js">
+      
+    </script>
 </body>
 </html>
