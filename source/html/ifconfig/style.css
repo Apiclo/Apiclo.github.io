@@ -113,7 +113,16 @@ body {
     50% { opacity: 0.4 }
     100% { opacity: 1 }
 }
+/* 新增IPv6项目的响应式样式 */
+.ipv6-item {
+    transition: opacity 0.3s ease;
+}
 
+@media (max-width: 480px) {
+    .info-item {
+        grid-column: 1 / -1;
+    }
+}
 @media (max-width: 600px) {
     body {
         padding: 12px;
