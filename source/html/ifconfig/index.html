@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>网络连接信息</title>
     <style>
+        /* 保持原有样式不变 */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -14,12 +15,10 @@
             margin: 0;
             padding: 2em;
         }
-
         .container {
             width: 100%;
             max-width: 600px;
         }
-
         .card {
             background: white;
             border-radius: 15px;
@@ -27,28 +26,34 @@
             margin: 1em;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
         .card h3 {
             color: #333;
             margin-top: 0;
         }
-
         .card p {
             color: #666;
             margin: 0.5em 0;
         }
-
         .ip-label {
             font-weight: bold;
             color: #444;
+        }
+        .dns-type {
+            font-size: 0.9em;
+            color: #888;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
-            <h3>服务器信息</h3>
-            <p><span class="ip-label">服务器IP:</span> <span id="server-ip">需后端提供</span></p>
+            <h3>域名解析信息</h3>
+            <p><span class="ip-label">当前域名:</span> <span id="current-domain">加载中...</span></p>
+            <p><span class="ip-label">解析IP地址:</span> 
+                <span id="server-ip">
+                    <div class="loading">正在查询DNS记录...</div>
+                </span>
+            </p>
         </div>
 
         <div class="card">
@@ -63,6 +68,77 @@
     </div>
 
     <script>
+        // 获取当前访问域名
+        const currentDomain = window.location.hostname;
+        document.getElementById('current-domain').textContent = currentDomain;
+
+        // 使用Cloudflare的DNS-over-HTTPS API
+        async function getDNSRecords(domain, type = 'A') {
+            try {
+                const response = await fetch(
+                    `https://cloudflare-dns.com/dns-query?name=${domain}&type=${type}`,
+                    {
+                        headers: {
+                            'Accept': 'application/dns-json'
+                        }
+                    }
+                );
+                
+                if (!response.ok) throw new Error('DNS查询失败');
+                const data = await response.json();
+                
+                return data.Answer ? data.Answer.map(record => record.data) : [];
+            } catch (error) {
+                console.error(`DNS ${type}记录查询失败:`, error);
+                return [];
+            }
+        }
+
+        // 显示DNS解析结果
+        async function showDNSInfo() {
+            const ipContainer = document.getElementById('server-ip');
+            ipContainer.innerHTML = '<div class="loading">正在查询DNS记录...</div>';
+
+            try {
+                // 并行查询A和AAAA记录
+                const [ipv4List, ipv6List] = await Promise.all([
+                    getDNSRecords(currentDomain, 'A'),
+                    getDNSRecords(currentDomain, 'AAAA')
+                ]);
+
+                ipContainer.innerHTML = ''; // 清空加载状态
+
+                // 显示IPv4地址
+                if (ipv4List.length > 0) {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        ${ipv4List.join(', ')}
+                        <span class="dns-type">(A记录)</span>
+                    `;
+                    ipContainer.appendChild(div);
+                }
+
+                // 显示IPv6地址
+                if (ipv6List.length > 0) {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        ${ipv6List.join(', ')}
+                        <span class="dns-type">(AAAA记录)</span>
+                    `;
+                    ipContainer.appendChild(div);
+                }
+
+                if (!ipv4List.length && !ipv6List.length) {
+                    ipContainer.innerHTML = '未找到解析记录';
+                }
+
+            } catch (error) {
+                console.error('DNS信息获取失败:', error);
+                ipContainer.innerHTML = 'DNS查询失败';
+            }
+        }
+
+        // 获取客户端IP（优化版）
         async function getClientIP() {
             try {
                 const responses = await Promise.allSettled([
@@ -70,39 +146,30 @@
                     fetch('https://api64.ipify.org?format=json')
                 ]);
 
-                let ip4, ip6;
-                
-                // 处理 IPv4 响应
-                if (responses[0].status === 'fulfilled' && responses[0].value.ok) {
-                    const data = await responses[0].value.json();
-                    ip4 = data.ip;
-                }
-
-                // 处理 IPv6 响应
-                if (responses[1].status === 'fulfilled' && responses[1].value.ok) {
-                    const data = await responses[1].value.json();
-                    ip6 = data.ip;
-                }
+                const ip4 = responses[0].status === 'fulfilled' && responses[0].value.ok 
+                    ? (await responses[0].value.json()).ip : null;
+                const ip6 = responses[1].status === 'fulfilled' && responses[1].value.ok 
+                    ? (await responses[1].value.json()).ip : null;
 
                 const clientIP = ip6 || ip4 || '未知';
                 document.getElementById('client-ip').textContent = clientIP;
 
-                // 检测 IP 类型
-                let connectionType = '未知';
-                if (clientIP !== '未知') {
-                    connectionType = clientIP.includes(':') ? 'IPv6' : 'IPv4';
-                }
-                document.getElementById('connection-type').textContent = connectionType;
+                // 检测IP类型
+                document.getElementById('connection-type').textContent = 
+                    clientIP.includes(':') ? 'IPv6' : 'IPv4';
 
             } catch (error) {
-                console.error('检测失败:', error);
+                console.error('客户端信息获取失败:', error);
                 document.getElementById('client-ip').textContent = '获取失败';
                 document.getElementById('connection-type').textContent = '检测失败';
             }
         }
 
-        // 页面加载时获取信息
-        window.addEventListener('load', getClientIP);
+        // 页面加载时执行
+        window.addEventListener('load', () => {
+            getClientIP();
+            showDNSInfo();
+        });
     </script>
 </body>
 </html>
