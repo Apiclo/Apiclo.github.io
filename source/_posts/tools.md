@@ -12,7 +12,7 @@ tags: [Tools,FrontEnd,HTML]
 }
 
 .custom-btn {
-    background-color: #4CAF50;
+    background-color: #425aef;
     border: none;
     color: white;
     padding: 12px 24px;
@@ -20,15 +20,15 @@ tags: [Tools,FrontEnd,HTML]
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: 20px 2px 4px 2px;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 15px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
 }
 
 .custom-btn:hover {
-    background-color: #45a049;
+    background-color: #323a8f;
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(0,0,0,0.2);
 }
