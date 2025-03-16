@@ -2,64 +2,47 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>网络连接信息</title>
-
-    <!-- 引入阿里图标 -->
-    <link rel="stylesheet" href="https://at.alicdn.com/t/font_2933086_3dhs5p9xq6k.css">
-<link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网络信息仪表盘</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1 style="color: #2d4059; text-align: center; margin-bottom: 30px;">网络连接信息</h1>
-        
-        <!-- 服务器信息组 -->
-        <div class="card-group">
-            <!-- IPv4 卡片 -->
-            <div class="card">
-                <h3 class="card-title">
-                    <i class="iconfont icon-ipv4"></i>
-                    服务器IPv4地址
-                    <span class="status-indicator loading"></span>
-                </h3>
-                <div class="ip-address" id="server-ipv4">正在查询...</div>
-                <div class="protocol-tag ipv4-tag">IPv4 (A记录)</div>
+    <div class="dashboard">
+        <div class="card server-card">
+            <div class="card-header">
+                <h2>服务器信息</h2>
+                <div class="status-group">
+                    <span class="status-indicator loading" data-type="ipv4"></span>
+                    <span class="status-indicator loading" data-type="ipv6"></span>
+                </div>
             </div>
-
-            <!-- IPv6 卡片 -->
-            <div class="card">
-                <h3 class="card-title">
-                    <i class="iconfont icon-ipv6"></i>
-                    服务器IPv6地址
-                    <span class="status-indicator loading"></span>
-                </h3>
-                <div class="ip-address" id="server-ipv6">正在查询...</div>
-                <div class="protocol-tag ipv6-tag">IPv6 (AAAA记录)</div>
+            <div class="ip-section">
+                <h3>IPv4 地址</h3>
+                <div id="server-ipv4-list" class="ip-list"></div>
+            </div>
+            <div class="ip-section">
+                <h3>IPv6 地址</h3>
+                <div id="server-ipv6-list" class="ip-list"></div>
             </div>
         </div>
 
-        <!-- 客户端信息组 -->
-        <div class="card-group">
-            <div class="card">
-                <h3 class="card-title">
-                    <i class="iconfont icon-user"></i>
-                    您的连接信息
-                </h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div>
-                        <div style="color: #666; margin-bottom: 5px;">客户端IP</div>
-                        <div class="ip-address" id="client-ip">检测中...</div>
-                    </div>
-                    <div>
-                        <div style="color: #666; margin-bottom: 5px;">IP版本</div>
-                        <div class="ip-address" id="connection-type">检测中...</div>
-                    </div>
+        <div class="card client-card">
+            <div class="card-header">
+                <h2>客户端信息</h2>
+                <span class="status-indicator loading" data-type="client"></span>
+            </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>IP 地址</label>
+                    <pre id="client-ip">-</pre>
+                </div>
+                <div class="info-item">
+                    <label>连接类型</label>
+                    <div id="connection-type" class="connection-badge">-</div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="script.js">
-      
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
