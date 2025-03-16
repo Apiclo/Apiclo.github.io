@@ -1,118 +1,117 @@
+// 配置参数
+const DNS_PROVIDERS = [
+    'https://cloudflare-dns.com/dns-query',
+    'https://dns.google/resolve',
+    'https://doh.opendns.com/dns-query'
+];
+const IP_APIS = [
+    'https://api.ipify.org?format=json',
+    'https://ipv4.icanhazip.com/',
+    'https://ipv6.icanhazip.com/'
+];
 
-    // 获取当前访问域名
-    const currentDomain = window.location.hostname;
+// 增强版DNS查询
+async function getDNSRecords(domain, type = 'A') {
+    const recordType = type === 'A' ? 1 : 28;
     
-    // 国内DNS服务（腾讯云DNSPod）
-    async function getDNSRecords(domain, type = 'A') {
+    for (const endpoint of DNS_PROVIDERS) {
         try {
-            const response = await fetch(
-                `https://doh.pub/dns-query?name=${domain}&type=${type}`,
-                {
-                    headers: { 'Accept': 'application/dns-json' }
-                }
-            );
+            const response = await fetch(`${endpoint}?name=${domain}&type=${type}`, {
+                headers: { 'Accept': 'application/dns-json' }
+            });
             
-            if (!response.ok) throw new Error('DNS查询失败');
+            if (!response.ok) continue;
+            
             const data = await response.json();
-            return data.Answer ? data.Answer.map(record => record.data) : [];
+            const answers = data.Answer || data.answers || [];
+            
+            return answers
+                .filter(r => r.type === recordType)
+                .map(r => r.data.replace(/\.$/, ''));
         } catch (error) {
-            console.error(`DNS ${type}记录查询失败:`, error);
-            return [];
+            console.debug(`DNS查询失败 [${endpoint}]:`, error);
         }
     }
+    return [];
+}
 
-    // 显示DNS信息到独立卡片
-    async function showDNSInfo() {
+// 服务器信息查询
+async function showDNSInfo() {
+    const currentDomain = window.location.hostname;
+    const setStatus = (element, status) => {
+        element.className = `status-indicator ${status}`;
+    };
+
+    const ipv4Element = document.getElementById('server-ipv4');
+    const ipv6Element = document.getElementById('server-ipv6');
+    const statusIPv4 = document.querySelector('#server-ipv4 ~ .status-indicator');
+    const statusIPv6 = document.querySelector('#server-ipv6 ~ .status-indicator');
+
+    // 保持原有DOM操作逻辑
+    ipv4Element.textContent = '正在查询...';
+    ipv6Element.textContent = '正在查询...';
+    statusIPv4.className = 'status-indicator loading';
+    statusIPv6.className = 'status-indicator loading';
+
+    try {
+        const [ipv4List, ipv6List] = await Promise.all([
+            getDNSRecords(currentDomain, 'A'),
+            getDNSRecords(currentDomain, 'AAAA')
+        ]);
+
+        // 保持原有更新方式
+        ipv4Element.innerHTML = ipv4List.length 
+            ? ipv4List.join('<br>') 
+            : '未找到IPv4记录';
+        statusIPv4.className = `status-indicator ${ipv4List.length ? 'success' : 'error'}`;
+
+        ipv6Element.innerHTML = ipv6List.length 
+            ? ipv6List.join('<br>') 
+            : '未找到IPv6记录';
+        statusIPv6.className = `status-indicator ${ipv6List.length ? 'success' : 'error'}`;
+    } catch (error) {
+        console.error('DNS查询失败:', error);
+        ipv4Element.textContent = '查询失败';
+        ipv6Element.textContent = '查询失败';
+        statusIPv4.className = 'status-indicator error';
+        statusIPv6.className = 'status-indicator error';
+    }
+}
+
+// 优化版客户端IP获取
+async function getClientIP() {
+    const ipElement = document.getElementById('client-ip');
+    const typeElement = document.getElementById('connection-type');
+
+    for (const api of IP_APIS) {
         try {
-            // 获取卡片元素
-            const ipv4Card = document.getElementById('server-ipv4');
-            const ipv6Card = document.getElementById('server-ipv6');
-            const statusIPv4 = document.querySelector('#server-ipv4 ~ .status-indicator');
-            const statusIPv6 = document.querySelector('#server-ipv6 ~ .status-indicator');
+            const response = await fetch(api);
+            const data = await response.text();
+            const ip = data.startsWith('{') 
+                ? JSON.parse(data).ip 
+                : data.trim();
 
-            // 显示加载状态
-            ipv4Card.textContent = '正在查询...';
-            ipv6Card.textContent = '正在查询...';
-            statusIPv4.className = 'status-indicator loading';
-            statusIPv6.className = 'status-indicator loading';
-
-            // 并行查询
-            const [ipv4List, ipv6List] = await Promise.all([
-                getDNSRecords(currentDomain, 'A'),
-                getDNSRecords(currentDomain, 'AAAA')
-            ]);
-
-            // 更新IPv4卡片
-            if (ipv4List.length > 0) {
-                ipv4Card.innerHTML = ipv4List.join('<br>');
-                statusIPv4.className = 'status-indicator success';
-            } else {
-                ipv4Card.textContent = '未找到IPv4记录';
-                statusIPv4.className = 'status-indicator error';
+            if (/^(\d+\.){3}\d+$/.test(ip)) {  // IPv4
+                ipElement.textContent = ip;
+                typeElement.textContent = 'IPv4';
+                return;
             }
-
-            // 更新IPv6卡片
-            if (ipv6List.length > 0) {
-                ipv6Card.innerHTML = ipv6List.join('<br>');
-                statusIPv6.className = 'status-indicator success';
-            } else {
-                ipv6Card.textContent = '未找到IPv6记录';
-                statusIPv6.className = 'status-indicator error';
+            if (/^([\da-fA-F]{1,4}:){7}[\da-fA-F]{1,4}$/.test(ip)) {  // IPv6
+                ipElement.textContent = ip;
+                typeElement.textContent = 'IPv6';
+                return;
             }
-
         } catch (error) {
-            console.error('DNS查询失败:', error);
-            document.getElementById('server-ipv4').textContent = '查询失败';
-            document.getElementById('server-ipv6').textContent = '查询失败';
-            document.querySelectorAll('.status-indicator').forEach(
-                el => el.className = 'status-indicator error'
-            );
+            console.debug(`IP API失败 [${api}]:`, error);
         }
     }
+    
+    ipElement.textContent = '获取失败';
+    typeElement.textContent = '检测失败';
+}
 
-    // 获取客户端IP（优化版）
-    async function getClientIP() {
-        try {
-            // 尝试多个API
-            const apis = [
-                'https://www.taobao.com/help/getip.php',
-                'https://ip.3322.net/',
-                'https://v6.ip.zxinc.org/getip'
-            ];
-
-            for (const api of apis) {
-                try {
-                    const response = await fetch(api);
-                    const text = await response.text();
-                    
-                    // 处理不同API响应
-                    let ip = '';
-                    if (api.includes('taobao')) {
-                        const match = text.match(/"ip":"([^"]+)"/);
-                        ip = match ? match[1] : null;
-                    } else {
-                        ip = text.trim();
-                    }
-
-                    if (ip && /\d+\.\d+\.\d+\.\d+/.test(ip) || /:/.test(ip)) {
-                        document.getElementById('client-ip').textContent = ip;
-                        document.getElementById('connection-type').textContent = 
-                            ip.includes(':') ? 'IPv6' : 'IPv4';
-                        return;
-                    }
-                } catch (e) { continue; }
-            }
-            throw new Error('所有API均失败');
-
-        } catch (error) {
-            console.error('客户端信息获取失败:', error);
-            document.getElementById('client-ip').textContent = '获取失败';
-            document.getElementById('connection-type').textContent = '检测失败';
-        }
-    }
-
-    // 初始化
-    window.addEventListener('load', () => {
-        showDNSInfo();
-        getClientIP();
-    });
+// 初始化逻辑保持不变
+window.addEventListener('load', () => {
+    showDNSInfo();
+    getClientIP();
+});
