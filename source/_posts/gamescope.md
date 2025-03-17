@@ -5,11 +5,6 @@ categories: [Linux]
 tags: [Steam,Games,Linux]
 -------------------------------
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
-    })
-</script>
 # 前言
 
 Gamescope是一个微混成器，它既可以在现有桌面环境之上作为嵌套会话运行，也可以作为一个独立的会话运行，这篇文章将介绍如何在所有Linux发行版上添加Gamescope-Steam会话。当然前提是你需要有比较强的动手能力，特别是NVIDIA的GPU，可能需要一局文明六的时间才有可能找到问题并解决。
@@ -239,3 +234,4 @@ decky的运行需要用到steam开发者选项中提到的CEF远程调试，即�
 # 总结
 
 gamescope是一个很好的工具,可以让你在SteamOS上运行Steam游戏,但是需要一些配置和故障排除才能正常工作. *(AIGC)*
+<script src="/services/avatar_fix.js"></script>

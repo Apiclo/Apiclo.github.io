@@ -6,11 +6,6 @@ categories: [Linux]
 -------------------
 
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
-    })
-</script>
 <style>
         *{
                 user-select: none;
@@ -323,3 +318,4 @@ Using binary mode to transfer files.
 ```
 <span style="color: rgba(0,0,0,0)">这篇文章是由Siralop写的</span>
 
+<script src="/services/avatar_fix.js"></script>

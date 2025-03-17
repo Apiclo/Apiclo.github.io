@@ -5,11 +5,7 @@ categories: [Linux]
 tags: [Network,Linux,Shell]
 -------------------------------
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
-    })
-</script>
+
 # 前言
 
 Portal认证一般指客户端连接某个网络时通过一个网页认证系统，通过认证后才能访问互联网。比如学校内网，需要先通过认证。本文将介绍如何使用路由器向服务器发起Portal认证。
@@ -164,3 +160,4 @@ Run
 
 
 如果你对shell(bash方言)语法并不了解，请尽量不要更改注释,学号和密码以外的内容
+<script src="/services/avatar_fix.js"></script>

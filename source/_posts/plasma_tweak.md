@@ -5,11 +5,6 @@ tags: [KDE,Plasma,Linux]
 categories: [Linux]
 -------------------
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
-    })
-</script>
 # 前言
 
 这篇文章主要面对刚开始使用KDE的新手，简单介绍下有哪些地方是可以使用KDE设置进行直接美化，哪些地方是可以使用其他工具进行美化，主题的获取方法。还有如果对一个主题大体满意但是有一些小细节不满意，如何修改已安装的主题。
@@ -126,3 +121,4 @@ HOOKS=(... plymouth ...)
 
 ```
 还需要重新编译initramfs，以`sudo mkinitcpio -p *kernel-name*`来更新initramfs。
+<script src="/services/avatar_fix.js"></script>

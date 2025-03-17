@@ -6,11 +6,6 @@ categories: [Linux]
 -------------------
 
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
-    })
-</script>
 <style>
         *{
                 user-select: none;
@@ -365,3 +360,4 @@ Name:   test2.k3k5.com
 Address: 192.168.50.128
 ```
 <span style="color: rgba(0,0,0,0)">这篇文章是由Siralop写的</span>
+<script src="/services/avatar_fix.js"></script>

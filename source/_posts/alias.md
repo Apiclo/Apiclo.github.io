@@ -6,11 +6,6 @@ tags: [Linux,Shell]
 -------------------------------
 
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
-    })
-</script>
 # zsh基本配置
 
 ```bash
@@ -182,3 +177,4 @@ rules:
   - DOMAIN-SUFFIX,googleapis.com.hk, 🚀 节点选择
   - DOMAIN-SUFFIX,googleapis.com.sg, 🚀 节点选择
 ```
+<script src="/services/avatar_fix.js"></script>

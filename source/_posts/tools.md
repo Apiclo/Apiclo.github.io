@@ -6,11 +6,6 @@ categories: [Tools]
 tags: [Tools,FrontEnd,HTML]
 ---
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
-    })
-</script>
 <style>
 .btn-container {
     margin: 15px 0;
@@ -80,3 +75,5 @@ tags: [Tools,FrontEnd,HTML]
 <a href="/html/clock/"><button class="custom-btn">⏳ 极简兼容时钟</button></a>
 <p>适配老旧设备的轻量级时钟</p>
 </div>
+
+<script src="/services/avatar_fix.js"></script>

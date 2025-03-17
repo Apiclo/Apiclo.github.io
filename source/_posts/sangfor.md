@@ -5,11 +5,6 @@ tags: [SangFor,Server,Network]
 categories: [Server]
 -------------------
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
-    })
-</script>
 # 实验要求
  ## 组网实验五 真机实验
  ### 需求客户现有拓扑环境如下：
@@ -121,3 +116,4 @@ rtt min/avg/max/mdev = 0.533/0.635/0.695/0.063 ms
 ### 内网客户端访问外网
 
 ![内网用户上网](/img/posts/sangfor/srv_image9.png)
+<script src="/services/avatar_fix.js"></script>
