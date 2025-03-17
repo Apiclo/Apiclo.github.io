@@ -1,5 +1,5 @@
-title: SangFor基础业务场景实机配置记录
-cover: /img/posts/sangfor.png
+title: 基础业务场景实机配置记录
+cover: /img/posts/sangfor.svg
 date: 2025-3-17 12:56:00
 tags: [SangFor,Server,Network]
 categories: [Server]
