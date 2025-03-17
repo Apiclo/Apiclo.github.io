@@ -6,6 +6,11 @@ tags: [Linux,Shell]
 -------------------------------
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
+    })
+</script>
 # zsh基本配置
 
 ```bash

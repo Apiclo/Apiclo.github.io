@@ -4,6 +4,12 @@ date: 2025-3-17 12:56:00
 tags: [SangFor,Server,Network]
 categories: [Server]
 -------------------
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
+    })
+</script>
 # 实验要求
  ## 组网实验五 真机实验
  ### 需求客户现有拓扑环境如下：
@@ -91,6 +97,15 @@ rtt min/avg/max/mdev = 0.533/0.635/0.695/0.063 ms
 
 
 
+# 遇到的问题与解决办法
+### 1.外网客户端Windows防火墙问题
+当做最后一步内网PC上网时，内网PC对外网服务发送Ping请求时，发现AF已经放行Ping包，但内网PC无法接收到回包，经排查内网客户端、AF配置、外网Windows服务器发现，Windows防火墙阻止了所有的ICMP回包，需要关闭Windows防火墙或需要在Windows防火墙中放行ICMP。最终通过关闭Windows防火墙解决问题。
+
+
+### 2.外网客户端访问WEB服务器
+外网客户端访问WEB服务器时，发现WEB服务器返回404，经排查发现，外网客户端访问WEB服务器时，访问的是202.96.137.88，而WEB服务器配置的监听的域名不存在202.96.137.88，导致访问时出现404,出现404说明WEB服务端口是正常监听的。因此需要修改WEB服务器配置的监听地址为202.96.137.88和_通配符，修改后访问正常。
+
+
 
 # 结果测试
 
@@ -105,4 +120,4 @@ rtt min/avg/max/mdev = 0.533/0.635/0.695/0.063 ms
 
 ### 内网客户端访问外网
 
-![image.png](/img/posts/sangfor/srv_image9.png)
+![内网用户上网](/img/posts/sangfor/srv_image9.png)

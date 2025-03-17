@@ -5,5 +5,11 @@ date: 2025-3-16 23:37:57
 categories: [Tools]
 tags: [Tools,FrontEnd,HTML]
 ---
-正在重定向...，点击直达：[IPv6检测工具](/html/ifconfig/)
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
+    })
+</script>
+正在重定向...，[点击直达：IPv6检测工具](/html/ifconfig/)
 <script>window.location.href = '/html/ifconfig/'</script>

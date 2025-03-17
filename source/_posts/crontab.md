@@ -5,6 +5,11 @@ categories: [Linux]
 tags: [Linux,Shell] 
 -------------------------------
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
+    })
+</script>
 `crontab` 的时间格式由五个字段组成，每个字段用空格分隔，分别代表了执行任务的时间设置。格式如下：
 
 ```plaintext

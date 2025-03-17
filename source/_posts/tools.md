@@ -6,6 +6,11 @@ categories: [Tools]
 tags: [Tools,FrontEnd,HTML]
 ---
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
+    })
+</script>
 <style>
 .btn-container {
     margin: 15px 0;

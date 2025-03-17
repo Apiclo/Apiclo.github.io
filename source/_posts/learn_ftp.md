@@ -4,6 +4,13 @@ date: 2025-2-27 15:39:00
 tags: [CentOS,Shell,Linux]
 categories: [Linux]
 -------------------
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.post-copyright__author_img_front').src = '/img/site/ava.jpg'
+    })
+</script>
 <style>
         *{
                 user-select: none;
