@@ -52,13 +52,13 @@ tags: [Tools,FrontEnd,HTML]
 </div>
 
 <div class="btn-container">
-<a href="/html/random/"><button class="custom-btn">🎲 真随机数生成器</button></a>
-<p>基于环境噪声的随机种子生成</p>
+<a href="/html/random/"><button class="custom-btn">🎲 随机数生成器</button></a>
+<p>Minecraft随机种子生成，点击即可复制</p>
 </div>
 
 <div class="btn-container">
 <a href="/html/ram/"><button class="custom-btn">💻 资源压力测试</button></a>
-<p>系统性能测试工具，快速填满内存，快速占用CPU</p>
+<p><pre>！慎点！浏览器会卡死</pre>系统性能测试工具，快速填满内存，快速占用CPU</p>
 </div>
 
 <div class="btn-container">
