@@ -80,13 +80,13 @@ contentinfo: # 顶部个人信息展示
 #   content: 学习能力
 #   level: MAX
 
-# game1:
-#   title: 爱好游戏
-#   img: https://7.isyangs.cn/1/65eb2d8954aac-1.png
-#   icon: fas fa-gamepad
-#   subtitle: APEX LEGENDS
-#   tips_left: C位
-#   tips_right: ID Wleelw
+game1:
+  title: 爱好游戏
+  img: https://7.isyangs.cn/1/65eb2d8954aac-1.png
+  icon: fas fa-gamepad
+  subtitle: APEX LEGENDS
+  tips_left: C位
+  tips_right: ID Wleelw
 
 # game2:
 #   title: 爱好游戏
