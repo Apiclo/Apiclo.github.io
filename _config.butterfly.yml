@@ -258,12 +258,12 @@ footer:
   nav:
   owner:
     enable: true
-    since: 2025
+    since: 2022
   # Copyright of theme and framework
   copyright:
     enable: false
     version: false
-  custom_text: 咩咩,咩咩咩咩?咩咩咩,咩咩咩咩!!!
+  custom_text: <a href='https://github.com/apiclo'>喵ICP备 1145141919号-18</a>
 
 # --------------------------------------
 # Aside Settings
