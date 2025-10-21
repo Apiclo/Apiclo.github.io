@@ -52,15 +52,16 @@ sudo vim /etc/netplan/01-qspf25g-bond.yml
 # you have been warned
 # All consequences, good or bad, are your own responsibility
 
-networks: 
+network: 
+    renderer: networkd 
     bonds: 
         bond0: 
             addresses: 
             # IP Address
-            - 1.10.172.192/8 
+            - 10.172.168.192/16 
             interfaces: 
             # Network Interfaces
-            - ens11f0np0 
+            - ens1f0np0 
             - ens11f1np1 
             nameservers:
                 addresses: 
@@ -74,8 +75,8 @@ networks:
             routes: 
             # Network Gateway IP
             -   to: default 
-                via: 1.10.172.254/8 
-    ehernets: 
+                via: 10.172.168.254 
+    ethernets: 
     # Networks interfaces
         ens11f0np0: {} 
         ens11f1np1: {} 
