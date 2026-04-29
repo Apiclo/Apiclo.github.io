@@ -879,18 +879,18 @@ canvas_nest:
 
 # Mouse click effects: fireworks
 fireworks:
-  enable: true
+  enable: false
   zIndex: 9999
   mobile: true
 
 # Mouse click effects: Heart symbol
 click_heart:
-  enable: true
+  enable: false
   mobile: true
 
 # Mouse click effects: words
 clickShowText:
-  enable: true
+  enable: false
   text:
      - Peace
      - Love
